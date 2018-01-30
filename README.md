@@ -34,13 +34,13 @@ http://cran.fhcrc.org/
 ### 3) Install the SMRTER R package
 ```
 wget https://github.com/fanglab/SMRTER/zipball/master -O SMRTER.zip && unzip SMRTER.zip 
-R CMD INSTALL zhushijia-SMRTER* 
+R CMD INSTALL zhushijia-STAR2bSMRT* 
 ```
 Alternatively, use [devtools](https://github.com/hadley/devtools) package
 ```
 > install.packages("devtools")
 > library(devtools)
-> install_github("zhushijia/SMRTER")
+> install_github("zhushijia/STAR2bSMRT")
 ```
 
 ## Tutorial
