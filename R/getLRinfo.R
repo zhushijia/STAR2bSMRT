@@ -1,0 +1,40 @@
+
+getLRinfo = function( alignments , phqv , outputDir , chrom , s , e )
+{
+	read = getRead( alignments , outputDir )
+	exp = phqvExp( phqv , outputDir )
+	LRread = merge( read , exp , by="id" )
+	LRread = subset( LRread , junc!="-1" )
+
+	if( !is.null(chrom) )
+	{
+		LRread = subset( LRread , chr %in% chrom & start>=s & end<=e )
+	}
+	
+	LRread = split( LRread , as.character(LRread$chr) )
+	
+	LRtag = lapply( LRread , function(read) 
+			lapply( strsplit( as.character(read$junc),",") , function(x) { 
+				i = 1:(length(x)/2); 
+				paste( x[2*i-1] , x[2*i] ,sep="," ) 
+		} ) )
+
+	LRjunc = foreach( i = 1:length(LRread) ) %dopar%
+	{
+		read = LRread[[i]]
+		tag = LRtag[[i]]
+		len = sapply( tag, length )
+		juncCount = rep( read$full_length_coverage , len )
+		juncs = do.call(c,tag)
+		uniJuncCount = tapply(juncCount,juncs,sum)
+		start = sapply( strsplit(names(uniJuncCount),","), function(x) as.integer(x[1]) )
+		end = sapply( strsplit(names(uniJuncCount),","), function(x) as.integer(x[2]) )
+		data.frame(count=as.integer(uniJuncCount),chr='chr2',start=start,end=end,stringsAsFactors=F)
+	}
+
+	names(LRjunc) = names(LRread)
+
+	list( LRread=LRread , LRjunc=LRjunc , LRtag=LRtag )
+}
+
+
