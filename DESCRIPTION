@@ -9,5 +9,5 @@ License: LGPL-3
 Encoding: UTF-8
 LazyData: true
 Depends:
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
