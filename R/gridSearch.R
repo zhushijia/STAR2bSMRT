@@ -42,6 +42,7 @@ gridSearch = function( LRjunc , SRjunc , matchedLS , thresSR=c(1:30) , thresDis=
 			colnames(LRjuncCount) = c("lrCount","srCount","chr","start","end","motif")
 			ind = which(LRjuncCount$lrCount>0)
 			res[j] = cor.test( LRjuncCount[ind,1] , LRjuncCount[ind,2] , method="spearman" )$estimate
+			#res[j] = cor.test( log2(LRjuncCount[ind,1]+1) , log2(LRjuncCount[ind,2]+1) , method="pearson" )$estimate
 		}
 		res
 	}

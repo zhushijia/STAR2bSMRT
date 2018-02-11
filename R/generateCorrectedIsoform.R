@@ -1,4 +1,4 @@
-#' generateCorrectedJunc
+#' generateCorrectedIsoform
 #'
 #' @param LRjunc 
 #' @param SRjunc 
@@ -11,12 +11,12 @@
 #' @export
 #'
 #' @examples
-generateCorrectedJunc = function( LRjunc , SRjunc, LRread , matchedLS , ts , td )
+generateCorrectedIsoform = function( LRjunc , SRjunc, LRread , matchedLS , ts , td )
 {
 	
 	CHR = intersect( names(SRjunc) , names(LRjunc) )
 
-	Junc = foreach( k=1:length(CHR) ) %dopar% {
+	allCorrectIsoform = foreach( k=1:length(CHR) ) %dopar% {
 		
 		chr = CHR[k]
 		lrc = LRjunc[[chr]]
@@ -30,19 +30,23 @@ generateCorrectedJunc = function( LRjunc , SRjunc, LRread , matchedLS , ts , td 
 		correctTag = paste(LRcorres$start , LRcorres$end , sep="," )
 		range = sapply( tag , function(x) all(x%in%correctTag) )
 		isoform = sapply( tag[range] , function(x) paste( sort(subset(LRcorres,correctTag%in%x)$SRindex) , collapse="_" ) )
-		correctExp = tapply( read$full_length_coverage[range] , isoform , sum )
-		srindex = lapply( strsplit( names(correctExp) , "_" ) , function(x) as.integer(x) )
-		correctJunc = lapply( srindex , function(ind) { 
+		
+		correctIsoformExp = tapply( read$full_length_coverage[range] , isoform , sum )
+		srindex = lapply( strsplit( names(correctIsoformExp) , "_" ) , function(x) as.integer(x) )
+		correctIsoform = lapply( srindex , function(ind) { 
 			x=src[ ind , c('chr','start','end') ]
 			x[ order(x$start), ]
 			} )
-		correctJunc
+		
+		correctIsoformNum = length(unique(isoform))
+		correctIsoformFrac = sum(correctIsoformExp)/sum(read$full_length_coverage) 
+		
+		list( isoform=correctIsoform , num=correctIsoformNum , exp=as.numeric(correctIsoformExp) , frac=correctIsoformFrac )
+		
 	}
 
-	names(Junc) = CHR
-
-	length(unique(isoform))
-	sum(range)
-	sum(read$full_length_coverage[range])/sum(read$full_length_coverage)
-
+	names(allCorrectIsoform) = CHR
+  
+	allCorrectIsoform
+	
 }

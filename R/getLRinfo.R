@@ -20,7 +20,8 @@ getLRinfo = function( alignments , phqv , outputDir , chrom , s , e )
 
 	if( !is.null(chrom) )
 	{
-		LRread = subset( LRread , chr %in% chrom & start>=s & end<=e )
+		LRread = subset( LRread , chr %in% chrom & start>=s & start<50150000 & end<=e )
+	  #LRread = subset( LRread , chr %in% chrom & start>=s & end<=e )
 	}
 	
 	LRread = split( LRread , as.character(LRread$chr) )
