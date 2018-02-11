@@ -27,6 +27,7 @@ generateCorrectedIsoform = function( LRjunc , SRjunc, LRread , matchedLS , ts , 
 
 		index = which( SRmatch[,'LSdis']<=td & src$count[SRmatch[,'SRindex']]>=ts ) 
 		LRcorres = data.frame(lrc[index,],SRmatch[index,])
+		#LRcorres = subset(LRcorres,count>3)
 		correctTag = paste(LRcorres$start , LRcorres$end , sep="," )
 		range = sapply( tag , function(x) all(x%in%correctTag) )
 		isoform = sapply( tag[range] , function(x) paste( sort(subset(LRcorres,correctTag%in%x)$SRindex) , collapse="_" ) )
