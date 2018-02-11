@@ -1,3 +1,13 @@
+#' starLong
+#'
+#' @param genomeDir 
+#' @param LR 
+#' @param outputDir 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 starLong = function( genomeDir , LR , outputDir )
 {
 	STAR2bSMRT.dir = system.file(package = "STAR2bSMRT")

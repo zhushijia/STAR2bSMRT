@@ -2,13 +2,13 @@
 #setwd("/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/R3/R")
 #sapply( dir()[grep(".R",dir())] , source )
 
-
+#library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/github")
 
 STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0 , e=Inf )
 {
   
   
-  STAR2bSMRT.dir ="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/R3"
+  #STAR2bSMRT.dir ="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/R3"
   chrom = "chr2"
   s = 50147488
   e = 51259537

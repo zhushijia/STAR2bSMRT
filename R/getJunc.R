@@ -1,3 +1,17 @@
+#' getJunc
+#'
+#' getJunc gets the unique junction sites and their numbers from the alignment files
+#'  
+#' @param alignments a character value, indicating the alignment file, .sam for .bam 
+#' @param outputDir a character value, indicating the directory whether to save the results
+#' @param chrom a vector of character values, incidating the chromosomes of insterest
+#' @param s an integer value indicating the start site
+#' @param e an integer value indicating the end site
+#'
+#' @return
+#' @export
+#'
+#' @examples
 getJunc = function( alignments , outputDir , chrom=NULL ,  s , e )
 {
 	STAR2bSMRT.dir = system.file(package = "STAR2bSMRT")

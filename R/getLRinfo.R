@@ -1,4 +1,16 @@
-
+#' getLRinfo
+#'
+#' @param alignments 
+#' @param phqv 
+#' @param outputDir 
+#' @param chrom 
+#' @param s 
+#' @param e 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 getLRinfo = function( alignments , phqv , outputDir , chrom , s , e )
 {
 	read = getRead( alignments , outputDir )

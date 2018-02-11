@@ -1,3 +1,16 @@
+#' generateCorrectedJunc
+#'
+#' @param LRjunc 
+#' @param SRjunc 
+#' @param LRread 
+#' @param matchedLS 
+#' @param ts 
+#' @param td 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 generateCorrectedJunc = function( LRjunc , SRjunc, LRread , matchedLS , ts , td )
 {
 	

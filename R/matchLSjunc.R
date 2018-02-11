@@ -1,4 +1,12 @@
-
+#' matchLSjunc
+#'
+#' @param LRjunc 
+#' @param SRjunc 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 matchLSjunc = function( LRjunc , SRjunc )
 {
 	CHR = intersect( names(SRjunc) , names(LRjunc) )

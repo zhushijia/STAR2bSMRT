@@ -1,3 +1,12 @@
+#' phqvExp
+#'
+#' @param phqv 
+#' @param outputDir 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 phqvExp = function( phqv , outputDir )
 {
 	STAR2bSMRT.dir = system.file(package = "STAR2bSMRT")

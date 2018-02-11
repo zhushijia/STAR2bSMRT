@@ -1,4 +1,15 @@
-
+#' generateSeq
+#'
+#' @param fasta 
+#' @param Junc 
+#' @param chrom 
+#' @param s 
+#' @param e 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 generateSeq = function( fasta , Junc , chrom , s , e )
 {
 	library(Biostrings)

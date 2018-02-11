@@ -1,3 +1,12 @@
+#' getRead
+#'
+#' @param alignments 
+#' @param outputDir 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 getRead = function( alignments , outputDir )
 {
 	STAR2bSMRT.dir = system.file(package = "STAR2bSMRT")

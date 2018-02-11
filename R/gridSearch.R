@@ -1,4 +1,15 @@
-
+#' gridSearch
+#'
+#' @param LRjunc 
+#' @param SRjunc 
+#' @param matchedLS 
+#' @param thresSR 
+#' @param thresDis 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 gridSearch = function( LRjunc , SRjunc , matchedLS , thresSR=c(1:30) , thresDis=c(1:20) )
 {
 	
