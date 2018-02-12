@@ -4,12 +4,10 @@
 \alias{generateSeq}
 \title{generateSeq}
 \usage{
-generateSeq(fasta, Junc, chrom, s, e)
+generateSeq(genome, isoform, exp, chrom, s, e)
 }
 \arguments{
-\item{fasta}{}
-
-\item{Junc}{}
+\item{genome}{}
 
 \item{chrom}{}
 
