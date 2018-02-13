@@ -16,10 +16,7 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
   thresSR=c(1:100) 
   thresDis=c(1:30)
   
-  
-  
-  
-  
+
 	library(foreach)
 	library(doMC)
 	registerDoMC(cores)
@@ -56,13 +53,20 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRread , matchedLS , ts , td )
 	table(sapply(correction[[1]]$isoform,function(x)x[1,2]))
 	table(sapply(correction[[1]]$isoform,function(x)x[nrow(x),3]))
-	# genome = readDNAStringSet(ref)
+	
+	
+	#genome = readDNAStringSet(ref)
+	
 	
 	setwd( EoutputDir )
+	
+	gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
+	writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
+	
 	seq = generateSeq( genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
-	fastaName = paste0( "isoform_ts",ts,"_td",td,"fa")
+	fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
 	writeXStringSet( seq$dna , fastaName )
-	#writeXStringSet( seq$dna[seq$translated] , "isoform.fa" )
+	#writeXStringSet( seq$dna[seq$translated] , fastaName )
 	
 	kallisto = kallistoQuant( fastaName , SR1 , SR2 , EoutputDir )
 	
@@ -95,4 +99,15 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 #generateFa()
 #generateGff()
 #mergeGff()
+
+
+
+setwd(SoutputDir)
+system( paste0( "samtools view alignments.bam " , chrom,":",s,"-",e," > cut.bam" ) )
+system( "samtools sort -n cut.bam cut.bam.qsort" )
+system( "bedtools bamtofastq -i cut.bam.qsort.bam -fq cut.R1.fastq -fq2 cut.R2.fastq")
+
+
+
+
 

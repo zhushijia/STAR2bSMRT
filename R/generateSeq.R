@@ -38,6 +38,7 @@ generateSeq = function( genome , isoform , exp , chrom , s , e )
 	# sum(as.numeric(sapply(fasta2,nchar)%%3)>0)
 
 	suppressWarnings( protein <-translate(dna) )
+	
 	translated = sapply( protein , function(x) {
 		y = as.character(x)
 		grepl("^M",y) & grepl("[*]$",y) 
