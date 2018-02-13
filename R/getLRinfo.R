@@ -38,6 +38,7 @@ getLRinfo = function( alignments , phqv , outputDir , chrom , s , e )
 		tag = LRtag[[i]]
 		len = sapply( tag, length )
 		juncCount = rep( read$full_length_coverage , len )
+		#juncCount = rep( read$full_length_coverage+read$non_full_length_coverage , len )
 		juncs = do.call(c,tag)
 		uniJuncCount = tapply(juncCount,juncs,sum)
 		start = sapply( strsplit(names(uniJuncCount),","), function(x) as.integer(x[1]) )

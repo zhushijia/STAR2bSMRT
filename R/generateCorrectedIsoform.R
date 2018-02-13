@@ -39,10 +39,15 @@ generateCorrectedIsoform = function( LRjunc , SRjunc, LRread , matchedLS , ts , 
 			x[ order(x$start), ]
 			} )
 		
+		
+		lrCount = tapply( LRcorres$count , LRcorres$SRindex , sum )
+		LRjuncCount = data.frame( lrCount , src[as.integer(names(lrCount)),] )
+		colnames(LRjuncCount) = c("lrCount","srCount","chr","start","end","motif")
+		
 		correctIsoformNum = length(unique(isoform))
 		correctIsoformFrac = sum(correctIsoformExp)/sum(read$full_length_coverage) 
 		
-		list( isoform=correctIsoform , num=correctIsoformNum , exp=as.numeric(correctIsoformExp) , frac=correctIsoformFrac )
+		list( isoform=correctIsoform , num=correctIsoformNum , exp=as.numeric(correctIsoformExp) , frac=correctIsoformFrac , LRjuncCount=LRjuncCount )
 		
 	}
 
