@@ -1,4 +1,4 @@
-echo "STARshort mapping ... ... "
+echo "1pass STARshort mapping ... ... "
 echo "genomeDir: $1"
 echo "SR: $2 $3"
 echo "outputDir: $4"

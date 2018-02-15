@@ -1,7 +1,8 @@
-echo "STARlong mapping ... ... "
+echo "2pass STARlong mapping ... ... "
 echo "genomeDir: $1"
 echo "LR: $2"
 echo "outputDir: $3"
+echo "SJ.tab: $4"
 
 if [ ! -d $3 ]; then 
 mkdir -p $3
@@ -10,6 +11,7 @@ cd $3
 
 /hpc/users/zhus02/schzrnas/sjzhu/bitbucket/STAR/STAR/source/STARlong \
 --runMode alignReads \
+--sjdbFileChrStartEnd $4 \
 --readNameSeparator space \
 --outFilterMultimapScoreRange 1 \
 --outFilterMismatchNmax 2000 \
