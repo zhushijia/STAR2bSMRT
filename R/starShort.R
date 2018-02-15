@@ -18,7 +18,7 @@ starShort = function( genomeDir , SR1 , SR2 , outputDir , SJ=NULL )
 	  func = paste0("source " , STAR2bSMRT.dir , "/data/starShort1.sh")
 	  sh = paste( func , genomeDir , SR1 , SR2 , outputDir  )
 	  runSH(sh)
-	} esle {
+	} else {
 	  func = paste0("source " , STAR2bSMRT.dir , "/data/starShort2.sh")
 	  sh = paste( func , genomeDir , SR1 , SR2 , outputDir , SJ )
 	  runSH(sh)
