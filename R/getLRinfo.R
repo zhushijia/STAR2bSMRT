@@ -11,11 +11,19 @@
 #' @export
 #'
 #' @examples
-getLRinfo = function( alignments , phqv , outputDir , chrom , s , e )
+getLRinfo = function( alignments , phqv=NULL , outputDir , chrom , s , e )
 {
-	read = getRead( alignments , outputDir )
-	exp = phqvExp( phqv , outputDir )
-	LRread = merge( read , exp , by="id" )
+  LRread = getRead( alignments , outputDir )
+  
+  if( !is.null(phqv) )
+  {
+    exp = phqvExp( phqv , outputDir )
+	  LRread = merge( LRread , exp , by="id" )
+	  LRread$coverage = LRread$full_length_coverage # + LRread$non_full_length_coverage
+  } else {
+    LRread$coverage = 1
+  }
+  
 	LRread = subset( LRread , junc!="-1" )
 
 	if( !is.null(chrom) )
@@ -37,8 +45,7 @@ getLRinfo = function( alignments , phqv , outputDir , chrom , s , e )
 		read = LRread[[i]]
 		tag = LRtag[[i]]
 		len = sapply( tag, length )
-		juncCount = rep( read$full_length_coverage , len )
-		#juncCount = rep( read$full_length_coverage+read$non_full_length_coverage , len )
+		juncCount = rep( read$coverage , len )
 		juncs = do.call(c,tag)
 		uniJuncCount = tapply(juncCount,juncs,sum)
 		start = sapply( strsplit(names(uniJuncCount),","), function(x) as.integer(x[1]) )

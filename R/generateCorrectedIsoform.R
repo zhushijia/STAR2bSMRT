@@ -32,7 +32,7 @@ generateCorrectedIsoform = function( LRjunc , SRjunc, LRread , matchedLS , ts , 
 		range = sapply( tag , function(x) all(x%in%correctTag) )
 		isoform = sapply( tag[range] , function(x) paste( sort(subset(LRcorres,correctTag%in%x)$SRindex) , collapse="_" ) )
 		
-		correctIsoformExp = tapply( read$full_length_coverage[range] , isoform , sum )
+		correctIsoformExp = tapply( read$coverage[range] , isoform , sum )
 		srindex = lapply( strsplit( names(correctIsoformExp) , "_" ) , function(x) as.integer(x) )
 		correctIsoform = lapply( srindex , function(ind) { 
 			x=src[ ind , c('chr','start','end') ]
@@ -45,7 +45,7 @@ generateCorrectedIsoform = function( LRjunc , SRjunc, LRread , matchedLS , ts , 
 		colnames(LRjuncCount) = c("lrCount","srCount","chr","start","end","motif")
 		
 		correctIsoformNum = length(unique(isoform))
-		correctIsoformFrac = sum(correctIsoformExp)/sum(read$full_length_coverage) 
+		correctIsoformFrac = sum(correctIsoformExp)/sum(read$coverage) 
 		
 		list( isoform=correctIsoform , num=correctIsoformNum , exp=as.numeric(correctIsoformExp) , frac=correctIsoformFrac , LRjuncCount=LRjuncCount )
 		

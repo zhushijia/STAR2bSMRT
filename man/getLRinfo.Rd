@@ -4,7 +4,7 @@
 \alias{getLRinfo}
 \title{getLRinfo}
 \usage{
-getLRinfo(alignments, phqv, outputDir, chrom, s, e)
+getLRinfo(alignments, phqv = NULL, outputDir, chrom, s, e)
 }
 \arguments{
 \item{alignments}{}

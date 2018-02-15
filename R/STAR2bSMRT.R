@@ -13,8 +13,8 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
   s = 50147488
   e = 51259537
   cores = 30
-  thresSR=c(1:200) 
-  thresDis=c(1:100)
+  thresSR=c(1:100) 
+  thresDis=c(1:30)
   
 
 	library(foreach)
