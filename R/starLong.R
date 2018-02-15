@@ -8,10 +8,18 @@
 #' @export
 #'
 #' @examples
-starLong = function( genomeDir , LR , outputDir )
+#' 
+starLong = function( genomeDir , LR , outputDir , SJ=NULL )
 {
 	STAR2bSMRT.dir = system.file(package = "STAR2bSMRT")
-	func = paste0("source " , STAR2bSMRT.dir , "/data/starLong.sh")
-	sh = paste( func , genomeDir , LR , outputDir  )
-	runSH(sh)
+	if(is.null(SJ))
+	{
+	  func = paste0("source " , STAR2bSMRT.dir , "/data/starLong1.sh")
+	  sh = paste( func , genomeDir , LR , outputDir  )
+	  runSH(sh)
+	} esle {
+	  func = paste0("source " , STAR2bSMRT.dir , "/data/starLong2.sh")
+	  sh = paste( func , genomeDir , LR , outputDir , SJ )
+	  runSH(sh)
+	}
 }
