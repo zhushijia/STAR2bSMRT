@@ -112,10 +112,10 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 
 
 
-setwd(SoutputDir)
-system( paste0( "samtools view alignments.bam " , chrom,":",s,"-",e," > cut.bam" ) )
-system( "samtools sort -n cut.bam cut.bam.qsort" )
-system( "bedtools bamtofastq -i cut.bam.qsort.bam -fq cut.R1.fastq -fq2 cut.R2.fastq")
+#setwd(SoutputDir)
+#system( paste0( "samtools view alignments.bam " , chrom,":",s,"-",e," > cut.bam" ) )
+#system( "samtools sort -n cut.bam cut.bam.qsort" )
+#system( "bedtools bamtofastq -i cut.bam.qsort.bam -fq cut.R1.fastq -fq2 cut.R2.fastq")
 
 
 
