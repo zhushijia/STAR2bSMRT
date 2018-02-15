@@ -34,18 +34,18 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	system( paste0( "mkdir -p " , SoutputDir2 ) )
 	system( paste0( "mkdir -p " , EoutputDir ) )
 	
-	SJ1 = paste0(SoutputDir1,"/Sj.out.tab")
-	SJ2 = paste0(SoutputDir2,"/Sj.out.tab")
-	starShort( genomeDir , SR1 , SR2 , SoutputDir1 )
+	SJ1 = paste0(SoutputDir1,"/SJ.out.tab")
+	SJ2 = paste0(SoutputDir2,"/SJ.out.tab")
+	#starShort( genomeDir , SR1 , SR2 , SoutputDir1 )
 	starShort( genomeDir , SR1 , SR2 , SoutputDir2 , SJ1 )
-	starLong( genomeDir , LR , LoutputDir , SJ2 )
+	starLong( genomeDir , LR , LoutputDir2 , SJ2 )
 	genome = readDNAStringSet(ref)
 
-	SRalignment = paste0(SoutputDir,"/alignments.bam")
-	LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
+	SRalignment = paste0(SoutputDir2,"/alignments.bam")
+	LRalignment = paste0(LoutputDir2,"/Aligned.out.sam")
 	
-	SRjunc = getJunc( SRalignment , SoutputDir , chrom , s= 50147488 , e = 51259537 )
-	LRinfo = getLRinfo( LRalignment , LR , LoutputDir , chrom , s= 50147488 , e = 51259537 )
+	SRjunc = getJunc( SRalignment , SoutputDir2 , chrom , s= 50147488 , e = 51259537 )
+	LRinfo = getLRinfo( LRalignment , LR , LoutputDir2 , chrom , s= 50147488 , e = 51259537 )
 	LRread = LRinfo$LRread
 	LRjunc = LRinfo$LRjunc
 	LRtag = LRinfo$LRtag

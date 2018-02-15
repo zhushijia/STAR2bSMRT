@@ -2,7 +2,7 @@ echo "2pass STARshort mapping ... ... "
 echo "genomeDir: $1"
 echo "SR: $2 $3"
 echo "outputDir: $4"
-echo "outputDir: $5"
+echo "SJ.tab: $5"
 
 if [ ! -d $4 ]; then 
 mkdir -p $4

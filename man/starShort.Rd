@@ -4,7 +4,7 @@
 \alias{starShort}
 \title{starShort}
 \usage{
-starShort(genomeDir, SR1, SR2, outputDir)
+starShort(genomeDir, SR1, SR2, outputDir, SJ = NULL)
 }
 \arguments{
 \item{genomeDir}{}
@@ -17,4 +17,7 @@ starShort(genomeDir, SR1, SR2, outputDir)
 }
 \description{
 starShort
+}
+\examples{
+
 }

@@ -4,7 +4,7 @@
 \alias{starLong}
 \title{starLong}
 \usage{
-starLong(genomeDir, LR, outputDir)
+starLong(genomeDir, LR, outputDir, SJ = NULL)
 }
 \arguments{
 \item{genomeDir}{}
@@ -15,4 +15,7 @@ starLong(genomeDir, LR, outputDir)
 }
 \description{
 starLong
+}
+\examples{
+
 }
