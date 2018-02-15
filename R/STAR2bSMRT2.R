@@ -34,10 +34,11 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	system( paste0( "mkdir -p " , SoutputDir2 ) )
 	system( paste0( "mkdir -p " , EoutputDir ) )
 	
-	SJ = paste0(SoutputDir1,"/Sj.out.tab")
+	SJ1 = paste0(SoutputDir1,"/Sj.out.tab")
+	SJ2 = paste0(SoutputDir2,"/Sj.out.tab")
 	starShort( genomeDir , SR1 , SR2 , SoutputDir1 )
-	starShort( genomeDir , SR1 , SR2 , SoutputDir2 ,  )
-	starLong( genomeDir , LR , LoutputDir )
+	starShort( genomeDir , SR1 , SR2 , SoutputDir2 , SJ1 )
+	starLong( genomeDir , LR , LoutputDir , SJ2 )
 	genome = readDNAStringSet(ref)
 
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
