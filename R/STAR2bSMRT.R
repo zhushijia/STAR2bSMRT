@@ -30,8 +30,8 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	system( paste0( "mkdir -p " , SoutputDir ) )
 	system( paste0( "mkdir -p " , EoutputDir ) )
 	
-	#starShort( genomeDir , SR1 , SR2 , SoutputDir )
-	#starLong( genomeDir , LR , LoutputDir )
+	starShort( genomeDir , SR1 , SR2 , SoutputDir )
+	starLong( genomeDir , LR , LoutputDir )
 	genome = readDNAStringSet(ref)
 
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
@@ -58,6 +58,7 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	###############################################################################################################
 	
 	pdf( paste0( "JuncExp_LR_ts",ts,"_td",td,".pdf") )
+	
 	juncExp = do.call( rbind, lapply( correction , function(x) x$LRjuncCount ))
 	lrCount = log10(juncExp$lrCount)
 	srCount = log10(juncExp$srCount)
@@ -66,6 +67,12 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	cols[juncExp$motif==1] = 3
 	plot( lrCount , srCount , col=cols , pch=16 , main=paste0("JuncExp by Long and Short Reads: r=",signif(juncCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
 	abline(lm( srCount~lrCount ))
+	
+	par(mfrow=c(2,1))
+	log10fc = lrCount - srCount
+	JuncNames = paste(juncExp$start , juncExp$end)
+	barplot( log10fc , cex.names=0.6 , col=cols , ylab="log10(lrCount/srCount)", names=JuncNames , las=3 )
+	
 	dev.off()
 	
 	###############################################################################################################

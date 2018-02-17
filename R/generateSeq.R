@@ -19,7 +19,7 @@ generateSeq = function( genome , isoform , exp , chrom , s , e )
   #s = 50149082
   #e = 51255411
 
-	dna = DNAStringSet( lapply( isoform , function(junc) {
+	dna = lapply( isoform , function(junc) {
 	  chr = as.character(junc$chr[1])
 	  junc$start = junc$start-1
 	  junc$end = junc$end+1
@@ -32,8 +32,9 @@ generateSeq = function( genome , isoform , exp , chrom , s , e )
 			reverseComplement(DNAString(seq))
 		}
 		
-		} ) )
+		} ) 
 	
+	dna = DNAStringSet( dna )
 	names(dna) = paste0("SS",1:length(dna),"_exp",exp)
 	# sum(as.numeric(sapply(fasta2,nchar)%%3)>0)
 

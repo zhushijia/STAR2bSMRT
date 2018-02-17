@@ -74,9 +74,25 @@ SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/
 outputDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/HumanBrain/fetal"
 
 
+genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
+LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26963/polished_high_qv_consensus_isoforms.fasta"
+SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/14-34-adult-dIPFC_S2_R1_001.fastq.gz"
+SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/14-34-adult-dIPFC_S2_R2_001.fastq.gz"
+outputDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/HumanBrain/adult_dlPFC1_10"
 
 
+genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
+LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26964/polished_high_qv_consensus_isoforms.fasta"
+SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/106781-adult-dIPFC_S3_R1_001.fastq.gz"
+SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/106781-adult-dIPFC_S3_R2_001.fastq.gz"
+outputDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/HumanBrain/NRXN_adult_dlPFC1_12"
 
+
+genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
+LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26965/polished_high_qv_consensus_isoforms.fasta"
+SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/12-27-adult-dIPFC_S7_R1_001.fastq.gz"
+SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/12-27-adult-dIPFC_S7_R2_001.fastq.gz"
+outputDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/HumanBrain/adult_dlPFC1_13"
 
 
 
