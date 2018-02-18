@@ -8,6 +8,6 @@
 #' @examples
 runSH = function( sh )
 {
-  cat(sh)
+  cat(sh,'\n\n')
   system(sh)
 }
