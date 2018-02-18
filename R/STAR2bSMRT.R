@@ -30,10 +30,13 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	system( paste0( "mkdir -p " , SoutputDir ) )
 	system( paste0( "mkdir -p " , EoutputDir ) )
 	
-	starShort( genomeDir , SR1 , SR2 , SoutputDir )
-	starLong( genomeDir , LR , LoutputDir )
-	genome = readDNAStringSet(ref)
-
+	if(0)
+	{
+	  starShort( genomeDir , SR1 , SR2 , SoutputDir )
+	  starLong( genomeDir , LR , LoutputDir )
+	  genome = readDNAStringSet(ref)
+	}
+	
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
 	LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 	
@@ -43,15 +46,15 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	LRjunc = LRinfo$LRjunc
 	LRtag = LRinfo$LRtag
 	
-	matchedLS = matchLSjunc( LRjunc , SRjunc )
-	P = gridSearch( LRjunc , SRjunc , matchedLS , thresSR , thresDis )
+	#matchedLS = matchLSjunc( LRjunc , SRjunc )
+	P = gridSearch( LRjunc , SRjunc , thresSR , thresDis , matchedLS=NULL )
 	
 	ij = which( P==max(P) , arr.ind=T )
 	ts = thresSR[ ij[1,1] ]
 	td = thresDis[ ij[1,2] ]
 	cat( ts , td , P[ij] , '\n ')
 	
-	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRread , matchedLS , ts , td )
+	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRread  , ts , td , matchedLS=NULL )
 	
 	setwd( EoutputDir )
 	

@@ -36,11 +36,15 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	
 	SJ1 = paste0(SoutputDir1,"/SJ.out.tab")
 	SJ2 = paste0(SoutputDir2,"/SJ.out.tab")
-	#starShort( genomeDir , SR1 , SR2 , SoutputDir1 )
-	starShort( genomeDir , SR1 , SR2 , SoutputDir2 , SJ1 )
-	starLong( genomeDir , LR , LoutputDir2 , SJ2 )
-	genome = readDNAStringSet(ref)
+	if(0)
+	{
+	  #starShort( genomeDir , SR1 , SR2 , SoutputDir1 )
+  	starShort( genomeDir , SR1 , SR2 , SoutputDir2 , SJ1 )
+  	starLong( genomeDir , LR , LoutputDir2 , SJ2 )
+  	genome = readDNAStringSet(ref)
 
+	}
+	
 	SRalignment = paste0(SoutputDir2,"/alignments.bam")
 	LRalignment = paste0(LoutputDir2,"/Aligned.out.sam")
 	
@@ -50,15 +54,15 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	LRjunc = LRinfo$LRjunc
 	LRtag = LRinfo$LRtag
 	
-	matchedLS = matchLSjunc( LRjunc , SRjunc )
-	P = gridSearch( LRjunc , SRjunc , matchedLS , thresSR , thresDis )
+	# matchedLS = matchLSjunc( LRjunc , SRjunc )
+	P = gridSearch( LRjunc , SRjunc , thresSR , thresDis , matchedLS=NULL)
 	
 	ij = which( P==max(P) , arr.ind=T )
 	ts = thresSR[ ij[1,1] ]
 	td = thresDis[ ij[1,2] ]
 	cat( ts , td , P[ij] , '\n ')
 	
-	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRread , matchedLS , ts , td )
+	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRread , ts , td , matchedLS=NULL )
 	
 	setwd( EoutputDir )
 	
