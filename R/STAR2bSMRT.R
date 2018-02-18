@@ -2,7 +2,7 @@
 #setwd("/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/R3/R")
 #sapply( dir()[grep(".R",dir())] , source )
 
-#library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone/setup")
+#library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone2/setup")
 
 STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0 , e=Inf )
 {
@@ -112,7 +112,7 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	###############################################################################################################
 	isoformNum = sum(sapply(correction,function(x)x$num))
 	isoformFrac = mean(sapply(correction,function(x)x$frac))
-	info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , juncCorr , LSQuantCorr , LSQuantPval )
+	info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , translated=sum(seq$translated) , juncCorr , LSQuantCorr , LSQuantPval )
 	write.table(info,"summary.txt",quote=F,sep="\t",col.names=T,row.names=F)
 	
 	
