@@ -65,7 +65,7 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	juncExp = do.call( rbind, lapply( correction , function(x) x$LRjuncCount ))
 	lrCount = log10(juncExp$lrCount)
 	srCount = log10(juncExp$srCount)
-	juncCorr = cor.test(srCount,lrCount)$estimate
+	juncCorr = cor.test(srCount,lrCount,method='spearman')$estimate
 	cols = sapply( juncExp$motif , function(x) ifelse(x==0,1,2) )
 	cols[juncExp$motif==1] = 3
 	plot( lrCount , srCount , col=cols , pch=16 , main=paste0("JuncExp by Long and Short Reads: r=",signif(juncCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
