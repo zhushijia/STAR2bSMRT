@@ -51,6 +51,8 @@ gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , ma
       colnames(LRjuncCount) = c("lrCount","srCount","chr","start","end","motif")
       ind = which(LRjuncCount$lrCount>0)
       res[j] = cor.test( LRjuncCount[ind,1] , LRjuncCount[ind,2] , method="spearman" )$estimate
+      #res[j] = KL.Dirichlet( LRjuncCount[ind,1] , LRjuncCount[ind,2], a1=1/length(ind), a2=1/length(ind) )
+      #res[j] = mi.Dirichlet( t(LRjuncCount[ind,1:2]) , a=1/(2*length(ind) )  )
       #res[j] = cor.test( log2(LRjuncCount[ind,1]+1) , log2(LRjuncCount[ind,2]+1) , method="pearson" )$estimate
     }
     res
