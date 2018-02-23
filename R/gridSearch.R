@@ -27,7 +27,7 @@ gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , ma
       
       cat(ts,td,"\n")
       
-      LRjuncCount = foreach( k=1:length(CHR) ) %dopar%
+      LSjuncCount = foreach( k=1:length(CHR) ) %dopar%
       {
         chr = CHR[k]
         lrc = LRjunc[[chr]]
@@ -47,13 +47,15 @@ gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , ma
         lrCount = tapply( LRcorres$count , LRcorres$SRindex , sum )
         data.frame( lrCount , src[as.integer(names(lrCount)),] )
       }
-      LRjuncCount = do.call(rbind,LRjuncCount)
-      colnames(LRjuncCount) = c("lrCount","srCount","chr","start","end","motif")
-      ind = which(LRjuncCount$lrCount>0)
-      res[j] = cor.test( LRjuncCount[ind,1] , LRjuncCount[ind,2] , method="spearman" )$estimate
-      #res[j] = KL.Dirichlet( LRjuncCount[ind,1] , LRjuncCount[ind,2], a1=1/length(ind), a2=1/length(ind) )
-      #res[j] = mi.Dirichlet( t(LRjuncCount[ind,1:2]) , a=1/(2*length(ind) )  )
-      #res[j] = cor.test( log2(LRjuncCount[ind,1]+1) , log2(LRjuncCount[ind,2]+1) , method="pearson" )$estimate
+      LSjuncCount = do.call(rbind,LSjuncCount)
+      colnames(LSjuncCount) = c("lrCount","srCount","chr","start","end","motif")
+      ind = which(LSjuncCount$lrCount>0)
+      
+      
+      res[j] = cor.test( LSjuncCount[ind,1] , LSjuncCount[ind,2] , method="spearman" )$estimate
+      #res[j] = KL.Dirichlet( LSjuncCount[ind,1] , LSjuncCount[ind,2], a1=1/length(ind), a2=1/length(ind) )
+      #res[j] = mi.Dirichlet( t(LSjuncCount[ind,1:2]) , a=1/(2*length(ind) )  )
+      #res[j] = cor.test( log2(LSjuncCount[ind,1]+1) , log2(LSjuncCount[ind,2]+1) , method="pearson" )$estimate
     }
     res
   }
