@@ -5,6 +5,7 @@
 #' @param thresSR 
 #' @param thresDis 
 #' @param matchedLS 
+#' @param adjustNCjunc a boolean value indicating whether or not to control the non-carnonical junction site fraction
 #'
 #' @return
 #' @export
@@ -12,7 +13,7 @@
 #' @examples
 #' 
 #' 
-gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , matchedLS=NULL )
+gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , adjustNCjunc=TRUE , matchedLS=NULL )
 {
   
   CHR = intersect( names(SRjunc) , names(LRjunc) )
@@ -51,8 +52,14 @@ gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , ma
       colnames(LSjuncCount) = c("lrCount","srCount","chr","start","end","motif")
       ind = which(LSjuncCount$lrCount>0)
       
-      
-      res[j] = cor.test( LSjuncCount[ind,1] , LSjuncCount[ind,2] , method="spearman" )$estimate
+      if( adjustNCjunc )
+      {
+        fracNCjunc = 1 - mean( LSjuncCount$motif[ind]==0 )
+        res[j] = cor.test( LSjuncCount[ind,1] , LSjuncCount[ind,2] , method="spearman" )$estimate * fracNCjunc
+        
+      } else {
+        res[j] = cor.test( LSjuncCount[ind,1] , LSjuncCount[ind,2] , method="spearman" )$estimate 
+      }
       #res[j] = KL.Dirichlet( LSjuncCount[ind,1] , LSjuncCount[ind,2], a1=1/length(ind), a2=1/length(ind) )
       #res[j] = mi.Dirichlet( t(LSjuncCount[ind,1:2]) , a=1/(2*length(ind) )  )
       #res[j] = cor.test( log2(LSjuncCount[ind,1]+1) , log2(LSjuncCount[ind,2]+1) , method="pearson" )$estimate
@@ -61,9 +68,6 @@ gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , ma
   }
   
   P = do.call(rbind,P)
-  ij = which( P==max(P) , arr.ind=T )
-  ij
-  
   P
 }
 
