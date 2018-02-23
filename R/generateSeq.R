@@ -1,5 +1,7 @@
 #' generateSeq
 #'
+#' generateSeq generates the transcript sequence
+#' 
 #' @param genome 
 #' @param isoform
 #' @param exp
@@ -11,14 +13,11 @@
 #' @export
 #'
 #' @examples
+#' 
+#' 
 generateSeq = function( genome , isoform , exp , chrom , s , e )
 {
-	#library(Biostrings)
-	#genome = readDNAStringSet( fasta )
-	#genome = readDNAStringSet("/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/hg19/reference/hg19.fa")
-  #s = 50149082
-  #e = 51255411
-
+	
 	dna = lapply( isoform , function(junc) {
 	  chr = as.character(junc$chr[1])
 	  junc$start = junc$start-1
@@ -27,14 +26,16 @@ generateSeq = function( genome , isoform , exp , chrom , s , e )
 		exon = data.frame( chr=junc$chr[-1] , start=junc$end[-nrow(junc)] , end=junc$start[-1] )
 		if( all((exon$end-exon$start)>0) )
 		{
-			seq = sapply(1:nrow(exon), function(i) substr( genome[[ "chr2" ]] , exon$start[i] , exon$end[i] ) )
-			seq = paste( sapply( seq,function(x) as.character(x)) , collapse="")
-			reverseComplement(DNAString(seq))
+			sequence = sapply(1:nrow(exon), function(i) substr( genome[[ "chr2" ]] , exon$start[i] , exon$end[i] ) )
+			sequence = paste( sapply( sequence , function(x) as.character(x)) , collapse="")
+			reverseComplement(DNAString(sequence))
 		}
 		
 		} ) 
 	
-	dna = DNAStringSet( dna )
+	if(0)
+	{
+	  dna = DNAStringSet( dna )
 	names(dna) = paste0("SS",1:length(dna),"_exp",exp)
 	# sum(as.numeric(sapply(fasta2,nchar)%%3)>0)
 
@@ -46,5 +47,8 @@ generateSeq = function( genome , isoform , exp , chrom , s , e )
 	} )
 	
 	list(dna=dna,protein=protein,translated=translated)
+	  
+	}
+	
 }
 
