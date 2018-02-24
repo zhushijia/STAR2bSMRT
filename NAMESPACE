@@ -2,7 +2,6 @@
 
 export(generateCorrectedIsoform)
 export(generateSeq)
-export(generateSeq2)
 export(getJunc)
 export(getLRinfo)
 export(getRead)
