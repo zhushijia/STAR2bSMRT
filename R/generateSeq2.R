@@ -18,7 +18,8 @@
 generateSeq2 = function( ref , isoform , exp , chrom , s , e )
 {
 	genome = readDNAStringSet(ref)
-	cat("finish reading reference \n")
+	print(genome)
+	print(class(genome))
 	dna = lapply( isoform , function(junc) {
 	  cat("a\n")
 	  chr = as.character(junc$chr[1])
@@ -31,8 +32,21 @@ generateSeq2 = function( ref , isoform , exp , chrom , s , e )
 		  cat("b\n")
 			sequence = list()
 			for ( i in 1:nrow(exon) ) 
-			  sequence[[i]] = substr( genome[[ "chr2" ]] , exon$start[i] , exon$end[i] )
+			  sequence[[i]] = substr( "adfasdfasdfadsfads" , 1 , 5 )
+			
 			cat("c\n")
+			for ( i in 1:nrow(exon) ) 
+			  sequence[[i]] = substr( as.character(genome[[ "chr2" ]]) , 1000000 , 1000010 )
+			
+			cat("d\n")
+			for ( i in 1:nrow(exon) ) 
+			  sequence[[i]] = subseq( genome[[ "chr2" ]] , exon$start[i] , exon$end[i] )
+			
+			cat("e\n")
+			for ( i in 1:nrow(exon) ) 
+			  sequence[[i]] = substr( genome[[ "chr2" ]] , exon$start[i] , exon$end[i] )
+			
+			cat("f\n")
 			sequence = paste( sapply( sequence , function(x) as.character(x)) , collapse="")
 			reverseComplement(DNAString(sequence))
 		}
