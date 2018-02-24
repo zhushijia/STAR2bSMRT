@@ -62,7 +62,7 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	
 	pdf( paste0( "JuncExp_LR_ts",ts,"_td",td,".pdf") )
 	
-	juncExp = do.call( rbind, lapply( correction , function(x) x$LRjuncCount ))
+	juncExp = do.call( rbind, lapply( correction , function(x) x$LSjuncCount ))
 	lrCount = log10(juncExp$lrCount)
 	srCount = log10(juncExp$srCount)
 	juncCorr = cor.test(srCount,lrCount,method='spearman')$estimate
@@ -83,7 +83,7 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
 	
 	###############################################################################################################
-	seq = generateSeq( genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
+	seq = generateSeq( genome=genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
 	fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
 	writeXStringSet( seq$dna , fastaName )
 	#writeXStringSet( seq$dna[seq$translated] , fastaName )

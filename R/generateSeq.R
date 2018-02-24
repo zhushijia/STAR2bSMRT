@@ -15,10 +15,15 @@
 #' @examples
 #' 
 #' 
-generateSeq = function( genome , isoform , exp , chrom , s , e )
+generateSeq = function( genome , isoform , exp , chrom , s , e , cores=1 )
 {
-	
-	dna = lapply( isoform , function(junc) {
+	library(foreach)
+  library(doMC)
+  registerDoMC(cores)
+  
+	dna = foreach( i = 1:length(isoform) ) %dopar%
+	{
+	  junc = isoform[[i]]
 	  chr = as.character(junc$chr[1])
 	  junc$start = junc$start-1
 	  junc$end = junc$end+1
@@ -31,11 +36,9 @@ generateSeq = function( genome , isoform , exp , chrom , s , e )
 			reverseComplement(DNAString(sequence))
 		}
 		
-		} ) 
+	}
 	
-	if(0)
-	{
-	  dna = DNAStringSet( dna )
+  dna = DNAStringSet( dna )
 	names(dna) = paste0("SS",1:length(dna),"_exp",exp)
 	# sum(as.numeric(sapply(fasta2,nchar)%%3)>0)
 
@@ -47,8 +50,7 @@ generateSeq = function( genome , isoform , exp , chrom , s , e )
 	} )
 	
 	list(dna=dna,protein=protein,translated=translated)
-	  
-	}
+
 	
 }
 
