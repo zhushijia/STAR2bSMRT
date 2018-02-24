@@ -19,7 +19,8 @@ generateSeq = function( genome , isoform , exp , chrom , s , e , cores=1 )
 {
 	registerDoMC(cores)
   
-	dna = foreach( i = 1:length(isoform) ) %dopar%
+	dna = list()
+	for( i in 1:length(isoform) )
 	{
 	  cat(i,"\n")
 	  junc = isoform[[i]]
@@ -30,10 +31,9 @@ generateSeq = function( genome , isoform , exp , chrom , s , e , cores=1 )
 		exon = data.frame( chr=junc$chr[-1] , start=junc$end[-nrow(junc)] , end=junc$start[-1] )
 		if( all((exon$end-exon$start)>0) )
 		{
-			#sequence = sapply(1:nrow(exon), function(i) substr( genome[[ "chr2" ]] , exon$start[i] , exon$end[i] ) )
-			sequence = "AAAATTT"
+			sequence = sapply(1:nrow(exon), function(i) substr( genome[[ "chr2" ]] , exon$start[i] , exon$end[i] ) )
 		  sequence = paste( sapply( sequence , function(x) as.character(x)) , collapse="")
-			reverseComplement(DNAString(sequence))
+			dna[[i]] = reverseComplement(DNAString(sequence))
 		}
 	}
 	
