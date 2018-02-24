@@ -1,8 +1,8 @@
-#' generateSeq
+#' generateSeq2
 #'
-#' generateSeq generates the transcript sequence
+#' generateSeq2 generates the transcript sequence
 #' 
-#' @param genome 
+#' @param ref 
 #' @param isoform
 #' @param exp
 #' @param chrom 
@@ -15,10 +15,12 @@
 #' @examples
 #' 
 #' 
-generateSeq = function( genome , isoform , exp , chrom , s , e )
+generateSeq2 = function( ref , isoform , exp , chrom , s , e )
 {
-	
+	genome = readDNAStringSet(ref)
+	cat("finish reading reference \n")
 	dna = lapply( isoform , function(junc) {
+	  cat("a\n")
 	  chr = as.character(junc$chr[1])
 	  junc$start = junc$start-1
 	  junc$end = junc$end+1
@@ -26,7 +28,9 @@ generateSeq = function( genome , isoform , exp , chrom , s , e )
 		exon = data.frame( chr=junc$chr[-1] , start=junc$end[-nrow(junc)] , end=junc$start[-1] )
 		if( all((exon$end-exon$start)>0) )
 		{
+		  cat("b\n")
 			sequence = sapply(1:nrow(exon), function(i) substr( genome[[ "chr2" ]] , exon$start[i] , exon$end[i] ) )
+			cat("c\n")
 			sequence = paste( sapply( sequence , function(x) as.character(x)) , collapse="")
 			reverseComplement(DNAString(sequence))
 		}

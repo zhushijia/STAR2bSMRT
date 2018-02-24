@@ -16,5 +16,9 @@ generateSeq(genome, isoform, exp, chrom, s, e)
 \item{e}{}
 }
 \description{
-generateSeq
+generateSeq generates the transcript sequence
+}
+\examples{
+
+
 }

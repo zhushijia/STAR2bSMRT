@@ -4,19 +4,26 @@
 \alias{gridSearch}
 \title{gridSearch}
 \usage{
-gridSearch(LRjunc, SRjunc, matchedLS, thresSR = c(1:30), thresDis = c(1:20))
+gridSearch(LRjunc, SRjunc, thresSR = c(1:30), thresDis = c(1:20),
+  adjustNCjunc = TRUE, matchedLS = NULL)
 }
 \arguments{
 \item{LRjunc}{}
 
 \item{SRjunc}{}
 
-\item{matchedLS}{}
-
 \item{thresSR}{}
 
 \item{thresDis}{}
+
+\item{adjustNCjunc}{a boolean value indicating whether or not to control the non-carnonical junction site fraction}
+
+\item{matchedLS}{}
 }
 \description{
 gridSearch
+}
+\examples{
+
+
 }

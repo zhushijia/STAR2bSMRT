@@ -4,7 +4,7 @@
 \alias{generateCorrectedIsoform}
 \title{generateCorrectedIsoform}
 \usage{
-generateCorrectedIsoform(LRjunc, SRjunc, LRread, matchedLS, ts, td)
+generateCorrectedIsoform(LRjunc, SRjunc, LRread, ts, td, matchedLS = NULL)
 }
 \arguments{
 \item{LRjunc}{}
@@ -13,12 +13,16 @@ generateCorrectedIsoform(LRjunc, SRjunc, LRread, matchedLS, ts, td)
 
 \item{LRread}{}
 
-\item{matchedLS}{}
-
 \item{ts}{}
 
 \item{td}{}
+
+\item{matchedLS}{}
 }
 \description{
 generateCorrectedIsoform
+}
+\examples{
+
+
 }
