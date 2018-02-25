@@ -107,7 +107,7 @@ STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , th
 	
 	###############################################################################################################
 	pdf( "gridSeach.pdf" )
-	heatmap( P , Rowv = NA, Colv = NA, scale='none' )
+	heatmap( score , Rowv = NA, Colv = NA, scale='none' )
 	dev.off()
 
 	###############################################################################################################
