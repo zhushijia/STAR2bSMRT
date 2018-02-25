@@ -1,26 +1,28 @@
-
-#setwd("/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/R3/R")
-#sapply( dir()[grep(".R",dir())] , source )
-
-#library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone/setup")
-
-STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0 , e=Inf )
+#' STAR2bSMRT2
+#'
+#' @param genomeDir 
+#' @param LR 
+#' @param SR1 
+#' @param SR2 
+#' @param outputDir 
+#' @param chrom 
+#' @param s 
+#' @param e 
+#' @param cores
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+#' 
+STAR2bSMRT2 <- function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0 , e=Inf , cores )
 {
   
-  
-  ref = "/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/hg19/reference/hg19.fa"
-  chrom = "chr2"
-  s = 50147488
-  e = 51259537
-  cores = 30
-  thresSR=c(1:200) 
-  thresDis=c(1:100)
-  
-
+  library(Biostrings)
 	library(foreach)
 	library(doMC)
 	registerDoMC(cores)
-	library(Biostrings)
 	
 	SoutputDir1 = paste0(outputDir,"/SR1")
 	SoutputDir2 = paste0(outputDir,"/SR2")
@@ -75,7 +77,7 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	juncCorr = cor.test(srCount,lrCount)$estimate
 	cols = sapply( juncExp$motif , function(x) ifelse(x==0,1,2) )
 	cols[juncExp$motif==1] = 3
-	plot( lrCount , srCount , col=cols , pch=16 , main=paste0("JuncExp by Long and Short Reads: r=",signif(juncCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
+	plot( lrCount , srCount , col=cols , pch=17 , main=paste0("JuncExp by Long and Short Reads: r=",signif(juncCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
 	abline(lm( srCount~lrCount ))
 	dev.off()
 	
@@ -119,15 +121,6 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	
 
 }
-
-
-
-
-#setwd(SoutputDir)
-#system( paste0( "samtools view alignments.bam " , chrom,":",s,"-",e," > cut.bam" ) )
-#system( "samtools sort -n cut.bam cut.bam.qsort" )
-#system( "bedtools bamtofastq -i cut.bam.qsort.bam -fq cut.R1.fastq -fq2 cut.R2.fastq")
-
 
 
 

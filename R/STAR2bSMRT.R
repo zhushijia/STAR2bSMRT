@@ -1,26 +1,28 @@
-
-#setwd("/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/R3/R")
-#sapply( dir()[grep(".R",dir())] , source )
-
-#library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone2/setup")
-
-STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0 , e=Inf )
+#' STAR2bSMRT
+#'
+#' @param genomeDir 
+#' @param LR 
+#' @param SR1 
+#' @param SR2 
+#' @param outputDir 
+#' @param adjustNCjunc 
+#' @param chrom 
+#' @param s 
+#' @param e
+#' @param cores
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+STAR2bSMRT <- function( genomeDir , LR , SR1 , SR2 , outputDir , adjustNCjunc , chrom=NULL , s=0 , e=Inf , cores=1 )
 {
-  
-  
-  ref = "/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/hg19/reference/hg19.fa"
-  chrom = "chr2"
-  s = 50147488
-  e = 51259537
-  cores = 30
-  thresSR=c(1:100) 
-  thresDis=c(1:30)
-  
 
+	library(Biostrings)
 	library(foreach)
 	library(doMC)
 	registerDoMC(cores)
-	library(Biostrings)
 	
 	LoutputDir = paste0(outputDir,"/LR")
 	SoutputDir = paste0(outputDir,"/SR")
@@ -30,12 +32,9 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	system( paste0( "mkdir -p " , SoutputDir ) )
 	system( paste0( "mkdir -p " , EoutputDir ) )
 	
-	if(0)
-	{
-	  starShort( genomeDir , SR1 , SR2 , SoutputDir )
-	  starLong( genomeDir , LR , LoutputDir )
-	  genome = readDNAStringSet(ref)
-	}
+	starShort( genomeDir , SR1 , SR2 , SoutputDir )
+	starLong( genomeDir , LR , LoutputDir )
+	genome = readDNAStringSet(ref)
 	
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
 	LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
@@ -47,12 +46,12 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	LRtag = LRinfo$LRtag
 	
 	#matchedLS = matchLSjunc( LRjunc , SRjunc )
-	P = gridSearch( LRjunc , SRjunc , thresSR , thresDis , matchedLS=NULL )
+	score = gridSearch( LRjunc , SRjunc , thresSR , thresDis , adjustNCjunc , matchedLS=NULL )
 	
-	ij = which( P==max(P) , arr.ind=T )
+	ij = which( score==max(score) , arr.ind=T )
 	ts = thresSR[ ij[1,1] ]
 	td = thresDis[ ij[1,2] ]
-	cat( ts , td , P[ij] , '\n ')
+	cat( ts , td , score[ij] , '\n ')
 	
 	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRread  , ts , td , matchedLS=NULL )
 	
@@ -68,7 +67,7 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	juncCorr = cor.test(srCount,lrCount,method='spearman')$estimate
 	cols = sapply( juncExp$motif , function(x) ifelse(x==0,1,2) )
 	cols[juncExp$motif==1] = 3
-	plot( lrCount , srCount , col=cols , pch=16 , main=paste0("JuncExp by Long and Short Reads: r=",signif(juncCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
+	plot( lrCount , srCount , col=cols , pch=17 , main=paste0("JuncExp by Long and Short Reads: r=",signif(juncCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
 	abline(lm( srCount~lrCount ))
 	
 	par(mfrow=c(2,1))
@@ -107,27 +106,15 @@ STAR2bSMRT = function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0
 	pdf( "gridSeach.pdf" )
 	heatmap( P , Rowv = NA, Colv = NA, scale='none' )
 	dev.off()
-	
-	
+
 	###############################################################################################################
 	isoformNum = sum(sapply(correction,function(x)x$num))
 	isoformFrac = mean(sapply(correction,function(x)x$frac))
 	info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , translated=sum(seq$translated) , juncCorr , LSQuantCorr , LSQuantPval )
 	write.table(info,"summary.txt",quote=F,sep="\t",col.names=T,row.names=F)
 	
-	
 
 }
-
-
-
-
-#setwd(SoutputDir)
-#system( paste0( "samtools view alignments.bam " , chrom,":",s,"-",e," > cut.bam" ) )
-#system( "samtools sort -n cut.bam cut.bam.qsort" )
-#system( "bedtools bamtofastq -i cut.bam.qsort.bam -fq cut.R1.fastq -fq2 cut.R2.fastq")
-
-
 
 
 
