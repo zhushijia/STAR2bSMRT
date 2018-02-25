@@ -4,11 +4,13 @@
 \alias{STAR2bSMRT}
 \title{STAR2bSMRT}
 \usage{
-STAR2bSMRT(genomeDir, LR, SR1, SR2, outputDir, adjustNCjunc, chrom = NULL,
-  s = 0, e = Inf, cores = 1)
+STAR2bSMRT(genomeDir, genomeFasta, LR, SR1, SR2, thresSR, thresDis, outputDir,
+  adjustNCjunc, chrom = NULL, s = 0, e = Inf, cores = 1)
 }
 \arguments{
 \item{genomeDir}{}
+
+\item{genomeFasta}{}
 
 \item{LR}{}
 

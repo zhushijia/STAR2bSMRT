@@ -1,9 +1,12 @@
 #' STAR2bSMRT
 #'
 #' @param genomeDir 
+#' @param genomeFasta 
 #' @param LR 
 #' @param SR1 
 #' @param SR2 
+#' @param thresSR
+#' @param thresDis
 #' @param outputDir 
 #' @param adjustNCjunc 
 #' @param chrom 
@@ -16,7 +19,7 @@
 #'
 #' @examples
 #' 
-STAR2bSMRT <- function( genomeDir , LR , SR1 , SR2 , outputDir , adjustNCjunc , chrom=NULL , s=0 , e=Inf , cores=1 )
+STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , thresDis , outputDir , adjustNCjunc , chrom=NULL , s=0 , e=Inf , cores=1 )
 {
 
 	library(Biostrings)
@@ -34,7 +37,7 @@ STAR2bSMRT <- function( genomeDir , LR , SR1 , SR2 , outputDir , adjustNCjunc , 
 	
 	starShort( genomeDir , SR1 , SR2 , SoutputDir )
 	starLong( genomeDir , LR , LoutputDir )
-	genome = readDNAStringSet(ref)
+	genome = readDNAStringSet(genomeFasta)
 	
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
 	LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
