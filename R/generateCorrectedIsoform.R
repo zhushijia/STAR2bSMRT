@@ -2,6 +2,7 @@
 #'
 #' @param LRjunc 
 #' @param SRjunc 
+#' @param LRtag
 #' @param LRread 
 #' @param ts 
 #' @param td 
@@ -13,7 +14,7 @@
 #' @examples
 #' 
 #' 
-generateCorrectedIsoform = function( LRjunc , SRjunc, LRread  , ts , td , matchedLS=NULL )
+generateCorrectedIsoform = function( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS=NULL )
 {
   
   CHR = intersect( names(SRjunc) , names(LRjunc) )

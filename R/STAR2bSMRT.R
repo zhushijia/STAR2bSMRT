@@ -56,7 +56,7 @@ STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , th
 	td = thresDis[ ij[1,2] ]
 	cat( ts , td , score[ij] , '\n ')
 	
-	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRread  , ts , td , matchedLS=NULL )
+	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS=NULL )
 	
 	setwd( EoutputDir )
 	
