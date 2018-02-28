@@ -15,5 +15,5 @@ kallistoQuant = function( transcript , SR1 , SR2 , outputDir )
 	func = paste0("source " , STAR2bSMRT.dir , "/data/kallistoQuant.sh")
 	sh = paste( func , transcript , SR1 , SR2 , outputDir  )
 	runSH(sh)
-	read.table( "output/abundance.tsv" , header=T )
+	read.table( paste0(outputDir,"/output/abundance.tsv") , header=T )
 }

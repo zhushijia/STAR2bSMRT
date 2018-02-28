@@ -17,9 +17,6 @@ exp = lapply( gffs , function(x) {
 }   )
 
 
-
-
-
 setwd("/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/result/pipeline_nonAdjustNCjunc")
 
 ss = length(gffs)

@@ -21,6 +21,6 @@ readGff <- function( file , chrom , s , e )
   if( !is.null(chrom) )
     exon = subset( exon , chr==chrom )
   
-  split( exon[,4:5] , exon[,9] )
+  split( exon[,c(1,4:5)] , exon[,9] )
   
 }
