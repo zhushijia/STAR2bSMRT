@@ -17,8 +17,12 @@ exp = lapply( gffs , function(x) {
 }   )
 
 
-ss = length(gffs)
+
+
+
 setwd("/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/result/pipeline_nonAdjustNCjunc")
+
+ss = length(gffs)
 png('gff_overlap.png',h=4200,w=4000)
 par(mfrow=c(ss,ss))
 

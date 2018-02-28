@@ -22,6 +22,7 @@ writeGff <- function( isoform , file = "" , exp , chrom , s , e )
     junc$end = junc$end+1
     junc = rbind( data.frame(chr=chr,start=0,end=s) , junc, data.frame(chr=chr,start=e,end=Inf) )
     exon = data.frame( chr=junc$chr[-1] , start=junc$end[-nrow(junc)] , end=junc$start[-1] )
+    exon
   } )
   names(exons) = paste0("SS",1:length(exons),"_exp",exp)
   
