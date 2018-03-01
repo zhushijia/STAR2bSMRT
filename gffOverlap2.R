@@ -28,7 +28,7 @@ for(i in 1:ss)
 {
   for(j in 1:ss)
   {
-    index = match(gffs[[i]],gffs[[j]])
+    index = matchGff(gffs[[i]],gffs[[j]])
     ei = exp[[i]][ !is.na(index) ] 
     ej = exp[[j]][ index[!is.na(index)] ]
     cc[i,j] = cor.test( ei , ej )$estimate
