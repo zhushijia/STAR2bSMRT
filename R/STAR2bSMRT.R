@@ -9,6 +9,7 @@
 #' @param thresDis
 #' @param outputDir 
 #' @param adjustNCjunc 
+#' @param fixedMatchedLS
 #' @param chrom 
 #' @param s 
 #' @param e
