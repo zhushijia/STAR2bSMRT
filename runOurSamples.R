@@ -7,9 +7,10 @@ e = 51259537
 cores = 30
 thresSR=c(1:100) 
 thresDis=c(1:30)
-adjustNCjunc=FALSE
+adjustNCjunc=TRUE
 fixedMatchedLS=TRUE
-folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_fixedMatchedLS_nonAdjustNCjunc/"
+folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_fixedMatchedLS_adjustNCjunc/"
+system( paste("mkdir -p",folder) )
 
 ########################################################################################################################
 ##########################################   Miseq  ####################################################################
