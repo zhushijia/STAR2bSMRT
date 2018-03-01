@@ -4,7 +4,7 @@
 \alias{writeGff}
 \title{writeGff}
 \usage{
-writeGff(isoform, file = "", exp, chrom, s, e)
+writeGff(isoform, file = "")
 }
 \arguments{
 \item{isoform}{}

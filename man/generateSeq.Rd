@@ -4,7 +4,7 @@
 \alias{generateSeq}
 \title{generateSeq}
 \usage{
-generateSeq(genome, isoform, exp, chrom, s, e)
+generateSeq(genome, isoform)
 }
 \arguments{
 \item{genome}{}
@@ -16,7 +16,7 @@ generateSeq(genome, isoform, exp, chrom, s, e)
 \item{e}{}
 }
 \description{
-generateSeq generates the transcript sequence
+generateSeq generates the transcript sequence from exon list
 }
 \examples{
 
