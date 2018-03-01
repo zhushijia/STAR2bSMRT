@@ -1,6 +1,6 @@
-#' generateSeqFromExon
+#' generateSeq
 #'
-#' generateSeqFromExon generates the transcript sequence from exon list
+#' generateSeq generates the transcript sequence from exon list
 #' 
 #' @param genome 
 #' @param isoform
@@ -15,7 +15,7 @@
 #' @examples
 #' 
 #' 
-generateSeqFromExon = function( genome , isoform )
+generateSeq = function( genome , isoform )
 {
 	
 	dna = lapply( isoform , function(exon) {

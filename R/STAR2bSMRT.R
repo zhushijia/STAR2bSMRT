@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' 
-STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , thresDis , outputDir , adjustNCjunc , chrom=NULL , s=0 , e=Inf , cores=1 )
+STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom=NULL , s=0 , e=Inf , cores=1 )
 {
 
 	library(Biostrings)
@@ -48,15 +48,21 @@ STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , th
 	LRjunc = LRinfo$LRjunc
 	LRtag = LRinfo$LRtag
 	
-	#matchedLS = matchLSjunc( LRjunc , SRjunc )
-	score = gridSearch( LRjunc , SRjunc , thresSR , thresDis , adjustNCjunc , matchedLS=NULL )
+	if( fixedMatchedLS )
+	{
+	  matchedLS = matchLSjunc( LRjunc , SRjunc )
+	} else {
+	  matchedLS = NULL
+	}
+	
+	score = gridSearch( LRjunc , SRjunc , thresSR , thresDis , adjustNCjunc , matchedLS )
 	
 	ij = which( score==max(score) , arr.ind=T )
 	ts = thresSR[ ij[1,1] ]
 	td = thresDis[ ij[1,2] ]
 	cat( ts , td , score[ij] , '\n ')
 	
-	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS=NULL )
+	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS )
 	
 	setwd( EoutputDir )
 	
@@ -82,10 +88,13 @@ STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , th
 	
 	###############################################################################################################
 	gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
-	writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
+	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , exp=correction[[chrom]]$exp )
+	#writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
+	writeGff( isoform=exonList , file = gffName )
 	
 	###############################################################################################################
-	seq = generateSeq( genome=genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411  )
+	#seq = generateSeq( genome=genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411  )
+	seq = generateSeq( genome=genome , isoform=exonList )
 	fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
 	writeXStringSet( seq$dna , fastaName )
 	#writeXStringSet( seq$dna[seq$translated] , fastaName )
