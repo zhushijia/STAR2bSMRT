@@ -1,7 +1,7 @@
 library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone2/setup")
 
-folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/"
-setwd(folder)
+parent="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/"
+setwd(parent)
 samples= dir()
 samples = samples[samples!="combinedSamples"]
 
@@ -14,7 +14,7 @@ gffs = lapply( samples , function(sample)
 names(gffs) = samples
 
 
-setwd("/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/combinedSamples")
+setwd( paste0(parent,"combinedSamples") )
 allgff = gffs[[1]]
 for(i in 2:5)
 {
@@ -32,8 +32,8 @@ writeXStringSet( fa[which(seq$translated)] , "translatedIsoform.fa" )
 writeXStringSet( fa[sapply(seq$dna,nchar)<5000] , "allIsoforms.fa" )
 
 
-fastaName = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/combinedSamples/allIsoforms.fa"
-folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/combinedSamples/allIsoforms/"
+fastaName = paste0(parent,"combinedSamples/translatedIsoform.fa")
+folder=paste0(parent,"combinedSamples/translatedIsoform/")
 
 kallisto = list()
 sample = "581"
@@ -67,6 +67,14 @@ outputDir=paste0(folder,sample)
 kallisto[[sample]] = kallistoQuant( fastaName , SR1 , SR2 , outputDir )
 
 
+
+kallisto = list()
+samples = c("581","641","2607","553","642")
+kallisto = lapply( samples , function(sample) read.table(paste0(parent,"combinedSamples/allIsoforms/",sample,"/output/abundance.tsv"),sep="\t",header=T)   )
+
+setwd(folder)
+png("corrLongandShortReadQuant.png",h=3000,w=3000,res=200)
+par(mfrow=c(3,3))
 gffOfInterest = allgff[seq$translated]
 tpm = sapply(kallisto,function(x)x$tpm)
 sapply( 1:length(kallisto) , function(i) {
@@ -76,9 +84,11 @@ sapply( 1:length(kallisto) , function(i) {
   range = range[!is.na(range)]
   r = cor.test( log(exp+1) , log(tpm[range,i]+1) )$estimate
   p = cor.test( log(exp+1) , log(tpm[range,i]+1) )$p.val
+  plot(log(exp+1) , log(tpm[range,i]+1))
   c(r,p,length(range))
-
+  
 } )
 
+dev.off()
 
 
