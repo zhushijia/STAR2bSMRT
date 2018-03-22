@@ -7,9 +7,9 @@ e = 51259537
 cores = 30
 thresSR=c(1:100) 
 thresDis=c(1:30)
-adjustNCjunc=TRUE
-fixedMatchedLS=TRUE
-folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_fixedMatchedLS_adjustNCjunc/"
+adjustNCjunc=FALSE
+fixedMatchedLS=FALSE
+folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/"
 system( paste("mkdir -p",folder) )
 
 ########################################################################################################################
@@ -108,6 +108,7 @@ LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smr
 SR1="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/ShortReads/Sample_581-2-1-FBN/Sample_581-2-1-FBN.R1.fastq"
 SR2="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/ShortReads/Sample_581-2-1-FBN/Sample_581-2-1-FBN.R2.fastq"
 outputDir=paste0(folder,"581-2-1")
+STAR2bSMRT( genomeDir , genomeFasta , LR , SR1 , SR2 , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom , s , e , cores)
 
 
 genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
@@ -115,6 +116,7 @@ LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smr
 SR1="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/ShortReads/Sample_641-6-2-FBN/Sample_641-6-2-FBN.R1.fastq"
 SR2="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/ShortReads/Sample_641-6-2-FBN/Sample_641-6-2-FBN.R2.fastq"
 outputDir=paste0(folder,"641-6-2")
+STAR2bSMRT( genomeDir , genomeFasta , LR , SR1 , SR2 , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom , s , e , cores)
 
 
 genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
@@ -122,6 +124,7 @@ LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smr
 SR1="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/ShortReads/Sample_2607-2-1-FBN/Sample_2607-2-1-FBN.R1.fastq"
 SR2="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/ShortReads/Sample_2607-2-1-FBN/Sample_2607-2-1-FBN.R2.fastq"
 outputDir=paste0(folder,"2607-2-1")
+STAR2bSMRT( genomeDir , genomeFasta , LR , SR1 , SR2 , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom , s , e , cores)
 
 
 genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
@@ -129,5 +132,6 @@ LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smr
 SR1="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/ShortReads/Sample_553-1-1-FBN/Sample_553-1-1-FBN.R1.fastq"
 SR2="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/ShortReads/Sample_553-1-1-FBN/Sample_553-1-1-FBN.R1.fastq"
 outputDir=paste0(folder,"553-1-1")
+STAR2bSMRT( genomeDir , genomeFasta , LR , SR1 , SR2 , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom , s , e , cores)
 
 
