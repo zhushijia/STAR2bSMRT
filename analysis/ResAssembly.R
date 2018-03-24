@@ -58,7 +58,7 @@ LSjuncCount = subset(correction$chr2$LSjuncCount,lrCount>=50)
 sj = LSjuncCount$srCount
 lj = LSjuncCount$lrCount
 
-fit = glm( sj ~ lj , family=quasipoisson(link="log") )
+fit = glm( sj ~ log(lj) , family=quasipoisson() )
 res = residuals(fit,type="response" )
 predicts = predict(fit,type="response" )
 data.frame(sj,lj,predicts,res)
@@ -67,8 +67,8 @@ data.frame(sj,lj,predicts,res)
 
 fit = lm( log(sj) ~ log(lj) )
 res = residuals(fit)
-predicts = predict(fit)
-data.frame(LSjuncCount,exp(predicts),sj-exp(predicts))
+predicts = predict(fit) + min(res)
+data.frame(sj , lj , as.integer(sj-exp(predicts)) )
 
 data.frame(sj,lj,predicts,res)
 
