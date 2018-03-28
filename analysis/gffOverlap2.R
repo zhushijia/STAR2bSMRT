@@ -3,7 +3,7 @@ library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/S
 folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/"
 setwd(folder)
 samples= dir()
-samples = samples[samples!="combinedSamples"]
+samples= c("2607","553","581","641","642","NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13","fetal")
 
 gffs = lapply( samples , function(sample)
 {
@@ -72,9 +72,20 @@ vennDiagramGff(mergeGffs[2:4] , filename ="vennDiagram_patient_humanbrain.png" )
 
 
 
+library(Biostrings)
+ref = "/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/hg19/reference/hg19.fa"
+genome = readDNAStringSet(ref)
+mergeSeq = lapply( mergeGffs , function(x) generateSeq( genome , isoform=x ) )
 
+range =c(1:3)
+x = lapply( range , function(i) mergeGffs[[i]][ mergeSeq[[i]]$translated ] )
+names(x) = names( mergeGffs )[range]
+vennDiagramGff( x , filename ="vennDiagram_hiPSC_humanbrain_translated.png" )
 
-
+range =c(2:4)
+x = lapply( range , function(i) mergeGffs[[i]][ mergeSeq[[i]]$translated ] )
+names(x) = names( mergeGffs )[range]
+vennDiagramGff( x , filename ="vennDiagram_patient_humanbrain_translated.png" )
 
 
 
