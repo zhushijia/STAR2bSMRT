@@ -70,8 +70,8 @@ dendrogram_pca = function( range , y , fileName )
 }
 
 dendrogram_pca( c(1:9) , allGff , "dendrogram_allGffs.pdf" )
-dendrogram_pca( c(1:9) , allGff , "dendrogram_allTranslatedGffs.pdf" )
-dendrogram_pca( c(1:2,5:9) , allGff[allSeq$translated] , "dendrogram_partGffs.pdf" )
+dendrogram_pca( c(1:9) , allGff[allSeq$translated] , "dendrogram_allTranslatedGffs.pdf" )
+dendrogram_pca( c(1:2,5:9) , allGff , "dendrogram_partGffs.pdf" )
 dendrogram_pca( c(1:2,5:9) , allGff[allSeq$translated] , "dendrogram_partTranslatedGffs.pdf" )
 
 
