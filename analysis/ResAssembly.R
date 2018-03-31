@@ -3,24 +3,23 @@ library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/S
 library(Biostrings)
 library(foreach)
 library(doMC)
-registerDoMC(cores)
+
 
 genomeFasta = "/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/hg19/reference/hg19.fa"
 chrom = "chr2"
 s = 50147488
 e = 51259537
 cores = 30
+registerDoMC(cores)
+
 thresSR=c(1:100) 
 thresDis=c(1:30)
 adjustNCjunc=FALSE
 fixedMatchedLS=TRUE
-folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/"
+folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/"
 system( paste("mkdir -p",folder) )
 genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
-LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smrtportal_24463_2607/polished_high_qv_consensus_isoforms.fasta"
-SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/2607/2607.R1.fastq"
-SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/2607/2607.R2.fastq"
-outputDir=paste0(folder,"2607")
+outputDir=paste0(folder,"553")
 
 LoutputDir = paste0(outputDir,"/LR")
 SoutputDir = paste0(outputDir,"/SR")
@@ -33,6 +32,7 @@ system( paste0( "mkdir -p " , EoutputDir ) )
 SRalignment = paste0(SoutputDir,"/alignments.bam")
 LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 
+LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smrtportal_24459_553/polished_high_qv_consensus_isoforms.fasta"
 SRjunc = getJunc( SRalignment , SoutputDir , chrom , s= 50147488 , e = 51259537 )
 LRinfo = getLRinfo( LRalignment , LR , LoutputDir , chrom , s= 50147488 , e = 51259537 )
 LRread = LRinfo$LRread
@@ -58,7 +58,7 @@ LSjuncCount = subset(correction$chr2$LSjuncCount,lrCount>=50)
 sj = LSjuncCount$srCount
 lj = LSjuncCount$lrCount
 
-fit = glm( sj ~ log(lj) , family=quasipoisson() )
+fit = glm( sj ~ log(lj) , family=poisson() )
 res = residuals(fit,type="response" )
 predicts = predict(fit,type="response" )
 data.frame(sj,lj,predicts,res)
@@ -68,9 +68,9 @@ data.frame(sj,lj,predicts,res)
 fit = lm( log(sj) ~ log(lj) )
 res = residuals(fit)
 predicts = predict(fit) + min(res)
-data.frame(sj , lj , as.integer(sj-exp(predicts)) )
+data.frame( sj , lj ,exp(predicts), as.integer(sj-exp(predicts)) )
 
-data.frame(sj,lj,predicts,res)
+data.frame(sj,lj,exp(predicts),res)
 
 
 
