@@ -1,5 +1,5 @@
 echo "stringTie isoform assembly ... ... "
-echo "SR: $1"
+echo "alignment bam or sam: $1"
 echo "annotation gtf or gff: $2"
 echo "outputDir: $3"
 
