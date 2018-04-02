@@ -67,5 +67,7 @@ cor(log(exp),log(tpm))
 alignments="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/641/SR/alignments.bam"
 gff="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/641/Exp/isoform_ts5_td17.gff"
 outputDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/641/SR/"
-. /hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone2/STAR2bSMRT/data/stringTie.sh $alignments $gff $outputDir
+cd $outputDir
+samtools view -Su $alignments | samtools sort - $alignments.sorted
+stringtie $alignments.sorted.bam -G $gff -o stringtie.gtf -p 4 -v -C stringtie.coverage -A stringtie.abundance
 
