@@ -26,6 +26,28 @@ readspertx = round( 100*exp * width(fasta) / readlen )
 simulate_experiment('E2.fa', readlen=readlen , reads_per_transcript=readspertx, 
                     num_reps=c(1,1), fold_changes=fold_changes, outdir='simulated_reads') 
 
+gff=readGff("/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/SIRV/reference/SIRV_Set1_Sequences_170612a/SIRV_isoforms_multi-fasta-annotation_C_170612a.gff",chrom=NULL,s=0,e=Inf)
+junc = lapply( 1:length(gff), function(i) {
+  x = gff[[i]]
+  e = exp[i]
+  tag = paste( x[-nrow(x),1] , x[-nrow(x),3]+1 , x[-1,2]-1 )
+  if(length(tag)>0)
+  {
+    data.frame(tag,e)
+  } else {
+    NULL
+  }
+} )
+LRjunc1 = do.call(rbind,junc)
+x = tapply(LRjunc1[,2],LRjunc1[,1],sum)
+LRjunc1 = data.frame( tag=names(x) , e=x )
+LRjunc2 = do.call(rbind,LRjunc)
+LRjunc2 = data.frame( tag=paste(LRjunc2[,2],LRjunc2[,3],LRjunc2[,4]) , e=LRjunc2[,1] )
+LRjunc2 = LRjunc2[ match( as.character(LRjunc1[,1]) , as.character(LRjunc2[,1]) ) ,  ]
+LRjunc2 = LRjunc2[!is.na(LRjunc2$e),]
+LRjunc1 = LRjunc1[ match( as.character(LRjunc2[,1]) , as.character(LRjunc1[,1]) ) ,  ]
+cor( LRjunc1$e , LRjunc2$e )
+
 
 
 
