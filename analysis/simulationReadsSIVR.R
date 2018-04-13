@@ -65,7 +65,7 @@ fixedMatchedLS=FALSE
 genomeDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/SIRV/reference/SIRV_Set1_Sequences_170612a/STAR_index"
 SR1="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/SIRV/simulation/E2_simulation/simulated_reads/sample_01_1.fasta"
 SR2="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/SIRV/simulation/E2_simulation/simulated_reads/sample_01_2.fasta"
-outputDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/SIRV/result/E2_Nanopore/starLong/SRR5286959"
+outputDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/SIRV/result/E2_Nanopore/starLong/SRR5286956_Lexogen_100fg_2_Smartseq2_ONT"
 
 LoutputDir = paste0(outputDir,"/LR")
 SoutputDir = paste0(outputDir,"/SR")
@@ -75,7 +75,7 @@ system( paste0( "mkdir -p " , LoutputDir ) )
 system( paste0( "mkdir -p " , SoutputDir ) )
 system( paste0( "mkdir -p " , EoutputDir ) )
 
-starShort( genomeDir , SR1 , SR2 , SoutputDir )
+#starShort( genomeDir , SR1 , SR2 , SoutputDir )
 
 SRalignment = paste0(SoutputDir,"/alignments.bam")
 LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
