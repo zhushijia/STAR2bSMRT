@@ -1,3 +1,11 @@
+module load sratoolkit/2.8.0
+cd /hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/SIRV/E2_Nanopore/
+fastq-dump -Z SRR5286956 > SRR5286956_Lexogen_100fg_2_Smartseq2_ONT.fastq
+fastq-dump -Z SRR5286957 > SRR5286957_Lexogen_100fg_1_Smartseq2_ONT.fastq
+fastq-dump -Z SRR5286958 > SRR5286958_Lexogen_10fg_2_Smartseq2_ONT.fastq
+fastq-dump -Z SRR5286959 > SRR5286959_Lexogen_10fg_1_Smartseq2_ONT.fastq
+
+
 
 module load minimap2/r572
 ref="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/SIRV/reference/SIRV_Set1_Sequences_170612a/SIRV_isoforms_multi-fasta_170612a.fasta"
