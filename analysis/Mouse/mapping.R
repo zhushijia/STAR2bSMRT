@@ -1,5 +1,7 @@
 library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone2/setup")
 library(Biostrings)
+library(foreach)
+library(doMC)
 
 cores = 30
 thresSR=c(1:100) 
@@ -9,6 +11,8 @@ fixedMatchedLS=TRUE
 chrom="chr17"
 s= 90036900
 e = 91089605
+registerDoMC(cores)
+
 
 
 genomeDir="/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/gencode/GRCm38.p5/genome/StarIndexUsingPrimaryGtf"
