@@ -11,9 +11,15 @@
 #' @export
 #'
 #' @examples
-getLRinfo3 = function( alignments , phqv=NULL , outputDir , chrom , s , e )
+getLRinfo3 = function( alignments , phqv=NULL , outputDir , chrom , s , e , jI=TRUE )
 {
-  LRread = getRead( alignments , outputDir )
+  if( jI )
+  {
+    LRread = getRead( alignments , outputDir )
+  } else {
+    LRread = getRead_sam( alignments , outputDir )
+  }
+  
   
   if( !is.null(phqv) )
   {

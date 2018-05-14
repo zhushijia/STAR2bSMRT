@@ -1,4 +1,4 @@
-getRead = function( alignments , outputDir )
+getRead_sam = function( alignments , outputDir )
 {
   
   thres = 20
@@ -34,14 +34,15 @@ getRead = function( alignments , outputDir )
     sep = strsplit(read,"\t")[[1]]
     s = as.integer(sep[4])
     cigar = parseCigar(sep[6])
-    readLen = with( cigar , sum( num[ Op%in%c('M','I','S','=','X') ] ) )
-    
+    #readLen = with( cigar , sum( num[ Op%in%c('M','I','S','=','X') ] ) )
     cigar = subset( cigar , !Op%in%c("I","S") )
+    regionLen = sum( cigar$num )
     index = which( cigar[,1]>thres & as.character(cigar[,2]) %in% c("N","D") )
     
     if( length(index) > 0 )
     {
       num = num + 1
+      cat(num,"\n")
       juncL = c()
       juncR = c()
       
@@ -53,19 +54,26 @@ getRead = function( alignments , outputDir )
       
       id[num] = sep[1]
       chr[num] = sep[3]
-      strand[num] = sep[2]
-      start[num] = as.integer(sep[4])
-      end[num] = start + readLen
+      strand[num] = NA
+      start[num] = as.integer(sep[4]) - 1 # to match bamToBed
+      end[num] = start[num] + regionLen 
       junc[num] = paste(apply(data.frame(juncL,juncR),1,function(x)paste(x,collapse=",")) , collapse="," )
 
     }
     
     read = readLines(sam,n=1)
-    read
+    
   }
   
   close(sam)
   
-  data.frame( id , chr , strand , start , end , junc )
-
+  alignments.read = data.frame( id , chr , strand , start , end , junc )
+  
+  write.table( alignments.read , paste0(outputDir,"/alignments.read") , col.names=TRUE , row.names=FALSE , sep="\t" , quote=FALSE )
+  
+  return(alignments.read)
+  
 }
+
+
+
