@@ -6,7 +6,7 @@ library(doMC)
 cores = 30
 thresSR=c(1:100) 
 thresDis=c(1:30)
-adjustNCjunc=FALSE
+adjustNCjunc=TRUE
 fixedMatchedLS=FALSE
 chrom="chr17"
 s= 90036900
@@ -49,6 +49,8 @@ td = thresDis[ ij[1,2] ]
 cat( ts , td , score[ij] , '\n ')
 
 correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS )
+correction[[1]]$frac
+correction[[1]]$num
 
 setwd( EoutputDir )
 

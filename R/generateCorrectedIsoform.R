@@ -33,7 +33,7 @@ generateCorrectedIsoform = function( LRjunc , SRjunc, LRtag , LRread  , ts , td 
       index = which( SRmatch[,'LSdis']<=td & src$count[SRmatch[,'SRindex']]>=ts ) 
     } else {
       src = subset( src , count>=ts )
-      SRmatch = matchLSjuncOneChr( lrc , src )
+      SRmatch = matchLSjuncOneChr( lrc , src , fuzzyMatch=TRUE)
       index = which( SRmatch[,'LSdis']<=td ) 
     }
     
