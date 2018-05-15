@@ -6,7 +6,7 @@ library(doMC)
 cores = 30
 thresSR=c(1:100) 
 thresDis=c(1:30)
-adjustNCjunc=TRUE
+adjustNCjunc=FALSE
 fixedMatchedLS=FALSE
 chrom="chr17"
 s= 90036900
@@ -16,6 +16,8 @@ registerDoMC(cores)
 
 outputDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/SRR1184043"
 
+
+outputDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/STAR2bSMRT"
 LoutputDir = paste0(outputDir,"/LR")
 SoutputDir = paste0(outputDir,"/SR")
 EoutputDir = paste0(outputDir,"/Exp")
