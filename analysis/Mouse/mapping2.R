@@ -74,43 +74,21 @@ barplot( log10fc , cex.names=0.6 , col=cols , ylab="log10(lrCount/srCount)", nam
 
 dev.off()
 
-###############################################################################################################
-gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
-exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , exp=correction[[chrom]]$exp )
-#writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
-writeGff( isoform=exonList , file = gffName )
 
-###############################################################################################################
-#seq = generateSeq( genome=genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411  )
-seq = generateSeq( genome=genome , isoform=exonList )
-fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
-writeXStringSet( seq$dna , fastaName )
-#writeXStringSet( seq$dna[seq$translated] , fastaName )
 
-###############################################################################################################
-kallisto = kallistoQuant( fastaName , SR1 , SR2 , EoutputDir )
 
-Sexp = log10(kallisto$tpm+1)
-Lexp = log10(correction[['chr2']]$exp+1)
-LSQuantCorr = cor.test(Lexp,Sexp)$estimate
-LSQuantPval = cor.test(Lexp,Sexp)$p.val
+t = t+1
+x = tag[[t]]
+y = x[ !x%in%correctTag ]
+tt = paste(LRjunc[[1]][,3],LRjunc[[1]][,4],sep=",")
+ind = SRmatch[tt%in%y , ]
+ind
+src[ind[,1],]
+src[ind[1],]
+y
 
-###############################################################################################################
-pdf( paste0( "Quant_LR_ts",ts,"_td",td,".pdf") )
-cols = sapply( seq$translated , function(x) ifelse(x,2,1) )
-plot( Lexp , Sexp , pch=16 , col=cols , main=paste0("Quantification by Long and Short Reads: r=",signif(LSQuantCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
-abline(lm( Sexp~Lexp ))
-dev.off()
 
-###############################################################################################################
-pdf( "gridSeach.pdf" )
-heatmap( score , Rowv = NA, Colv = NA, scale='none' )
-dev.off()
 
-###############################################################################################################
-isoformNum = sum(sapply(correction,function(x)x$num))
-isoformFrac = mean(sapply(correction,function(x)x$frac))
-info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , translated=sum(seq$translated) , juncCorr , LSQuantCorr , LSQuantPval )
-write.table(info,"summary.txt",quote=F,sep="\t",col.names=T,row.names=F)
+
 
 
