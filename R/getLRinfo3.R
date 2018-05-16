@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-getLRinfo3 = function( alignments , phqv=NULL , outputDir , chrom , s , e , jI=TRUE )
+getLRinfo3 = function( alignments , phqv=NULL , outputDir , chrom=NULL , s=0 , e=Inf , jI=TRUE )
 {
   if( jI )
   {
