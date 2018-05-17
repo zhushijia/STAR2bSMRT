@@ -5,7 +5,7 @@ library(doMC)
 
 cores = 30
 thresSR=c(1:500) 
-thresDis=c(1:30)
+thresDis=c(1:20)
 adjustNCjunc=TRUE  # TRUE and FALSE ts=408 td=15 num=281 frac=0.5069613
 fixedMatchedLS=FALSE
 chrom="chr17"
@@ -31,6 +31,12 @@ LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 
 
 SRjunc = getJunc( SRalignment , SoutputDir , chrom="chr17" , s= 90036900 , e = 91089605 )
+
+SJ.out.tab = read.table( paste0(SoutputDir,"/SJ.out.tab") , sep="\t")
+SJ.out.tab = with( SJ.out.tab , data.frame(count=V7, chr=V1, start=V2, end=V3, motif=V5) )
+SRjunc$chr17 = subset(SJ.out.tab , chr=="chr17" & start >= 90036900 & end <= 91089605 )
+
+
 LRinfo = getLRinfo3( LRalignment , NULL , LoutputDir , chrom="chr17" , s= 90036900 , e = 91089605 , jI=TRUE)
 LRread = LRinfo$LRread
 LRjunc = LRinfo$LRjunc
@@ -95,8 +101,60 @@ writeGff( isoform=exonList , file = gffName )
 tag = lapply( exonList , function(x) apply(x,1,function(y) paste(y[2:3],collapse=",")) )
 annot_tag = apply(annotation,1,function(y) paste(y[1:2],collapse=",") )
 
-lapply(tag,function(x) as.character(annotation$Annotation)[ match(x,annot_tag) ]   )
+exonNames = lapply(tag,function(x) as.character(annotation$Annotation)[ match(x,annot_tag) ]   )
+sapply( exonNames, function(x) all(!is.na(x)) )
+table(do.call(c,sapply( 1:length(tag), function(i) tag[[i]][is.na(exonNames[[i]])] )))
 
+
+#######################################################################################################
+# check consistency with hiPSC
+
+hiPSCGff = unionGff(unionGff(gffs[[6]],gffs[[7]]),gffs[[8]])
+hiPSCtag = lapply( hiPSCGff , function(x) apply(x,1,function(y) paste(y[2:3],collapse=",")) )
+#humanAnnot = annotation
+hiPSCannot_tag = apply(humanAnnot,1,function(y) paste(y[2:3],collapse=",") )
+hiPSCexonNames = lapply(hiPSCtag,function(x) as.character(humanAnnot$Exon)[ match(x,hiPSCannot_tag) ]   )
+humanRef = "/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/hg19/reference/hg19.fa"
+genome = readDNAStringSet(humanRef)
+hiPSCSeq = generateSeq( genome , isoform=hiPSCGff )
+
+hiPSCexonNames[hiPSCSeq$translated]
+
+frac = function(gs,annot_sites)
+{
+  sapply(annot_sites,function(x) {
+    max( sapply(gs,function(y) mean(x%in%y)) )
+  } )
+}
+
+humanannot_sites = apply(humanAnnot,1,function(z) z[2]:z[3] )
+hiPSCsites = lapply(hiPSCGff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
+hiPSCfrac = do.call(rbind,lapply( hiPSCsites , function(gs) frac(gs,humanannot_sites) ) )
+colnames(hiPSCfrac) = as.character(humanAnnot$Exon)
+colnames(hiPSCfrac) = gsub("a|b$","",colnames(hiPSCfrac))
+hiPSCfrac = hiPSCfrac[,1:25]
+hiPSCfrac1 = round(hiPSCfrac)
+hiPSCfrac2 = t(apply(hiPSCfrac,1,function(x) tapply(x,colnames(hiPSCfrac),function(y) round(max(y)) )))
+
+mouseGff = exonList
+mouseannot_sites = apply(mouseAnnot,1,function(z) z[1]:z[2] )
+mousesites = lapply(mouseGff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
+mousefrac = do.call(rbind,lapply( mousesites , function(gs) frac(gs,mouseannot_sites) ) )
+colnames(mousefrac) = as.character(mouseAnnot$Annotation)
+colnames(mousefrac) = gsub("a|b$","",colnames(mousefrac))
+mousefrac1 = round(mousefrac)
+mousefrac2 = t(apply(mousefrac,1,function(x) tapply(x,colnames(mousefrac),function(y) round(max(y)) )))
+colnames(hiPSCfrac2) == colnames(mousefrac2)
+
+hiPSCfrac1_tag = apply(hiPSCfrac1,1,paste,collapse=",")
+mousefrac1_tag = apply(mousefrac1,1,paste,collapse=",")
+
+hiPSCfrac2_tag = apply(hiPSCfrac2,1,paste,collapse=",")
+mousefrac2_tag = apply(mousefrac2,1,paste,collapse=",")
+
+sort(unique(hiPSCfrac2_tag)) %in% sort(unique(mousefrac2_tag))
+
+length(unique(hiPSCfrac_tag))
 
 
 
