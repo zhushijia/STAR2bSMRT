@@ -4,18 +4,15 @@ library(foreach)
 library(doMC)
 
 cores = 30
-thresSR=c(1:500) 
+thresSR=c(1:100) 
 thresDis=c(1:20)
-adjustNCjunc=TRUE  # TRUE and FALSE ts=408 td=15 num=281 frac=0.5069613
+adjustNCjunc=TRUE  # adjustNCjunc=TRUE/FALSE and fixedMatchedLS=FALSE ts=70 td=13 num=282 frac=0.497, when using SJ.out.tab
 fixedMatchedLS=FALSE
 chrom="chr17"
 s= 90036900
 e = 91089605
 registerDoMC(cores)
 
-annotation = read.table("/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/Mouse_NRXN1_Annotation.txt",sep="\t",header=T)
-annotation[6,2] = 90704367
-annot_juncs = data.frame( js=annotation[2:nrow(annotation),2]+1 , je=annotation[1:(nrow(annotation)-1),1]-1 )
 
 outputDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/STAR2bSMRT"
 LoutputDir = paste0(outputDir,"/LR")
@@ -60,14 +57,6 @@ correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , t
 correction[[1]]$frac
 correction[[1]]$num
 
-juncs = do.call(c,lapply(correction[[1]]$isoform[correction[[1]]$exp>2],function(x)paste(x[,2],x[,3],sep=",")))
-table(juncs)
-sort(unique(juncs))
-
-
-sites = c(sapply(strsplit(sort(unique(juncs)),","),function(x) as.integer(x)))
-
-
 #######################################################################################################
 setwd( EoutputDir )
 pdf( paste0( "JuncExp_LR_ts",ts,"_td",td,".pdf") )
@@ -96,29 +85,23 @@ writeGff( isoform=exonList , file = gffName )
 
 
 #######################################################################################################
-# check consistency with hiPSC
+# check consistency with human adult
 
-tag = lapply( exonList , function(x) apply(x,1,function(y) paste(y[2:3],collapse=",")) )
-annot_tag = apply(annotation,1,function(y) paste(y[1:2],collapse=",") )
+annotation = read.table("/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/Mouse_NRXN1_Annotation.txt",sep="\t",header=T)
+annotation[6,2] = 90704367
+annotation = with(annotation,data.frame( Exon=Annotation , Stop=ExonEnd, Start=ExonStart , Size=Size   ))
+mouseAnnot = annotation
 
-exonNames = lapply(tag,function(x) as.character(annotation$Annotation)[ match(x,annot_tag) ]   )
-sapply( exonNames, function(x) all(!is.na(x)) )
-table(do.call(c,sapply( 1:length(tag), function(i) tag[[i]][is.na(exonNames[[i]])] )))
+annotation = read.table('/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/NRXN1ExonAnnotations.txt',sep='\t',header=T)
+annotation[2,2] = annotation[3,3]+1
+annotation[25,3] = annotation[24,2]-1
+humanAnnot = annotation
 
+# load gff from the human analysis
+humanAdultGff = unionGff(unionGff(gffs[[6]],gffs[[7]]),gffs[[8]])
 
 #######################################################################################################
-# check consistency with hiPSC
-
-hiPSCGff = unionGff(unionGff(gffs[[6]],gffs[[7]]),gffs[[8]])
-hiPSCtag = lapply( hiPSCGff , function(x) apply(x,1,function(y) paste(y[2:3],collapse=",")) )
-#humanAnnot = annotation
-hiPSCannot_tag = apply(humanAnnot,1,function(y) paste(y[2:3],collapse=",") )
-hiPSCexonNames = lapply(hiPSCtag,function(x) as.character(humanAnnot$Exon)[ match(x,hiPSCannot_tag) ]   )
-humanRef = "/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/hg19/reference/hg19.fa"
-genome = readDNAStringSet(humanRef)
-hiPSCSeq = generateSeq( genome , isoform=hiPSCGff )
-
-hiPSCexonNames[hiPSCSeq$translated]
+# check consistency with human adult
 
 frac = function(gs,annot_sites)
 {
@@ -127,35 +110,67 @@ frac = function(gs,annot_sites)
   } )
 }
 
-humanannot_sites = apply(humanAnnot,1,function(z) z[2]:z[3] )
-hiPSCsites = lapply(hiPSCGff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
-hiPSCfrac = do.call(rbind,lapply( hiPSCsites , function(gs) frac(gs,humanannot_sites) ) )
-colnames(hiPSCfrac) = as.character(humanAnnot$Exon)
-colnames(hiPSCfrac) = gsub("a|b$","",colnames(hiPSCfrac))
-hiPSCfrac = hiPSCfrac[,1:25]
-hiPSCfrac1 = round(hiPSCfrac)
-hiPSCfrac2 = t(apply(hiPSCfrac,1,function(x) tapply(x,colnames(hiPSCfrac),function(y) round(max(y)) )))
+humanAnnot_sites = apply(humanAnnot,1,function(z) z[2]:z[3] )
+human_sites = lapply(humanAdultGff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
+human_frac = do.call(rbind,lapply( human_sites , function(gs) frac(gs,humanAnnot_sites) ) )
+colnames(human_frac) = as.character(humanAnnot$Exon)
+#colnames(human_frac) = gsub("a|b$","",colnames(human_frac))
+human_frac = human_frac[,1:25]
 
 mouseGff = exonList
-mouseannot_sites = apply(mouseAnnot,1,function(z) z[1]:z[2] )
-mousesites = lapply(mouseGff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
-mousefrac = do.call(rbind,lapply( mousesites , function(gs) frac(gs,mouseannot_sites) ) )
-colnames(mousefrac) = as.character(mouseAnnot$Annotation)
-colnames(mousefrac) = gsub("a|b$","",colnames(mousefrac))
-mousefrac1 = round(mousefrac)
-mousefrac2 = t(apply(mousefrac,1,function(x) tapply(x,colnames(mousefrac),function(y) round(max(y)) )))
-colnames(hiPSCfrac2) == colnames(mousefrac2)
-
-hiPSCfrac1_tag = apply(hiPSCfrac1,1,paste,collapse=",")
-mousefrac1_tag = apply(mousefrac1,1,paste,collapse=",")
-
-hiPSCfrac2_tag = apply(hiPSCfrac2,1,paste,collapse=",")
-mousefrac2_tag = apply(mousefrac2,1,paste,collapse=",")
-
-sort(unique(hiPSCfrac2_tag)) %in% sort(unique(mousefrac2_tag))
-
-length(unique(hiPSCfrac_tag))
+mouseAnnot_sites = apply(mouseAnnot,1,function(z) z[2]:z[3] )
+mouse_sites = lapply(mouseGff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
+mouse_frac = do.call(rbind,lapply( mouse_sites , function(gs) frac(gs,mouseAnnot_sites) ) )
+colnames(mouse_frac) = as.character(mouseAnnot$Exon)
+#colnames(mouse_frac) = gsub("a|b$","",colnames(mouse_frac))
 
 
+human_frac1 = round(human_frac)
+mouse_frac1 = round(mouse_frac)
 
+human_tag1 = apply(human_frac1,1,paste,collapse=",")
+mouse_tag1 = apply(mouse_frac1,1,paste,collapse=",")
+
+human_frac1 = human_frac1[order(human_tag1),]
+mouse_frac1 = mouse_frac1[order(mouse_tag1),]
+
+human_frac2 = t(apply(human_frac,1,function(x) tapply(x,gsub("a|b$","",colnames(human_frac)),function(y) round(max(y)) )))
+mouse_frac2 = t(apply(mouse_frac,1,function(x) tapply(x,gsub("a|b$","",colnames(mouse_frac)),function(y) round(max(y)) )))
+colnames(mouse_frac2) == colnames(mouse_frac2)
+
+human_tag2 = apply(human_frac2,1,paste,collapse=",")
+mouse_tag2 = apply(mouse_frac2,1,paste,collapse=",")
+
+length(unique(human_tag2))
+length(unique(mouse_tag2))
+sum( unique(human_tag2) %in% unique(mouse_tag2) )
+
+
+
+setwd( EoutputDir )
+require('gplots')
+pdf("hiPSC_mouse_isoform.pdf")
+heatmap.2(-human_frac1 , main="human adult isoforms", col=heat.colors(256), scale="none", key=TRUE, symkey=FALSE, density.info="none", trace="none",keysize = 1.2,cexRow=0.5,dendrogram="none",Rowv=NA,Colv=NA)
+heatmap.2(-mouse_frac1 , main="mouse isoforms", col=heat.colors(256), scale="none", key=TRUE, symkey=FALSE, density.info="none", trace="none",keysize = 1.2,cexRow=0.5,dendrogram="none",Rowv=NA,Colv=NA)
+dev.off()
+
+
+#######################################################################################################
+# following are potentially useful
+
+annot_juncs = data.frame( js=annotation[2:nrow(annotation),2]+1 , je=annotation[1:(nrow(annotation)-1),1]-1 )
+tag = lapply( exonList , function(x) apply(x,1,function(y) paste(y[2:3],collapse=",")) )
+annot_tag = apply(annotation,1,function(y) paste(y[1:2],collapse=",") )
+
+exonNames = lapply(tag,function(x) as.character(annotation$Annotation)[ match(x,annot_tag) ]   )
+sapply( exonNames, function(x) all(!is.na(x)) )
+table(do.call(c,sapply( 1:length(tag), function(i) tag[[i]][is.na(exonNames[[i]])] )))
+
+
+
+hiPSCannot_tag = apply(humanAnnot,1,function(y) paste(y[2:3],collapse=",") )
+hiPSCexonNames = lapply(hiPSCtag,function(x) as.character(humanAnnot$Exon)[ match(x,hiPSCannot_tag) ]   )
+humanRef = "/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/hg19/reference/hg19.fa"
+genome = readDNAStringSet(humanRef)
+humanSeq = generateSeq( genome , isoform=hiPSCGff )
 
