@@ -12,8 +12,8 @@ thres = 20
 registerDoMC(cores)
 
 
-#LoutputDir = "/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/SIRV/result/E2_Nanopore/minimap2/SRR6058583_NatMethod_E2"
-LoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew"
+#LoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew"
+LoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew/separateSam"
 SoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/BioChain_A703252_Illumina/starShort"
 EoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/Exp"
 
@@ -22,7 +22,9 @@ system( paste0( "mkdir -p " , SoutputDir ) )
 system( paste0( "mkdir -p " , EoutputDir ) )
 
 SRalignment = paste0(SoutputDir,"/alignments.bam")
-LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
+
+#LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
+LRalignment = paste0(LoutputDir,"/m150121_234021_42142_c100753522550000001823145207091506_s1_p0.sam")
 
 #SRjunc = getJunc( SRalignment , SoutputDir  )
 SJ.out.tab = read.table( paste0(SoutputDir,"/SJ.out.tab") , sep="\t")
