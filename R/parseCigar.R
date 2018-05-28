@@ -1,3 +1,12 @@
+#' parseCigar
+#'
+#' @param cigar 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
 parseCigar = function( cigar )
 {
 	#cigar =  "7742M1I1954M1D1139M1I69M1I552M1I76M1I1964M1I4228M1D2023M1I2288M2D1326M1I1486M1I393M1I427M1I162M2D542M"

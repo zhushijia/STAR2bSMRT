@@ -1,4 +1,4 @@
-#' getRead
+#' getReadByJI
 #'
 #' @param alignments 
 #' @param outputDir 
@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-getRead = function( alignments , outputDir )
+getReadByJI = function( alignments , outputDir )
 {
 	STAR2bSMRT.dir = system.file(package = "STAR2bSMRT")
 	func = paste0("source " , STAR2bSMRT.dir , "/data/getRead.sh")

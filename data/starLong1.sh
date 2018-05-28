@@ -2,6 +2,8 @@ echo "1pass STARlong mapping ... ... "
 echo "genomeDir: $1"
 echo "LR: $2"
 echo "outputDir: $3"
+echo "cores: $4"
+
 
 if [ ! -d $3 ]; then 
 mkdir -p $3
@@ -29,6 +31,7 @@ cd $3
 --outReadsUnmapped Fastx \
 --outFilterIntronStrands None \
 --outSAMattributes NH HI AS nM NM MD jM jI \
+--runThreadN $4 \
 --genomeDir $1 \
 --readFilesIn $2
 
