@@ -12,8 +12,14 @@ splitSmrtcell = function( alignments , outputDir , thres=0  )
   {
     system( paste0( "mkdir -p " , outputDir , "/separateSam/" , smrtcell[i,2] ) )
     outputI = paste0( outputDir, '/separateSam/' ,smrtcell[i,2] , "/Aligned.out.sam" )
-    sh2 = paste0('grep "' , smrtcell[i,2] , '" ' , alignments ,' > ' , outputI )
-    if( !file.exists(outputI) ) runSH(sh2)
+    sh2 = paste0('samtools view -H ' , alignments ,' > ' , outputI )
+    sh3 = paste0('grep "' , smrtcell[i,2] , '" ' , alignments ,' >> ' , outputI )
+    
+    if( !file.exists(outputI) ) 
+    {
+      runSH(sh2)
+      runSH(sh3)
+    }
   }
 }
 
