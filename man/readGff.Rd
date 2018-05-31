@@ -18,7 +18,3 @@ readGff(file, chrom, s, e)
 \description{
 readGff
 }
-\examples{
-
-
-}

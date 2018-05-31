@@ -7,18 +7,14 @@
 juncToExon(juncList, s, e, exp = c())
 }
 \arguments{
+\item{juncList}{}
+
 \item{s}{}
 
 \item{e}{}
 
-\item{genome}{}
-
-\item{chrom}{}
+\item{exp}{}
 }
 \description{
-juncToExon transforms junc to exon
-}
-\examples{
-
-
+juncToExon
 }

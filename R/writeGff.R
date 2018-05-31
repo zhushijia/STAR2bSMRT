@@ -2,17 +2,11 @@
 #'
 #' @param isoform 
 #' @param file 
-#' @param exp 
-#' @param chrom 
-#' @param s 
-#' @param e 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' 
-#' 
 writeGff <- function( isoform , file = "" )
 {
   gff = list()

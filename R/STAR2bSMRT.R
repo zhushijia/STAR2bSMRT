@@ -5,22 +5,23 @@
 #' @param LR 
 #' @param SR1 
 #' @param SR2 
-#' @param thresSR
-#' @param thresDis
+#' @param thresSR 
+#' @param thresDis 
 #' @param outputDir 
 #' @param adjustNCjunc 
-#' @param fixedMatchedLS
+#' @param fixedMatchedLS 
 #' @param chrom 
 #' @param s 
-#' @param e
-#' @param cores
+#' @param e 
+#' @param cores 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' 
-STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom=NULL , s=0 , e=Inf , cores=1 )
+STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , 
+                        thresDis , outputDir , adjustNCjunc , fixedMatchedLS , 
+                        chrom=NULL , s=0 , e=Inf , cores=1 )
 {
 
 	library(Biostrings)

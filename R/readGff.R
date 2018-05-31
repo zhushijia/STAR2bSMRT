@@ -9,8 +9,6 @@
 #' @export
 #'
 #' @examples
-#' 
-#' 
 readGff <- function( file , chrom , s , e )
 {
   

@@ -1,20 +1,12 @@
 #' generateSeq
 #'
-#' generateSeq generates the transcript sequence from exon list
-#' 
 #' @param genome 
-#' @param isoform
-#' @param exp
-#' @param chrom 
-#' @param s 
-#' @param e 
+#' @param isoform 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' 
-#' 
 generateSeq = function( genome , isoform )
 {
 	

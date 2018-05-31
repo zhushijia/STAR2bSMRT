@@ -18,19 +18,24 @@ STAR2bSMRT(genomeDir, genomeFasta, LR, SR1, SR2, thresSR, thresDis, outputDir,
 
 \item{SR2}{}
 
+\item{thresSR}{}
+
+\item{thresDis}{}
+
 \item{outputDir}{}
 
 \item{adjustNCjunc}{}
+
+\item{fixedMatchedLS}{}
 
 \item{chrom}{}
 
 \item{s}{}
 
+\item{e}{}
+
 \item{cores}{}
 }
 \description{
 STAR2bSMRT
-}
-\examples{
-
 }

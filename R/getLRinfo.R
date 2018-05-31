@@ -6,12 +6,13 @@
 #' @param chrom 
 #' @param s 
 #' @param e 
+#' @param jI 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-getLRinfo = function( alignments , phqv=NULL , outputDir , 
+getLRinfo <- function( alignments , phqv=NULL , outputDir , 
                       chrom=NULL , s=0 , e=Inf , jI=TRUE )
 {
   
@@ -67,6 +68,7 @@ getLRinfo = function( alignments , phqv=NULL , outputDir ,
 	names(LRjunc) = names(LRread)
 
 	list( LRread=LRread , LRjunc=LRjunc , LRtag=LRtag )
+	
 }
 
 

@@ -16,14 +16,10 @@ gridSearch(LRjunc, SRjunc, thresSR = c(1:30), thresDis = c(1:20),
 
 \item{thresDis}{}
 
-\item{adjustNCjunc}{a boolean value indicating whether or not to control the non-carnonical junction site fraction}
+\item{adjustNCjunc}{}
 
 \item{matchedLS}{}
 }
 \description{
 gridSearch
-}
-\examples{
-
-
 }

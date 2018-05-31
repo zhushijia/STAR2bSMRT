@@ -8,14 +8,12 @@
 #' @param chrom 
 #' @param s 
 #' @param e 
-#' @param cores
+#' @param cores 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' 
-#' 
 STAR2bSMRT2 <- function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0 , e=Inf , cores )
 {
   

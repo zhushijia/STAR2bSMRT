@@ -10,19 +10,7 @@ writeGff(isoform, file = "")
 \item{isoform}{}
 
 \item{file}{}
-
-\item{exp}{}
-
-\item{chrom}{}
-
-\item{s}{}
-
-\item{e}{}
 }
 \description{
 writeGff
-}
-\examples{
-
-
 }

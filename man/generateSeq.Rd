@@ -9,16 +9,8 @@ generateSeq(genome, isoform)
 \arguments{
 \item{genome}{}
 
-\item{chrom}{}
-
-\item{s}{}
-
-\item{e}{}
+\item{isoform}{}
 }
 \description{
-generateSeq generates the transcript sequence from exon list
-}
-\examples{
-
-
+generateSeq
 }

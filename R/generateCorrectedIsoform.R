@@ -1,8 +1,8 @@
-#' generateCorrectedIsoform
+#' Title
 #'
 #' @param LRjunc 
 #' @param SRjunc 
-#' @param LRtag
+#' @param LRtag 
 #' @param LRread 
 #' @param ts 
 #' @param td 
@@ -12,8 +12,6 @@
 #' @export
 #'
 #' @examples
-#' 
-#' 
 generateCorrectedIsoform = function( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS=NULL )
 {
   

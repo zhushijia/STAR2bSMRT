@@ -4,15 +4,13 @@
 #' @param SRjunc 
 #' @param thresSR 
 #' @param thresDis 
+#' @param adjustNCjunc 
 #' @param matchedLS 
-#' @param adjustNCjunc a boolean value indicating whether or not to control the non-carnonical junction site fraction
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' 
-#' 
 gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , adjustNCjunc=TRUE , matchedLS=NULL )
 {
   

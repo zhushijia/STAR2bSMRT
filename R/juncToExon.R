@@ -1,20 +1,14 @@
 #' juncToExon
 #'
-#' juncToExon transforms junc to exon
-#' 
-#' @param genome 
-#' @param isoform
-#' @param exp
-#' @param chrom 
+#' @param juncList 
 #' @param s 
 #' @param e 
+#' @param exp 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' 
-#' 
 juncToExon = function( juncList , s , e , exp=c() )
 {
 	

@@ -29,7 +29,3 @@ STAR2bSMRT2(genomeDir, LR, SR1, SR2, outputDir, chrom = NULL, s = 0,
 \description{
 STAR2bSMRT2
 }
-\examples{
-
-
-}

@@ -4,12 +4,14 @@
 \alias{matchLSjuncOneChr}
 \title{matchLSjuncOneChr}
 \usage{
-matchLSjuncOneChr(lrc, src)
+matchLSjuncOneChr(lrc, src, fuzzyMatch = TRUE)
 }
 \arguments{
 \item{lrc}{}
 
 \item{src}{}
+
+\item{fuzzyMatch}{}
 }
 \description{
 matchLSjuncOneChr

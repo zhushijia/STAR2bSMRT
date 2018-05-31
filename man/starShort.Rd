@@ -14,10 +14,9 @@ starShort(genomeDir, SR1, SR2, outputDir, SJ = NULL)
 \item{SR2}{}
 
 \item{outputDir}{}
+
+\item{SJ}{}
 }
 \description{
 starShort
-}
-\examples{
-
 }

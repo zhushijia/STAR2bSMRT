@@ -2,7 +2,7 @@
 % Please edit documentation in R/generateCorrectedIsoform.R
 \name{generateCorrectedIsoform}
 \alias{generateCorrectedIsoform}
-\title{generateCorrectedIsoform}
+\title{Title}
 \usage{
 generateCorrectedIsoform(LRjunc, SRjunc, LRtag, LRread, ts, td,
   matchedLS = NULL)
@@ -11,6 +11,8 @@ generateCorrectedIsoform(LRjunc, SRjunc, LRtag, LRread, ts, td,
 \item{LRjunc}{}
 
 \item{SRjunc}{}
+
+\item{LRtag}{}
 
 \item{LRread}{}
 
@@ -21,9 +23,5 @@ generateCorrectedIsoform(LRjunc, SRjunc, LRtag, LRread, ts, td,
 \item{matchedLS}{}
 }
 \description{
-generateCorrectedIsoform
-}
-\examples{
-
-
+Title
 }
