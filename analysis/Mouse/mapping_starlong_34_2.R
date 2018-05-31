@@ -1,4 +1,4 @@
-library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone2/setup")
+library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone3/setup")
 library(Biostrings)
 library(foreach)
 library(doMC)
@@ -27,14 +27,15 @@ SRalignment = paste0(SoutputDir,"/alignments.bam")
 LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 
 
-SRjunc = getJunc( SRalignment , SoutputDir , chrom="chr17" , s= 90036900 , e = 91089605 )
+SRjunc = getJuncBySam( SRalignment , SoutputDir , chrom="chr17" , s= 90036900 , e = 91089605 )
+SRjunc = getJuncBySJout( SJout="SJ.out.tab" , SoutputDir , chrom="chr17" , s= 90036900 , e = 91089605 )
 
 SJ.out.tab = read.table( paste0(SoutputDir,"/SJ.out.tab") , sep="\t")
 SJ.out.tab = with( SJ.out.tab , data.frame(count=V7, chr=V1, start=V2, end=V3, motif=V5) )
 SRjunc$chr17 = subset(SJ.out.tab , chr=="chr17" & start >= 90036900 & end <= 91089605 )
 
 
-LRinfo = getLRinfo3( LRalignment , NULL , LoutputDir , chrom="chr17" , s= 90036900 , e = 91089605 , jI=TRUE)
+LRinfo = getLRinfo( LRalignment , NULL , LoutputDir , chrom="chr17" , s= 90036900 , e = 91089605 , jI=TRUE)
 LRread = LRinfo$LRread
 LRjunc = LRinfo$LRjunc
 LRtag = LRinfo$LRtag

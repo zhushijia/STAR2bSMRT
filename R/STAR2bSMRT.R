@@ -44,8 +44,10 @@ STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR ,
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
 	LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 	
-	SRjunc = getJunc( SRalignment , SoutputDir , chrom , s= 50147488 , e = 51259537 )
-	LRinfo = getLRinfo( LRalignment , LR , LoutputDir , chrom , s= 50147488 , e = 51259537 )
+	SRjunc = getJuncBySam( SRalignment , SoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 )
+	#SRjunc = getJuncBySJout( SJout="SJ.out.tab" , SoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 )
+	
+	LRinfo = getLRinfo( LRalignment , LR , LoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 , jI=TRUE)
 	LRread = LRinfo$LRread
 	LRjunc = LRinfo$LRjunc
 	LRtag = LRinfo$LRtag
@@ -65,6 +67,7 @@ STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR ,
 	cat( ts , td , score[ij] , '\n ')
 	
 	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS )
+	print(correction[[1]][2:4])
 	
 	setwd( EoutputDir )
 	
