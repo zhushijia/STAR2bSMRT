@@ -1,11 +1,11 @@
-library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone2/setup")
+library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone3/setup")
 library(Biostrings)
 library(foreach)
 library(doMC)
 
-cores = 30
-thresSR=c(1:10) 
-thresDis=c(1:100)
+cores = 20
+thresSR=c(1:100) 
+thresDis=c(1:30)
 adjustNCjunc=TRUE  
 fixedMatchedLS=FALSE
 thres = 20
@@ -13,26 +13,22 @@ registerDoMC(cores)
 
 
 #LoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew"
-LoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew/separateSam"
-SoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/BioChain_A703252_Illumina/starShort"
-EoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/Exp"
+#LoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew/separateSam/m141129_125831_42161_c100698142550000001823143403261592_s1_p0"
+LoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew/"
+SoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/BioChain_A703252_Illumina/mapping_hg19"
+EoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew/separateSam/m141129_125831_42161_c100698142550000001823143403261592_s1_p0/Exp"
 
 system( paste0( "mkdir -p " , LoutputDir ) )
 system( paste0( "mkdir -p " , SoutputDir ) )
 system( paste0( "mkdir -p " , EoutputDir ) )
 
 SRalignment = paste0(SoutputDir,"/alignments.bam")
+LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 
-#LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
-LRalignment = paste0(LoutputDir,"/m150121_234021_42142_c100753522550000001823145207091506_s1_p0.sam")
+#SRjunc = getJuncBySam( SRalignment , SoutputDir  )
+SRjunc = getJuncBySJout( SJout="SJ.out.tab" , SoutputDir  )
 
-#SRjunc = getJunc( SRalignment , SoutputDir  )
-SJ.out.tab = read.table( paste0(SoutputDir,"/SJ.out.tab") , sep="\t")
-SJ.out.tab = with( SJ.out.tab , data.frame(count=V7, chr=V1, start=V2, end=V3, motif=V5) )
-SRjunc = split(SJ.out.tab , as.character(SJ.out.tab$chr) )
-
-
-LRinfo = getLRinfo3( LRalignment , NULL , LoutputDir  , jI=TRUE)
+LRinfo = getLRinfo( LRalignment , phqv=NULL , LoutputDir , jI=TRUE)
 LRread = LRinfo$LRread
 LRjunc = LRinfo$LRjunc
 LRtag = LRinfo$LRtag
@@ -52,6 +48,8 @@ td = thresDis[ ij[1,2] ]
 cat( ts , td , score[ij] , '\n ')
 
 correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS )
+print(correction[[1]][2:4])
+
 sapply(correction,function(x)x$frac)
 sapply(correction,function(x)x$num)
 
