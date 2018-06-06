@@ -1,3 +1,13 @@
+#' splitSmrtcell
+#'
+#' @param alignments 
+#' @param outputDir 
+#' @param thres 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 splitSmrtcell = function( alignments , outputDir , thres=0  )
 {
   STAR2bSMRT.dir = system.file(package = "STAR2bSMRT")
