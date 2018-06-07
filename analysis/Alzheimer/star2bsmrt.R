@@ -88,8 +88,10 @@ plot( predict(z) , log(y+1)  )
 smoothScatter( log(predict(z)) , log(y+1)  )
 dev.off()
 
-
-
+a=as.list(rep(0,40))
+names(a) = colnames(X)[1:40]
+formula = as.formula( paste0( "X41~" , paste( colnames(X)[1:40] , collapse="+" ) ))
+nls( formula , data=X , start=a , lower = 0, algorithm = "plinear")
 
 
 
