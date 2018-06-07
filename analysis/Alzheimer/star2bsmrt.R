@@ -47,12 +47,14 @@ SRjunc = getJuncBySJout( SJout="SJ.out.tab" , SoutputDir  )
 
 
 
-ts=2
-td=15
-chr="chr2"
+ts=5
+td=30
 CHR = intersect( names(SRjunc) , names(LRjuncAll3) )
 CHR = CHR[ grepl('chr',CHR)  ]
 LSjuncCount = foreach( k=1:length(CHR) ) %dopar%
+  
+LSjuncCount = list()
+for( k in 1:length(CHR) ) 
 {
   chr = CHR[k]
   cat(chr,"\n")
@@ -64,32 +66,26 @@ LSjuncCount = foreach( k=1:length(CHR) ) %dopar%
   LRcorres = data.frame(lrc,SRmatch)[range, ]
   lrCount = apply( LRcorres[,-c(1:3,ncol(LRcorres),ncol(LRcorres)-1) ] , 
                    2 , function(x) tapply( x , LRcorres$SRindex , sum ) )
-  data.frame( lrCount , src[as.integer(rownames(lrCount)),] )
+  dat = data.frame( lrCount , src[as.integer(rownames(lrCount)),] )
+  LSjuncCount[[chr]] = dat
 }
 
-
-lrc = LRjuncAll3[[chr]]
-src = SRjunc[[chr]]
-src = subset( src , count>=ts )
-SRmatch = matchLSjuncOneChr( lrc , src )
-range = which( SRmatch[,'LSdis']<=td ) 
-LRcorres = data.frame(lrc,SRmatch)[range, ]
-lrCount = apply( LRcorres[,-c(1:3,ncol(LRcorres),ncol(LRcorres)-1) ] , 
-                 2 , function(x) tapply( x , LRcorres$SRindex , sum ) )
-dat = data.frame( lrCount , src[as.integer(rownames(lrCount)),] )
+dat = do.call(rbind,LSjuncCount)
 x = dat[,1:40]
 y = dat[,41]
 
-
 z = lm( y~as.matrix(x)+1 ) 
 cor( predict(z) , y  )
+cor( predict(z) , y , method='spearman' )
+
 
 z = lm( log(y+1)~log(as.matrix(x)+1) ) 
 cor( predict(z) , log(y+1)  )
+cor( predict(z) , log(y+1) , method='spearman' )
 
 
 plot( predict(z) , log(y+1)  )
-smoothScatter( predict(z) , log(y+1)  )
+smoothScatter( log(predict(z)) , log(y+1)  )
 dev.off()
 
 
@@ -113,11 +109,13 @@ nls( y~a*x1 + b*x2 +c*x3...,data=mydata,
     start=c(a=1,b=1,c=1...), lower=c(a=0,b=0,c=NA,...), algorithm="port")
 
 
-z <- glm( log(y+1) ~ log(as.matrix(x)+1), family=poisson()) 
+z <- glm( y ~ as.matrix(x[,1:20]) , family=Gamma(link='log') ) 
 summary(z)
 cor( predict(z) , y  )
 cor( log(predict(z)+1) , log(y+1)  )
 
+smoothScatter( predict(z) , y  )
+dev.off()
 
 
 
