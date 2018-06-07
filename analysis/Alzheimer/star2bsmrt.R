@@ -20,12 +20,12 @@ SoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSe
 
 system( paste0( "mkdir -p " , LoutputDir ) )
 system( paste0( "mkdir -p " , SoutputDir ) )
-system( paste0( "mkdir -p " , EoutputDir ) )
+#system( paste0( "mkdir -p " , EoutputDir ) )
 
 SRalignment = paste0(SoutputDir,"/alignments.bam")
 LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 
-splitSmrtcell( alignments=LRalignment , outputDir=LoutputDir )
+#splitSmrtcell( alignments=LRalignment , outputDir=LoutputDir )
 
 
 LRinfo = list()
