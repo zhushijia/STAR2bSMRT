@@ -16,7 +16,7 @@ registerDoMC(cores)
 #LoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew/separateSam/m141129_125831_42161_c100698142550000001823143403261592_s1_p0"
 LoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew/"
 SoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/BioChain_A703252_Illumina/mapping_hg19"
-EoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew/separateSam/m141129_125831_42161_c100698142550000001823143403261592_s1_p0/Exp"
+#EoutputDir = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/flnc_starlongNew/separateSam/m141129_125831_42161_c100698142550000001823143403261592_s1_p0/Exp"
 
 system( paste0( "mkdir -p " , LoutputDir ) )
 system( paste0( "mkdir -p " , SoutputDir ) )
@@ -25,62 +25,99 @@ system( paste0( "mkdir -p " , EoutputDir ) )
 SRalignment = paste0(SoutputDir,"/alignments.bam")
 LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 
+splitSmrtcell( alignments=LRalignment , outputDir=LoutputDir )
+
+
+LRinfo = list()
+for( sc in dir( paste0(LoutputDir,"/separateSam/") )  )
+{
+  outputDir = paste0(LoutputDir,"/separateSam/",sc)
+  alignment = paste0( outputDir,"/Aligned.out.sam")
+  LRinfo[[sc]] = getLRinfo( alignment , phqv=NULL , outputDir , jI=TRUE)
+}
+
+
+LRjuncAll = lapply( LRinfo , function(x) do.call(rbind,x$LRjunc) )
+LRjuncAll2 = Reduce( function(x, y) merge(x, y, by=c("chr","start","end"), all=TRUE) , LRjuncAll )
+LRjuncAll2[is.na(LRjuncAll2)] = 0
+LRjuncAll3 = split(LRjuncAll2,LRjuncAll2$chr)
+
 #SRjunc = getJuncBySam( SRalignment , SoutputDir  )
 SRjunc = getJuncBySJout( SJout="SJ.out.tab" , SoutputDir  )
 
-LRinfo = getLRinfo( LRalignment , phqv=NULL , LoutputDir , jI=TRUE)
-LRread = LRinfo$LRread
-LRjunc = LRinfo$LRjunc
-LRtag = LRinfo$LRtag
 
-if( fixedMatchedLS )
+
+ts=2
+td=15
+chr="chr2"
+CHR = intersect( names(SRjunc) , names(LRjuncAll3) )
+CHR = CHR[ grepl('chr',CHR)  ]
+LSjuncCount = foreach( k=1:length(CHR) ) %dopar%
 {
-  matchedLS = matchLSjunc( LRjunc , SRjunc )
-} else {
-  matchedLS = NULL
+  chr = CHR[k]
+  cat(chr,"\n")
+  lrc = LRjuncAll3[[chr]]
+  src = SRjunc[[chr]]
+  src = subset( src , count>=ts )
+  SRmatch = matchLSjuncOneChr( lrc , src )
+  range = which( SRmatch[,'LSdis']<=td ) 
+  LRcorres = data.frame(lrc,SRmatch)[range, ]
+  lrCount = apply( LRcorres[,-c(1:3,ncol(LRcorres),ncol(LRcorres)-1) ] , 
+                   2 , function(x) tapply( x , LRcorres$SRindex , sum ) )
+  data.frame( lrCount , src[as.integer(rownames(lrCount)),] )
 }
 
-score = gridSearch( LRjunc , SRjunc , thresSR , thresDis , adjustNCjunc , matchedLS )
 
-ij = which( score==max(score) , arr.ind=T )
-ts = thresSR[ ij[1,1] ]
-td = thresDis[ ij[1,2] ]
-cat( ts , td , score[ij] , '\n ')
-
-correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS )
-print(correction[[1]][2:4])
-
-sapply(correction,function(x)x$frac)
-sapply(correction,function(x)x$num)
-
-i = i+1
-x0 = correction[[i]]$LSjuncCount
-x1 = gff[grepl(paste0("SIRV",i),names(gff))]
-x1 = sort(unique(do.call(c,lapply( x1 , function(x) if(nrow(x)>1) paste( x[1:(nrow(x)-1),3]+1 , x[2:nrow(x),2]-1 ,sep=",") ))))
-x2 = sort(unique(do.call(c,lapply(correction[[i]]$isoform,function(x)paste(x[,2],x[,3],sep=",")))))
-x1
-x2
-setdiff(x2,x1)
+lrc = LRjuncAll3[[chr]]
+src = SRjunc[[chr]]
+src = subset( src , count>=ts )
+SRmatch = matchLSjuncOneChr( lrc , src )
+range = which( SRmatch[,'LSdis']<=td ) 
+LRcorres = data.frame(lrc,SRmatch)[range, ]
+lrCount = apply( LRcorres[,-c(1:3,ncol(LRcorres),ncol(LRcorres)-1) ] , 
+                 2 , function(x) tapply( x , LRcorres$SRindex , sum ) )
+dat = data.frame( lrCount , src[as.integer(rownames(lrCount)),] )
+x = dat[,1:40]
+y = dat[,41]
 
 
+z = lm( y~as.matrix(x)+1 ) 
+cor( predict(z) , y  )
+
+z = lm( log(y+1)~log(as.matrix(x)+1) ) 
+cor( predict(z) , log(y+1)  )
 
 
-#######################################################################################################
-setwd( EoutputDir )
-pdf( paste0( "JuncExp_LR_ts",ts,"_td",td,".pdf") )
-
-juncExp = do.call( rbind, lapply( correction , function(x) x$LSjuncCount ))
-lrCount = log10(juncExp$lrCount)
-srCount = log10(juncExp$srCount)
-juncCorr = cor.test(srCount,lrCount,method='spearman')$estimate
-cols = sapply( juncExp$motif , function(x) ifelse(x==0,1,2) )
-cols[juncExp$motif==1] = 3
-plot( lrCount , srCount , col=cols , pch=17 , main=paste0("JuncExp by Long and Short Reads: r=",signif(juncCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
-abline(lm( srCount~lrCount ))
-
-par(mfrow=c(2,1))
-log10fc = lrCount - srCount
-JuncNames = paste(juncExp$start , juncExp$end)
-barplot( log10fc , cex.names=0.6 , col=cols , ylab="log10(lrCount/srCount)", names=JuncNames , las=3 )
-
+plot( predict(z) , log(y+1)  )
+smoothScatter( predict(z) , log(y+1)  )
 dev.off()
+
+
+
+
+
+
+
+
+
+z = lm( log(y+1)~log(as.matrix(x)+1) ) 
+cor( predict(z) , log(y+1)  )
+plot( predict(z) , log(y+1)  )
+dev.off()
+
+z <- nnls( as.matrix(x) , y )
+coef(z)
+fit <- as.vector(coef(z)%*%t(x))
+
+nls( y~a*x1 + b*x2 +c*x3...,data=mydata, 
+    start=c(a=1,b=1,c=1...), lower=c(a=0,b=0,c=NA,...), algorithm="port")
+
+
+z <- glm( log(y+1) ~ log(as.matrix(x)+1), family=poisson()) 
+summary(z)
+cor( predict(z) , y  )
+cor( log(predict(z)+1) , log(y+1)  )
+
+
+
+
