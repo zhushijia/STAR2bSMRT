@@ -109,13 +109,5 @@ nls( y~a*x1 + b*x2 +c*x3...,data=mydata,
     start=c(a=1,b=1,c=1...), lower=c(a=0,b=0,c=NA,...), algorithm="port")
 
 
-z <- glm( y ~ as.matrix(x[,1:20]) , family=Gamma(link='log') ) 
-summary(z)
-cor( predict(z) , y  )
-cor( log(predict(z)+1) , log(y+1)  )
-
-smoothScatter( predict(z) , y  )
-dev.off()
-
 
 
