@@ -52,6 +52,8 @@ getLRinfo <- function( alignments , phqv=NULL , outputDir ,
 				paste( x[2*i-1] , x[2*i] ,sep="," ) 
 		} ) )
 
+	gc()
+	
 	LRjunc = foreach( i = 1:length(LRread) ) %dopar%
 	{
 	  cat(i,"\n")
