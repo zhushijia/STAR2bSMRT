@@ -2,6 +2,9 @@ library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/S
 library(Biostrings)
 library(foreach)
 library(doMC)
+library(reshape)
+library(nnls)
+
 
 cores = 30
 thresSR=c(1:100) 
