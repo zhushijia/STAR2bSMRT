@@ -2,13 +2,16 @@
 #'
 #' @param genomeDir 
 #' @param genomeFasta 
-#' @param LR 
+#' @param phqv 
+#' @param flnc 
+#' @param nfl 
 #' @param SR1 
 #' @param SR2 
+#' @param useSJout 
+#' @param adjustNCjunc 
 #' @param thresSR 
 #' @param thresDis 
 #' @param outputDir 
-#' @param adjustNCjunc 
 #' @param fixedMatchedLS 
 #' @param chrom 
 #' @param s 
@@ -19,8 +22,9 @@
 #' @export
 #'
 #' @examples
-STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , 
-                        thresDis , outputDir , adjustNCjunc , fixedMatchedLS , 
+STAR2bSMRT <- function( genomeDir, genomeFasta, phqv=NULL, flnc=NULL, nfl=NULL,
+                        SR1, SR2=NULL, useSJout=TRUE,  adjustNCjunc=FALSE, 
+                        thresSR, thresDis, outputDir, fixedMatchedLS=FALSE, 
                         chrom=NULL , s=0 , e=Inf , cores=1 )
 {
 
@@ -29,29 +33,69 @@ STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR ,
 	library(doMC)
 	registerDoMC(cores)
 	
-	LoutputDir = paste0(outputDir,"/LR")
+	
+	############################################################################
+	############   STARshort mapping
+	############################################################################
 	SoutputDir = paste0(outputDir,"/SR")
-	EoutputDir = paste0(outputDir,"/Exp")
-	
-	system( paste0( "mkdir -p " , LoutputDir ) )
-	system( paste0( "mkdir -p " , SoutputDir ) )
-	system( paste0( "mkdir -p " , EoutputDir ) )
-	
-	starShort( genomeDir , SR1 , SR2 , SoutputDir )
-	starLong( genomeDir , LR , LoutputDir )
-	genome = readDNAStringSet(genomeFasta)
-	
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
-	LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
+	system( paste0( "mkdir -p " , SoutputDir ) )
+	starShort( genomeDir , SR1 , SR2 , SoutputDir )
 	
-	SRjunc = getJuncBySam( SRalignment , SoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 )
-	#SRjunc = getJuncBySJout( SJout="SJ.out.tab" , SoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 )
+	############################################################################
+	############   STARlong mapping
+	############################################################################
+	if( !is.null(phqv)  )
+	{
+	  LoutputDir = paste0(outputDir,"/LR_phqv")
+	  LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
+	  system( paste0( "mkdir -p " , LoutputDir ) )
+	  starLong( genomeDir=genomeDir , LR=phqv , outputDir=LoutputDir , 
+	            cores=cores , SJ=NULL )
+	}
 	
-	LRinfo = getLRinfo( LRalignment , LR , LoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 , jI=TRUE)
+	if( is.null(phqv) & !is.null(flnc) & is.null(nfl) )
+	{
+	  LoutputDir = paste0(outputDir,"/LR_flnc")
+	  LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
+	  system( paste0( "mkdir -p " , LoutputDir ) )
+	  starLong( genomeDir=genomeDir , LR=flnc , outputDir=LoutputDir , 
+	            cores=cores , SJ=NULL )
+	}
+	
+	############################################################################
+	############   junction sites for short reads
+	############################################################################	
+	if( useSJout )
+	{
+	  SRjunc = getJuncBySJout( SJout="SJ.out.tab" , SoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 )
+	} else {
+	  SRjunc = getJuncBySam( SRalignment , SoutputDir , chrom="chr2" , s=50147488 , e = 51259537 )
+	}
+	
+	############################################################################
+	############   junction sites for long reads
+	############################################################################
+	if( !is.null(phqv) )
+	{
+	  exp = phqvExp(phqv)
+	  LRinfo = getLRinfo( alignments=LRalignment , outputDir=LoutputDir_phqv , 
+	                      exp=exp , group="group1" ,  chrom="chr2" , 
+	                      s=50147488 , e = 51259537 , jI=TRUE)
+	} 
+	
+	if( is.null(phqv) & !is.null(flnc) & is.null(nfl) )
+	{
+	  smrtcell = isoseqId( LRalignment )
+	  LRinfo = getLRinfo( alignments=LRalignment , outputDir=LoutputDir_flnc , 
+	                      exp=exp , group=smrtcell ,  chrom="chr2" , 
+	                      s=50147488 , e = 51259537 , jI=TRUE)
+	}
+	
 	LRread = LRinfo$LRread
 	LRjunc = LRinfo$LRjunc
 	LRtag = LRinfo$LRtag
-	
+
 	if( fixedMatchedLS )
 	{
 	  matchedLS = matchLSjunc( LRjunc , SRjunc )
@@ -69,7 +113,12 @@ STAR2bSMRT <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR ,
 	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS )
 	print(correction[[1]][2:4])
 	
+	
+	EoutputDir = paste0(outputDir,"/Exp")
+	system( paste0( "mkdir -p " , EoutputDir ) )
+	
 	setwd( EoutputDir )
+	genome = readDNAStringSet(genomeFasta)
 	
 	###############################################################################################################
 	

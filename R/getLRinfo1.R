@@ -1,4 +1,4 @@
-#' getLRinfo2
+#' getLRinfo1
 #'
 #' @param alignments 
 #' @param phqv 
@@ -12,10 +12,9 @@
 #' @export
 #'
 #' @examples
-getLRinfo2 <- function( alignments , phqv=NULL , outputDir , 
+getLRinfo1 <- function( alignments , phqv=NULL , outputDir , 
                       chrom=NULL , s=0 , e=Inf , jI=TRUE )
 {
-  library(reshape)
   
   if( jI )
   {
@@ -35,9 +34,7 @@ getLRinfo2 <- function( alignments , phqv=NULL , outputDir ,
   }
   
 	LRread = subset( LRread , junc!="-1" )
-	LRread$smrtcell = sapply( strsplit(as.character(LRread$id),"/"), function(x) x[1] )
-	uniSmrtcell = unique(LRread$smrtcell)
-	
+
 	if( !is.null(chrom) )
 	{
 		#LRread = subset( LRread , chr %in% chrom & start>=s & start<50150000 & end<=e )
@@ -52,29 +49,20 @@ getLRinfo2 <- function( alignments , phqv=NULL , outputDir ,
 				paste( x[2*i-1] , x[2*i] ,sep="," ) 
 		} ) )
 
-	gc()
-	
 	LRjunc = foreach( i = 1:length(LRread) ) %dopar%
 	{
-	  cat(i,"\n")
 		read = LRread[[i]]
 		tag = LRtag[[i]]
 		len = sapply( tag, length )
 		juncCount = rep( read$coverage , len )
-		smrtcell = rep( read$smrtcell , len )
 		juncs = do.call(c,tag)
-		
-		info = data.frame(smrtcell,juncs,juncCount)
-		pseudoInfo = data.frame( smrtcell=uniSmrtcell, 
-		                         juncs= as.character(info$juncs[1]), juncCount=0 )
-		info = rbind(pseudoInfo,info)
-		
-		count = cast( info , juncs ~ smrtcell, sum , value="juncCount")
-		uniJunc = strsplit( as.character(count$juncs) , "," )
-		start = sapply( uniJunc , function(x) as.integer(x[1]) )
-		end = sapply( uniJunc , function(x) as.integer(x[2]) )
-		data.frame( chr=names(LRread)[i], start=start, end=end, count[,-1],
-		            stringsAsFactors=F)
+		uniJuncCount = tapply(juncCount,juncs,sum)
+		start = sapply( strsplit(names(uniJuncCount),","), 
+		                function(x) as.integer(x[1]) )
+		end = sapply( strsplit(names(uniJuncCount),","), 
+		              function(x) as.integer(x[2]) )
+		data.frame(count=as.integer(uniJuncCount), chr=names(LRread)[i], 
+		           start=start, end=end,stringsAsFactors=F)
 	}
 
 	names(LRjunc) = names(LRread)

@@ -1,15 +1,10 @@
-#' STAR2bSMRT2
+#' STAR2bSMRT1
 #'
 #' @param genomeDir 
-#' @param genomeFasta 
 #' @param LR 
 #' @param SR1 
 #' @param SR2 
-#' @param thresSR 
-#' @param thresDis 
 #' @param outputDir 
-#' @param adjustNCjunc 
-#' @param fixedMatchedLS 
 #' @param chrom 
 #' @param s 
 #' @param e 
@@ -19,87 +14,77 @@
 #' @export
 #'
 #' @examples
-STAR2bSMRT2 <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR , 
-                        thresDis , outputDir , adjustNCjunc , fixedMatchedLS , 
-                        chrom=NULL , s=0 , e=Inf , cores=1 )
+STAR2bSMRT1 <- function( genomeDir , LR , SR1 , SR2 , outputDir , chrom=NULL , s=0 , e=Inf , cores )
 {
-
-	library(Biostrings)
+  
+  library(Biostrings)
 	library(foreach)
 	library(doMC)
 	registerDoMC(cores)
 	
-	LoutputDir = paste0(outputDir,"/LR")
-	SoutputDir = paste0(outputDir,"/SR")
+	SoutputDir1 = paste0(outputDir,"/SR1")
+	SoutputDir2 = paste0(outputDir,"/SR2")
+	LoutputDir1 = paste0(outputDir,"/LR1")
+	LoutputDir2 = paste0(outputDir,"/LR2")
 	EoutputDir = paste0(outputDir,"/Exp")
 	
-	system( paste0( "mkdir -p " , LoutputDir ) )
-	system( paste0( "mkdir -p " , SoutputDir ) )
+	system( paste0( "mkdir -p " , LoutputDir1 ) )
+	system( paste0( "mkdir -p " , SoutputDir1 ) )
+	system( paste0( "mkdir -p " , LoutputDir2 ) )
+	system( paste0( "mkdir -p " , SoutputDir2 ) )
 	system( paste0( "mkdir -p " , EoutputDir ) )
 	
-	starShort( genomeDir , SR1 , SR2 , SoutputDir )
-	starLong( genomeDir , LR , LoutputDir )
-	genome = readDNAStringSet(genomeFasta)
+	SJ1 = paste0(SoutputDir1,"/SJ.out.tab")
+	SJ2 = paste0(SoutputDir2,"/SJ.out.tab")
+	if(0)
+	{
+	  #starShort( genomeDir , SR1 , SR2 , SoutputDir1 )
+  	starShort( genomeDir , SR1 , SR2 , SoutputDir2 , SJ1 )
+  	starLong( genomeDir , LR , LoutputDir2 , SJ2 )
+  	genome = readDNAStringSet(ref)
+
+	}
 	
-	SRalignment = paste0(SoutputDir,"/alignments.bam")
-	LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
+	SRalignment = paste0(SoutputDir2,"/alignments.bam")
+	LRalignment = paste0(LoutputDir2,"/Aligned.out.sam")
 	
-	SRjunc = getJuncBySam( SRalignment , SoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 )
-	#SRjunc = getJuncBySJout( SJout="SJ.out.tab" , SoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 )
-	
-	LRinfo = getLRinfo( LRalignment , LR , LoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 , jI=TRUE)
+	SRjunc = getJunc( SRalignment , SoutputDir2 , chrom , s= 50147488 , e = 51259537 )
+	LRinfo = getLRinfo( LRalignment , LR , LoutputDir2 , chrom , s= 50147488 , e = 51259537 )
 	LRread = LRinfo$LRread
 	LRjunc = LRinfo$LRjunc
 	LRtag = LRinfo$LRtag
 	
-	if( fixedMatchedLS )
-	{
-	  matchedLS = matchLSjunc( LRjunc , SRjunc )
-	} else {
-	  matchedLS = NULL
-	}
+	# matchedLS = matchLSjunc( LRjunc , SRjunc )
+	P = gridSearch( LRjunc , SRjunc , thresSR , thresDis , matchedLS=NULL)
 	
-	score = gridSearch( LRjunc , SRjunc , thresSR , thresDis , adjustNCjunc , matchedLS )
-	
-	ij = which( score==max(score) , arr.ind=T )
+	ij = which( P==max(P) , arr.ind=T )
 	ts = thresSR[ ij[1,1] ]
 	td = thresDis[ ij[1,2] ]
-	cat( ts , td , score[ij] , '\n ')
+	cat( ts , td , P[ij] , '\n ')
 	
-	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS )
-	print(correction[[1]][2:4])
+	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRread , ts , td , matchedLS=NULL )
 	
 	setwd( EoutputDir )
 	
 	###############################################################################################################
 	
 	pdf( paste0( "JuncExp_LR_ts",ts,"_td",td,".pdf") )
-	
-	juncExp = do.call( rbind, lapply( correction , function(x) x$LSjuncCount ))
+	juncExp = do.call( rbind, lapply( correction , function(x) x$LRjuncCount ))
 	lrCount = log10(juncExp$lrCount)
 	srCount = log10(juncExp$srCount)
-	juncCorr = cor.test(srCount,lrCount,method='spearman')$estimate
+	juncCorr = cor.test(srCount,lrCount)$estimate
 	cols = sapply( juncExp$motif , function(x) ifelse(x==0,1,2) )
 	cols[juncExp$motif==1] = 3
 	plot( lrCount , srCount , col=cols , pch=17 , main=paste0("JuncExp by Long and Short Reads: r=",signif(juncCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
 	abline(lm( srCount~lrCount ))
-	
-	par(mfrow=c(2,1))
-	log10fc = lrCount - srCount
-	JuncNames = paste(juncExp$start , juncExp$end)
-	barplot( log10fc , cex.names=0.6 , col=cols , ylab="log10(lrCount/srCount)", names=JuncNames , las=3 )
-	
 	dev.off()
 	
 	###############################################################################################################
 	gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
-	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , exp=correction[[chrom]]$exp )
-	#writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
-	writeGff( isoform=exonList , file = gffName )
+	writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
 	
 	###############################################################################################################
-	#seq = generateSeq( genome=genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411  )
-	seq = generateSeq( genome=genome , isoform=exonList )
+	seq = generateSeq( genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
 	fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
 	writeXStringSet( seq$dna , fastaName )
 	#writeXStringSet( seq$dna[seq$translated] , fastaName )
@@ -121,17 +106,20 @@ STAR2bSMRT2 <- function( genomeDir , genomeFasta , LR , SR1 , SR2  , thresSR ,
 	
 	###############################################################################################################
 	pdf( "gridSeach.pdf" )
-	heatmap( score , Rowv = NA, Colv = NA, scale='none' )
+	heatmap( P , Rowv = NA, Colv = NA, scale='none' )
 	dev.off()
-
+	
+	
 	###############################################################################################################
 	isoformNum = sum(sapply(correction,function(x)x$num))
 	isoformFrac = mean(sapply(correction,function(x)x$frac))
-	info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , translated=sum(seq$translated) , juncCorr , LSQuantCorr , LSQuantPval )
+	info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , juncCorr , LSQuantCorr , LSQuantPval )
 	write.table(info,"summary.txt",quote=F,sep="\t",col.names=T,row.names=F)
+	
 	
 
 }
+
 
 
 
