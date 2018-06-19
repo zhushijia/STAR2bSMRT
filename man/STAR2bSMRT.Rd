@@ -4,27 +4,35 @@
 \alias{STAR2bSMRT}
 \title{STAR2bSMRT}
 \usage{
-STAR2bSMRT(genomeDir, genomeFasta, LR, SR1, SR2, thresSR, thresDis, outputDir,
-  adjustNCjunc, fixedMatchedLS, chrom = NULL, s = 0, e = Inf, cores = 1)
+STAR2bSMRT(genomeDir, genomeFasta, phqv = NULL, flnc = NULL, nfl = NULL,
+  SR1, SR2 = NULL, useSJout = TRUE, adjustNCjunc = FALSE, thresSR,
+  thresDis, outputDir, fixedMatchedLS = FALSE, chrom = NULL, s = 0,
+  e = Inf, cores = 1)
 }
 \arguments{
 \item{genomeDir}{}
 
 \item{genomeFasta}{}
 
-\item{LR}{}
+\item{phqv}{}
+
+\item{flnc}{}
+
+\item{nfl}{}
 
 \item{SR1}{}
 
 \item{SR2}{}
+
+\item{useSJout}{}
+
+\item{adjustNCjunc}{}
 
 \item{thresSR}{}
 
 \item{thresDis}{}
 
 \item{outputDir}{}
-
-\item{adjustNCjunc}{}
 
 \item{fixedMatchedLS}{}
 

@@ -4,24 +4,39 @@
 \alias{getLRinfo}
 \title{getLRinfo}
 \usage{
-getLRinfo(alignments, phqv = NULL, outputDir, chrom = NULL, s = 0,
-  e = Inf, jI = TRUE)
+getLRinfo(alignments, outputDir = dirname(alignments), usejI = rep(TRUE,
+  length(alignments)), exp = as.list(rep(1, length(alignments))),
+  group = as.list(rep("group1", length(alignments))), chrom = NULL, s = 0,
+  e = Inf)
 }
 \arguments{
-\item{alignments}{}
-
-\item{phqv}{}
+\item{alignments}{a vector of character values representing the list of 
+long read alignments}
 
 \item{outputDir}{}
+
+\item{usejI}{a vector of boolean values with the same length of alignments 
+representing whether read}
+
+\item{exp}{}
+
+\item{group}{a vector of character values representing either bin or batch. 
+For Isoseq, it can represent the smrtcell ids, so as to perform normalization
+across different smrtcells.}
 
 \item{chrom}{}
 
 \item{s}{}
 
 \item{e}{}
-
-\item{jI}{}
 }
 \description{
 getLRinfo
+}
+\examples{
+
+exp = phqvExp( phqv , outputDir )
+exp = exp$full_length_coverage
+group = sapply( strsplit(as.character(LRread$id),"/"), function(x) x[1] )
+
 }
