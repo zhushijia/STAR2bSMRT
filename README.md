@@ -47,3 +47,5 @@ Alternatively, use [devtools](https://github.com/hadley/devtools) package
    See our [wiki](https://github.com/zhushijia/STAR2bSMRT/wiki)
    
   
+git clone https://zhushijia:password@github.com/zhushijia/STAR2bSMRT.git
+

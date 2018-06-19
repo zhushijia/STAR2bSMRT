@@ -52,6 +52,11 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, phqv=NULL, flnc=NULL, nfl=NULL,
 	  system( paste0( "mkdir -p " , LoutputDir ) )
 	  starLong( genomeDir=genomeDir , LR=phqv , outputDir=LoutputDir , 
 	            cores=cores , SJ=NULL )
+	  readCoverage = phqvExp(phqv,LoutputDir)
+	  exp = readCoverage$full_length_coverage
+	  LRinfo = getLRinfo( alignments=LRalignment , outputDir=LoutputDir , 
+	                      exp=exp , group="group1" ,  chrom="chr2" , 
+	                      s=50147488 , e = 51259537 , jI=TRUE)
 	}
 	
 	if( is.null(phqv) & !is.null(flnc) & is.null(nfl) )
@@ -78,10 +83,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, phqv=NULL, flnc=NULL, nfl=NULL,
 	############################################################################
 	if( !is.null(phqv) )
 	{
-	  exp = phqvExp(phqv)
-	  LRinfo = getLRinfo( alignments=LRalignment , outputDir=LoutputDir_phqv , 
-	                      exp=exp , group="group1" ,  chrom="chr2" , 
-	                      s=50147488 , e = 51259537 , jI=TRUE)
+
 	} 
 	
 	if( is.null(phqv) & !is.null(flnc) & is.null(nfl) )
