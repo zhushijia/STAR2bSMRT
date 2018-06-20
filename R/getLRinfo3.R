@@ -1,7 +1,14 @@
-#' getLRinfo
+#' getLRinfo3
 #'
-#' @param LRread a data frame for the result of long read alignments, comprising
-#' read id, start, end, junction sites
+#' @param alignments a vector of character values representing the list of 
+#' long read alignments
+#' @param outputDir 
+#' @param usejI a vector of boolean values with the same length of alignments 
+#' representing whether read 
+#' @param exp 
+#' @param group a vector of character values representing either bin or batch. 
+#' For Isoseq, it can represent the smrtcell ids, so as to perform normalization
+#' across different smrtcells.
 #' @param chrom 
 #' @param s 
 #' @param e 
@@ -15,24 +22,33 @@
 #' exp = exp$full_length_coverage
 #' group = sapply( strsplit(as.character(LRread$id),"/"), function(x) x[1] )
 #' 
-getLRinfo <- function( LRread, chrom=NULL, s=0, e=Inf )
+getLRinfo3 <- function( alignments, outputDir=dirname(alignments), 
+                       usejI=rep(TRUE,length(alignments)), 
+                       exp=as.list(rep(1,length(alignments))), 
+                       group=as.list(rep("group1",length(alignments))), 
+                       chrom=NULL, s=0, e=Inf )
 {
   library(reshape)
   
-  if( !"coverage" %in% colnames(LRread) )
-  {
-    LRread$coverage = 1
-  }
+  LRread <- lapply( seq_along(alignments) , function(i) {
     
-  if( !"group" %in% colnames(LRread) )
-  {
-    LRread$group = "group1"
-    uniGroup = "group1"
-  } else {
-    uniGroup = unique(LRread$group)
-  }
+    if( usejI[i] )
+    {
+      x = getReadByJI( alignments[i] , outputDir[i] )
+    } else {
+      x = getReadByCigar( alignments[i] , outputDir[i] )
+    }
+    
+    x$coverage = exp[[i]]
+    x$group = group[[i]]
+    
+    x
+    
+  })
   
+  LRread = do.call(rbind, LRread)
 	LRread = subset( LRread , junc!="-1" )
+	uniGroup = unique(do.call(c,group))
 	
 	if( !is.null(chrom) )
 	{

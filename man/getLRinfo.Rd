@@ -4,25 +4,11 @@
 \alias{getLRinfo}
 \title{getLRinfo}
 \usage{
-getLRinfo(alignments, outputDir = dirname(alignments), usejI = rep(TRUE,
-  length(alignments)), exp = as.list(rep(1, length(alignments))),
-  group = as.list(rep("group1", length(alignments))), chrom = NULL, s = 0,
-  e = Inf)
+getLRinfo(LRread, chrom = NULL, s = 0, e = Inf)
 }
 \arguments{
-\item{alignments}{a vector of character values representing the list of 
-long read alignments}
-
-\item{outputDir}{}
-
-\item{usejI}{a vector of boolean values with the same length of alignments 
-representing whether read}
-
-\item{exp}{}
-
-\item{group}{a vector of character values representing either bin or batch. 
-For Isoseq, it can represent the smrtcell ids, so as to perform normalization
-across different smrtcells.}
+\item{LRread}{a data frame for the result of long read alignments, comprising
+read id, start, end, junction sites}
 
 \item{chrom}{}
 

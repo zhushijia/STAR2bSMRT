@@ -4,10 +4,10 @@
 \alias{isoseqId}
 \title{isoseqId}
 \usage{
-isoseqId(alignments, outputDir)
+isoseqId(roi, outputDir)
 }
 \arguments{
-\item{alignments}{}
+\item{roi}{}
 
 \item{outputDir}{}
 }
