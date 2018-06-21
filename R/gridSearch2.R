@@ -1,4 +1,4 @@
-#' gridSearch
+#' gridSearch2
 #'
 #' @param LRjunc 
 #' @param SRjunc 
@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , adjustNCjunc=TRUE , matchedLS=NULL )
+gridSearch2 = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , adjustNCjunc=TRUE , matchedLS=NULL )
 {
   
   CHR = intersect( names(SRjunc) , names(LRjunc) )

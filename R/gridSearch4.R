@@ -1,4 +1,4 @@
-#' gridSearch
+#' gridSearch4
 #'
 #' @param LRjunc 
 #' @param SRjunc 
@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , adjustNCjunc=TRUE , matchedLS=NULL )
+gridSearch4 = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , adjustNCjunc=TRUE , matchedLS=NULL )
 {
   
   library(nnls)

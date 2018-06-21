@@ -47,3 +47,6 @@ STAR2bSMRT(genomeDir, genomeFasta, LRphqv = NULL, LRflnc = NULL,
 \description{
 STAR2bSMRT
 }
+\examples{
+
+}

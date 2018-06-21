@@ -22,6 +22,7 @@
 #' @export
 #'
 #' @examples
+#' 
 STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=NULL,
                         SR1, SR2=NULL, useSJout=TRUE,  adjustNCjunc=FALSE, 
                         thresSR, thresDis, outputDir, fixedMatchedLS=FALSE, 
@@ -45,15 +46,17 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	
 	if( useSJout )
 	{
-	  SRjunc = getJuncBySJout( SJout="SJ.out.tab" , SoutputDir , chrom="chr2" , s= 50147488 , e = 51259537 )
+	  SRjunc = getJuncBySJout( SJout="SJ.out.tab", SoutputDir, chrom=chrom, s=s, e=e )
 	} else {
-	  SRjunc = getJuncBySam( SRalignment , SoutputDir , chrom="chr2" , s=50147488 , e = 51259537 )
+	  SRjunc = getJuncBySam( SRalignment, SoutputDir, chrom=chrom, s=s, e=e )
 	}
 	
 	
 	############################################################################
 	############   STARlong mapping and junction sites for long reads
 	############################################################################
+	
+	############   for phqv	############   
 	
 	if( !is.null(LRphqv)  )
 	{
@@ -63,14 +66,16 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	  starLong( genomeDir=genomeDir , LR=LRphqv , outputDir=LoutputDir , cores=cores , SJ=NULL )
 	  
 	  LRread = getReadByJI( LRalignment , LoutputDir )
-	  exp = phqvExp(LRphqv,LoutputDir)
-	  LRread = merge( LRread , exp , by="id" )
+	  exp = phqvExp(LRphqv,LoutputDir)  # get coverage for all phqv 
+	  LRread = merge( LRread , exp , by="id" ) 
 	  LRread$coverage = LRread$full_length_coverage
 	  LRinfo = getLRinfo( LRread ,  chrom=chrom , s=s , e=e )
 	  LRread = LRinfo$LRread
 	  LRjunc = LRinfo$LRjunc
 	  LRtag = LRinfo$LRtag
 	}
+	
+	############   for flnc	############
 	
 	if( is.null(LRphqv) & !is.null(LRflnc) & is.null(LRnfl) )
 	{
@@ -80,17 +85,44 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	  starLong( genomeDir=genomeDir, LR=LRflnc, outputDir=LoutputDir, cores=cores, SJ=NULL )
 	  
 	  LRread = getReadByJI( LRalignment, LoutputDir )
-	  smrtcell = isoseqId( LRalignment, LoutputDir )
-	  LRread$group = smrtcell$movieName
-	  LRinfo = getLRinfo( LRread,  chrom=chrom, s=s, e =e )
+	  LRread$group = sapply( strsplit(as.character(LRread$id),"/") , function(x) x[1] )
+	  LRinfo = getLRinfo( LRread,  chrom=chrom, s=s, e=e )
 	  LRread = LRinfo$LRread
 	  LRjunc = LRinfo$LRjunc
 	  LRtag = LRinfo$LRtag
 	}
 	
-
+	############   for both flnc and nfl	############
+	
+	if( is.null(LRphqv) & !is.null(LRflnc) & !is.null(LRnfl) )
+	{
+	  LoutputDir1 = paste0(outputDir, "/LR_flnc")
+	  LRalignment1 = paste0(LoutputDir1, "/Aligned.out.sam")
+	  system( paste0( "mkdir -p " , LoutputDir1 ) )
+	  starLong( genomeDir=genomeDir, LR=LRflnc, outputDir=LoutputDir1, cores=cores, SJ=NULL )
+	  
+	  LoutputDir2 = paste0(outputDir, "/LR_nfl")
+	  LRalignment2 = paste0(LoutputDir2, "/Aligned.out.sam")
+	  system( paste0( "mkdir -p " , LoutputDir2 ) )
+	  starLong( genomeDir=genomeDir, LR=LRnfl, outputDir=LoutputDir2, cores=cores, SJ=NULL )
+	  
+	  
+	  LRread1 = getReadByJI( LRalignment1, LoutputDir1 )
+	  LRread1$group = sapply( strsplit(as.character(LRread1$id),"/") , function(x) x[1] )
+	  LRread2 = getReadByJI( LRalignment1, LoutputDir2 )
+	  LRread2$group = sapply( strsplit(as.character(LRread2$id),"/") , function(x) x[1] )
+	  LRread = rbind( LRread1 , LRread2 )
+	  
+	  LRinfo1 = getLRinfo( LRread1,  chrom=chrom, s=s, e=e )
+	  LRinfo = getLRinfo( LRread,  chrom=chrom, s=s, e=e )
+	  
+	  LRread = LRinfo1$LRread # LRread for flnc
+	  LRtag = LRinfo1$LRtag # LRtag for flnc 
+	  LRjunc = LRinfo$LRjunc # LRjunc for both flnc and nfl
+	}
+	
 	############################################################################
-	############   STARlong mapping and junction sites for long reads
+	############   grid searching
 	############################################################################
 	
 	if( fixedMatchedLS )
