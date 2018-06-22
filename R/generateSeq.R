@@ -23,8 +23,8 @@ generateSeq = function( genome , isoform )
 		
 		} ) 
 	
-	dna = DNAStringSet( dna )
-	names(dna) = names(isoform)
+	dna = DNAStringSet( do.call(c,dna) )
+	#names(dna) = names(isoform)
 	# sum(as.numeric(sapply(fasta2,nchar)%%3)>0)
 
 	suppressWarnings( protein <-translate(dna) )

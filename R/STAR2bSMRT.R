@@ -42,7 +42,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	SoutputDir = paste0(outputDir,"/SR")
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
 	system( paste0( "mkdir -p " , SoutputDir ) )
-	starShort( genomeDir , SR1 , SR2 , SoutputDir )
+	#starShort( genomeDir , SR1 , SR2 , SoutputDir )
 	
 	if( useSJout )
 	{
@@ -60,10 +60,10 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	
 	if( !is.null(LRphqv)  )
 	{
-	  LoutputDir = paste0(outputDir,"/LR_phqv")
+	  LoutputDir = paste0(outputDir,"/LR")
 	  LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 	  system( paste0( "mkdir -p " , LoutputDir ) )
-	  starLong( genomeDir=genomeDir , LR=LRphqv , outputDir=LoutputDir , cores=cores , SJ=NULL )
+	  #starLong( genomeDir=genomeDir , LR=LRphqv , outputDir=LoutputDir , cores=cores , SJ=NULL )
 	  
 	  LRread = getReadByJI( LRalignment , LoutputDir )
 	  exp = phqvExp(LRphqv,LoutputDir)  # get coverage for all phqv 
@@ -143,7 +143,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	print(correction[[1]][2:4])
 	
 	
-	EoutputDir = paste0(outputDir,"/Exp")
+	EoutputDir = paste0(outputDir,"/STAR2bSMRT")
 	system( paste0( "mkdir -p " , EoutputDir ) )
 	
 	setwd( EoutputDir )

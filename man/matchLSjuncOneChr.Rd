@@ -4,7 +4,7 @@
 \alias{matchLSjuncOneChr}
 \title{matchLSjuncOneChr}
 \usage{
-matchLSjuncOneChr(lrc, src, fuzzyMatch = TRUE)
+matchLSjuncOneChr(lrc, src, fuzzyMatch = 100)
 }
 \arguments{
 \item{lrc}{}
