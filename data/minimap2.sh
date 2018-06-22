@@ -26,4 +26,14 @@ LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/int
 ref="/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/gencode/GRCh37.liftover.from.GRCh38.p10.Release26/genome/GRCh37.primary_assembly.genome.fa"
 outputDir="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Alzheimer_IsoSeq_2016/intermediate_files/nfl_minimap2"
 cd $outputDir
-minimap2 -ax map-pb $ref $LR > Align.out.sam
+#minimap2 -N0 -t10 -ax map-pb $ref $LR > aln.sam
+/hpc/users/zhus02/schzrnas/sjzhu/bitbucket/minimap2/minimap2 --secondary=no -t 30 -ax splice -uf -C5 $ref $LR > aln.sam      # PacBio Iso-seq/traditional cDNA
+
+
+samtools view -hF 4 aln.sam -o Align.out.sam
+samtools view -b -hf 4 aln.sam -o unmapped.bam
+samtools sort -n unmapped.bam unmapped.sort
+bedtools bamtofastq -i unmapped.sort.bam -fq Unmapped.out.mate1
+
+
+
