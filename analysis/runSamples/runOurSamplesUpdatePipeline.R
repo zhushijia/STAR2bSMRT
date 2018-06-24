@@ -46,7 +46,7 @@ LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads
 SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/2607/2607.R1.fastq"
 SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/2607/2607.R2.fastq"
 outputDir=paste0(folder,"2607")
-STAR2bSMRT( genomeDir , genomeFasta , LR , SR1 , SR2 , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom , s , e , cores)
+#STAR2bSMRT( genomeDir , genomeFasta , LR , SR1 , SR2 , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom , s , e , cores)
 
 
 genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"

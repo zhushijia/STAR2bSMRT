@@ -142,7 +142,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	cat( ts , td , score[ij] , '\n ')
 	
 	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS , fuzzyMatch )
-	print(correction[[1]][c(2,4)])
+	print(correction[[1]][c(2,3)])
 	
 	
 	EoutputDir = paste0(outputDir,"/STAR2bSMRT")
