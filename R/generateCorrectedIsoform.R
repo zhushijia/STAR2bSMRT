@@ -46,8 +46,8 @@ generateCorrectedIsoform = function( LRjunc , SRjunc, LRtag , LRread  , ts , td 
     #srindex = lapply( strsplit( names(correctIsoformExp) , "_" ) , function(x) as.integer(x) )
     
     info = data.frame( read[range,] , isoform  )
-    correctIsoformExp = cast( info , isoform ~ group, sum , value="coverage")
-    srindex = lapply( strsplit( as.character(correctIsoformExp$isoform) , "_" ) , 
+    correctIsoformCount = cast( info , isoform ~ group, sum , value="coverage")
+    srindex = lapply( strsplit( as.character(correctIsoformCount$isoform) , "_" ) , 
                       function(x) as.integer(x) )
     
     correctIsoform = lapply( srindex , function(ind) { 
@@ -67,16 +67,35 @@ generateCorrectedIsoform = function( LRjunc , SRjunc, LRtag , LRread  , ts , td 
     
     correctIsoformNum = length(unique(isoform))
     
-    if( ncol(correctIsoformExp) == 2 )
-    {
-      correctIsoformFrac = sum(correctIsoformExp[,2])/sum(read$coverage)
-    }
+    totalReadCount = tapply(read$coverage, read$group, sum)
+    groupReadCount = apply(as.matrix(correctIsoformCount[,-1]),2,sum)
+    correctIsoformFrac = groupReadCount/totalReadCount
      
-    list( isoform=correctIsoform , num=correctIsoformNum , exp=correctIsoformExp , frac=correctIsoformFrac , LSjuncCount=LSjuncCount )
+    list( isoform=correctIsoform, uniNum=correctIsoformNum, 
+          frac=correctIsoformFrac, isoformCount=correctIsoformCount, 
+          LSjuncCount=LSjuncCount )
     
   }
   
   names(allCorrectIsoform) = CHR
+  
+  LSjuncCount = do.call( rbind , 
+                            lapply( allCorrectIsoform, function(x) x$LSjuncCount ) )
+  
+  if(ncol(LSjuncCount)>6)
+  {
+    y = log(LSjuncCount[,1]+1)
+    x = as.matrix( log(LSjuncCount[,-c(1:5)]+1) )
+    posCoef = as.matrix( coef(nnnpls(x,y,con=rep(1,ncol(x)))) )
+  } else {
+    posCoef = as.matrix(1)
+  }
+  
+  for( chr in CHR )
+  {
+    x = as.matrix(allCorrectIsoform[[chr]][['isoformCount']][,-1])
+    allCorrectIsoform[[chr]][['normalizedIsoformCount']] = as.numeric( x %*% posCoef)
+  }
   
   allCorrectIsoform
   

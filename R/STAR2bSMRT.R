@@ -173,7 +173,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	
 	###############################################################################################################
 	gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
-	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , exp=correction[[chrom]]$exp )
+	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , exp=correction[[chrom]]$normalizedIsoformCount )
 	#writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
 	writeGff( isoform=exonList , file = gffName )
 	
