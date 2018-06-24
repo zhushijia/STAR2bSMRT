@@ -9,7 +9,7 @@
 #'
 #' @examples
 #' 
-matchLSjuncOneChr = function( lrc , src , fuzzyMatch=0 )
+matchLSjuncOneChr = function( lrc , src , fuzzyMatch=100 )
 {
   
 	SRmatch = matrix( ncol=2 , nrow=nrow(lrc) , data=0 )

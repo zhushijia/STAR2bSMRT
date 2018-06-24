@@ -6,8 +6,8 @@
 \usage{
 STAR2bSMRT(genomeDir, genomeFasta, LRphqv = NULL, LRflnc = NULL,
   LRnfl = NULL, SR1, SR2 = NULL, useSJout = TRUE, adjustNCjunc = FALSE,
-  thresSR, thresDis, outputDir, fixedMatchedLS = FALSE, chrom = NULL,
-  s = 0, e = Inf, cores = 10)
+  thresSR, thresDis, outputDir, fixedMatchedLS = FALSE, fuzzyMatch = 100,
+  chrom = NULL, s = 0, e = Inf, cores = 10)
 }
 \arguments{
 \item{genomeDir}{}

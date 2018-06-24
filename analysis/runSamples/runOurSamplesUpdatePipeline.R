@@ -9,6 +9,7 @@ thresSR=c(1:100)
 thresDis=c(1:30)
 adjustNCjunc=TRUE
 fixedMatchedLS=FALSE
+fuzzyMatch=0
 folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/"
 system( paste("mkdir -p",folder) )
 

@@ -13,6 +13,7 @@
 #' @param thresDis 
 #' @param outputDir 
 #' @param fixedMatchedLS 
+#' @param fuzzyMatch
 #' @param chrom 
 #' @param s 
 #' @param e 
@@ -25,7 +26,7 @@
 #' 
 STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=NULL,
                         SR1, SR2=NULL, useSJout=TRUE,  adjustNCjunc=FALSE, 
-                        thresSR, thresDis, outputDir, fixedMatchedLS=FALSE, 
+                        thresSR, thresDis, outputDir, fixedMatchedLS=FALSE, fuzzyMatch=100, 
                         chrom=NULL , s=0 , e=Inf , cores=10 )
 {
 
@@ -66,6 +67,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	  #starLong( genomeDir=genomeDir , LR=LRphqv , outputDir=LoutputDir , cores=cores , SJ=NULL )
 	  
 	  LRread = getReadByJI( LRalignment , LoutputDir )
+	  LRread = subset(LRread , start < 50150000 )
 	  exp = phqvExp(LRphqv,LoutputDir)  # get coverage for all phqv 
 	  LRread = merge( LRread , exp , by="id" ) 
 	  LRread$coverage = LRread$full_length_coverage
@@ -132,15 +134,15 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	  matchedLS = NULL
 	}
 	
-	score = gridSearch( LRjunc , SRjunc , thresSR , thresDis , adjustNCjunc , matchedLS )
+	score = gridSearch( LRjunc , SRjunc , thresSR , thresDis , adjustNCjunc , matchedLS , fuzzyMatch )
 	
 	ij = which( score==max(score) , arr.ind=T )
 	ts = thresSR[ ij[1,1] ]
 	td = thresDis[ ij[1,2] ]
 	cat( ts , td , score[ij] , '\n ')
 	
-	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS )
-	print(correction[[1]][2:4])
+	correction = generateCorrectedIsoform( LRjunc , SRjunc, LRtag , LRread  , ts , td , matchedLS , fuzzyMatch )
+	print(correction[[1]][c(2,4)])
 	
 	
 	EoutputDir = paste0(outputDir,"/STAR2bSMRT")
