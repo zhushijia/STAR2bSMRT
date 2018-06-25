@@ -27,7 +27,8 @@
 STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=NULL,
                         SR1, SR2=NULL, useSJout=TRUE,  adjustNCjunc=FALSE, 
                         thresSR, thresDis, outputDir, fixedMatchedLS=FALSE, fuzzyMatch=100, 
-                        chrom=NULL , s=0 , e=Inf , cores=10 )
+                        chrom=NULL , s=0 , e=Inf , cores=10 ,
+                        SoutputDir , LoutputDir )
 {
 
 	library(Biostrings)
@@ -40,7 +41,7 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	############   STARshort mapping and junction sites for short reads
 	############################################################################
 	
-	SoutputDir = paste0(outputDir,"/SR")
+	#SoutputDir = paste0(outputDir,"/SR")
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
 	system( paste0( "mkdir -p " , SoutputDir ) )
 	#starShort( genomeDir , SR1 , SR2 , SoutputDir )
@@ -61,7 +62,7 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	
 	if( !is.null(LRphqv)  )
 	{
-	  LoutputDir = paste0(outputDir,"/LR")
+	  #LoutputDir = paste0(outputDir,"/LR")
 	  LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 	  system( paste0( "mkdir -p " , LoutputDir ) )
 	  #starLong( genomeDir=genomeDir , LR=LRphqv , outputDir=LoutputDir , cores=cores , SJ=NULL )
@@ -145,7 +146,8 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	print(correction[[1]][c(2,3)])
 	
 	
-	EoutputDir = paste0(outputDir,"/adjustNCjunc_",adjustNCjunc,
+	EoutputDir = paste0("/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/",
+	                    basename(outputDir),"/adjustNCjunc_",adjustNCjunc,
 	                    "_fixedMatchedLS_",fixedMatchedLS,"_useSJout_",useSJout,
 	                    "_fuzzyMatch_",fuzzyMatch)
 	
@@ -191,7 +193,7 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	kallisto = kallistoQuant( fastaName , SR1 , SR2 , EoutputDir )
 	
 	Sexp = log10(kallisto$tpm+1)
-	Lexp = log10(correction[['chr2']]$exp+1)
+	Lexp = log10(correction[['chr2']]$normalizedIsoformCount+1)
 	LSQuantCorr = cor.test(Lexp,Sexp)$estimate
 	LSQuantPval = cor.test(Lexp,Sexp)$p.val
 	
@@ -208,7 +210,7 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	dev.off()
 
 	###############################################################################################################
-	isoformNum = sum(sapply(correction,function(x)x$num))
+	isoformNum = sum(sapply(correction,function(x)x$uniNum))
 	isoformFrac = mean(sapply(correction,function(x)x$frac))
 	info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , translated=sum(seq$translated) , juncCorr , LSQuantCorr , LSQuantPval )
 	write.table(info,"summary.txt",quote=F,sep="\t",col.names=T,row.names=F)

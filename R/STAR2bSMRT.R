@@ -188,7 +188,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	kallisto = kallistoQuant( fastaName , SR1 , SR2 , EoutputDir )
 	
 	Sexp = log10(kallisto$tpm+1)
-	Lexp = log10(correction[['chr2']]$exp+1)
+	Lexp = log10(correction[['chr2']]$normalizedIsoformCount+1)
 	LSQuantCorr = cor.test(Lexp,Sexp)$estimate
 	LSQuantPval = cor.test(Lexp,Sexp)$p.val
 	
