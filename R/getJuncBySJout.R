@@ -15,7 +15,7 @@
 #' 
 getJuncBySJout = function( SJout="SJ.out.tab" , outputDir , chrom=NULL ,  s=0 , e=Inf )
 {
-  SJ.out.tab = read.table( paste0(SoutputDir,"/",SJout) , sep="\t")
+  SJ.out.tab = read.table( paste0(outputDir,"/",SJout) , sep="\t")
   junc = with( SJ.out.tab , data.frame(count=V7, chr=V1, start=V2, end=V3, motif=V5) )
   
   if( !is.null(chrom) )

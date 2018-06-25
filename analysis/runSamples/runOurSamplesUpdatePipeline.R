@@ -6,9 +6,9 @@ fuzzyMatch=0
 
 for ( adjustNCjunc in c(FALSE,TRUE) )
 {
-  for ( useSJout in c(FALSE,TRUE) )
+  for ( useSJout in c(TRUE,FALSE) )
   {
-    for ( fuzzyMatch in c(0,100) )
+    for ( fuzzyMatch in c(100,0) )
     {
       testParameters(adjustNCjunc , fixedMatchedLS , useSJout , fuzzyMatch )
     }
