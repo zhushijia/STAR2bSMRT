@@ -9,6 +9,7 @@ thresSR=c(1:100)
 thresDis=c(1:30)
 adjustNCjunc=FALSE
 fixedMatchedLS=FALSE
+useSJout=FALSE
 fuzzyMatch=0
 folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/"
 system( paste("mkdir -p",folder) )
@@ -16,6 +17,18 @@ system( paste("mkdir -p",folder) )
 ########################################################################################################################
 ##########################################   Miseq  ####################################################################
 ########################################################################################################################
+
+genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
+LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smrtportal_24463_2607/polished_high_qv_consensus_isoforms.fasta"
+SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/2607/2607.R1.fastq"
+SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/2607/2607.R2.fastq"
+outputDir=paste0(folder,"2607")
+STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LR, LRflnc=NULL, LRnfl=NULL,
+                SR1=SR1, SR2=SR2, useSJout=useSJout,  adjustNCjunc=adjustNCjunc, 
+                thresSR=thresSR, thresDis=thresDis, outputDir=outputDir, 
+                fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
+                chrom=chrom , s=s , e=e , cores=cores)
+
 
 genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
 LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smrtportal_24461_641/polished_high_qv_consensus_isoforms.fasta"
