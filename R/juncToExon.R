@@ -3,13 +3,13 @@
 #' @param juncList 
 #' @param s 
 #' @param e 
-#' @param exp 
+#' @param tag
 #'
 #' @return
 #' @export
 #'
 #' @examples
-juncToExon = function( juncList , s , e , exp=c() )
+juncToExon = function( juncList , s , e , tag=c() )
 {
 	
   exons = lapply( juncList , function(junc) {
@@ -19,7 +19,14 @@ juncToExon = function( juncList , s , e , exp=c() )
     junc = rbind( data.frame(chr=chr,start=0,end=s) , junc, data.frame(chr=chr,start=e,end=Inf) )
     exon = data.frame( chr=junc$chr[-1] , start=junc$end[-nrow(junc)] , end=junc$start[-1] )
   } )
-  names(exons) = paste0("SS",1:length(exons),"_exp",exp)
+  
+  names(exons) = paste0("SS",1:length(exons))
+  
+  if(length(tag)>0)
+  {
+    names(exons) = paste(names(exons),tag,sep="_")
+  } 
+  
   exons
 }
 

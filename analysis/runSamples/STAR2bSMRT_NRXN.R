@@ -178,7 +178,8 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	
 	###############################################################################################################
 	gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
-	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , exp=correction[[chrom]]$normalizedIsoformCount )
+	tag = paste0( "exp", correction[[chrom]]$normalizedIsoformCount )
+	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , tag=tag )
 	#writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
 	writeGff( isoform=exonList , file = gffName )
 	
@@ -186,6 +187,8 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	#seq = generateSeq( genome=genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411  )
 	seq = generateSeq( genome=genome , isoform=exonList )
 	fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
+	translated = sapply( seq$translated , function(x) ifelse( x , "translated" , "untranslated" )  )
+	names(seq$dna) = paste(names(seq$dna),translated,sep="_")
 	writeXStringSet( seq$dna , fastaName )
 	#writeXStringSet( seq$dna[seq$translated] , fastaName )
 	
