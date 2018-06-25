@@ -4,7 +4,7 @@
 \alias{juncToExon}
 \title{juncToExon}
 \usage{
-juncToExon(juncList, s, e, exp = c())
+juncToExon(juncList, s, e, tag = c())
 }
 \arguments{
 \item{juncList}{}
@@ -13,7 +13,7 @@ juncToExon(juncList, s, e, exp = c())
 
 \item{e}{}
 
-\item{exp}{}
+\item{tag}{}
 }
 \description{
 juncToExon

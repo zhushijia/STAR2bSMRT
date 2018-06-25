@@ -1,5 +1,5 @@
 library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone4/setup")
-
+STAR2bSMRT.dir = system.file(package = "STAR2bSMRT")
 
 adjustNCjunc=FALSE
 useSJout=FALSE

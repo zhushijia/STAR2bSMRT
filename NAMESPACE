@@ -3,6 +3,7 @@
 export(STAR2bSMRT)
 export(STAR2bSMRT1)
 export(STAR2bSMRT2)
+export(STAR2bSMRT_NRXN)
 export(featureCounts)
 export(generateCorrectedIsoform)
 export(generateCorrectedIsoform0)
