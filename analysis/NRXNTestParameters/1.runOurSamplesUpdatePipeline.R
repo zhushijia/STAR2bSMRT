@@ -6,7 +6,7 @@ fuzzyMatch=0
 
 for ( adjustNCjunc in c(FALSE,TRUE) )
 {
-  for ( useSJout in c(TRUE,FALSE) )
+  for ( useSJout in c(FALSE,TRUE) )
   {
     for ( fuzzyMatch in c(0,100) )
     {
@@ -26,13 +26,70 @@ testParameters = function(adjustNCjunc , fixedMatchedLS , useSJout , fuzzyMatch 
   e = 51259537
   cores = 30
   thresSR=c(1:100) 
-  thresDis=c(0:30)
+  thresDis=c(1:30)
   #adjustNCjunc=FALSE
   fixedMatchedLS=FALSE
   #useSJout=FALSE
   #fuzzyMatch=0
   folder="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipeline_nonAdjustNCjunc/"
   system( paste("mkdir -p",folder) )
+  
+  
+  ########################################################################################################################
+  ##########################################   hipsc and adult  ####################################################################
+  ########################################################################################################################
+  
+  LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26962/polished_high_qv_consensus_isoforms.fasta"
+  SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/fetal-diPFC_S1_R1_001.fastq.gz"
+  SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/fetal-diPFC_S1_R2_001.fastq.gz"
+  outputDir=paste0(folder,"fetal")
+  SoutputDir = paste0(outputDir,"/SR")
+  LoutputDir = paste0(outputDir,"/LR")
+  STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LRflnc=NULL, LRnfl=NULL,
+                   SR1=SR1, SR2=SR2, useSJout=useSJout,  adjustNCjunc=adjustNCjunc, 
+                   thresSR=thresSR, thresDis=thresDis, outputDir=outputDir, 
+                   fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
+                   chrom=chrom , s=s , e=e , cores=cores ,
+                   SoutputDir=SoutputDir , LoutputDir=LoutputDir )
+  
+  LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26963/polished_high_qv_consensus_isoforms.fasta"
+  SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/14-34-adult-dIPFC_S2_R1_001.fastq.gz"
+  SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/14-34-adult-dIPFC_S2_R2_001.fastq.gz"
+  outputDir=paste0(folder,"adult_dlPFC1_10")
+  SoutputDir = paste0(outputDir,"/SR")
+  LoutputDir = paste0(outputDir,"/LR")
+  STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LRflnc=NULL, LRnfl=NULL,
+                   SR1=SR1, SR2=SR2, useSJout=useSJout,  adjustNCjunc=adjustNCjunc, 
+                   thresSR=thresSR, thresDis=thresDis, outputDir=outputDir, 
+                   fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
+                   chrom=chrom , s=s , e=e , cores=cores ,
+                   SoutputDir=SoutputDir , LoutputDir=LoutputDir )
+  
+  LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26964/polished_high_qv_consensus_isoforms.fasta"
+  SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/106781-adult-dIPFC_S3_R1_001.fastq.gz"
+  SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/106781-adult-dIPFC_S3_R2_001.fastq.gz"
+  outputDir=paste0(folder,"NRXN_adult_dlPFC1_12")
+  SoutputDir = paste0(outputDir,"/SR")
+  LoutputDir = paste0(outputDir,"/LR")
+  STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LRflnc=NULL, LRnfl=NULL,
+                   SR1=SR1, SR2=SR2, useSJout=useSJout,  adjustNCjunc=adjustNCjunc, 
+                   thresSR=thresSR, thresDis=thresDis, outputDir=outputDir, 
+                   fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
+                   chrom=chrom , s=s , e=e , cores=cores ,
+                   SoutputDir=SoutputDir , LoutputDir=LoutputDir )
+  
+  LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26965/polished_high_qv_consensus_isoforms.fasta"
+  SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/12-27-adult-dIPFC_S7_R1_001.fastq.gz"
+  SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/12-27-adult-dIPFC_S7_R2_001.fastq.gz"
+  outputDir=paste0(folder,"adult_dlPFC1_13")
+  SoutputDir = paste0(outputDir,"/SR")
+  LoutputDir = paste0(outputDir,"/LR")
+  STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LRflnc=NULL, LRnfl=NULL,
+                   SR1=SR1, SR2=SR2, useSJout=useSJout,  adjustNCjunc=adjustNCjunc, 
+                   thresSR=thresSR, thresDis=thresDis, outputDir=outputDir, 
+                   fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
+                   chrom=chrom , s=s , e=e , cores=cores ,
+                   SoutputDir=SoutputDir , LoutputDir=LoutputDir )
   
   
   ########################################################################################################################
@@ -118,62 +175,7 @@ testParameters = function(adjustNCjunc , fixedMatchedLS , useSJout , fuzzyMatch 
   #outputDir=paste0(folder,"641_SR2")
   #STAR2bSMRT( genomeDir , genomeFasta , LR , SR1 , SR2 , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom , s , e , cores)
   
-  ########################################################################################################################
-  ##########################################   hipsc and adult  ####################################################################
-  ########################################################################################################################
   
-  LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26962/polished_high_qv_consensus_isoforms.fasta"
-  SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/fetal-diPFC_S1_R1_001.fastq.gz"
-  SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/fetal-diPFC_S1_R2_001.fastq.gz"
-  outputDir=paste0(folder,"fetal")
-  SoutputDir = paste0(outputDir,"/SR")
-  LoutputDir = paste0(outputDir,"/LR")
-  STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LRflnc=NULL, LRnfl=NULL,
-                   SR1=SR1, SR2=SR2, useSJout=useSJout,  adjustNCjunc=adjustNCjunc, 
-                   thresSR=thresSR, thresDis=thresDis, outputDir=outputDir, 
-                   fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
-                   chrom=chrom , s=s , e=e , cores=cores ,
-                   SoutputDir=SoutputDir , LoutputDir=LoutputDir )
-  
-  LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26963/polished_high_qv_consensus_isoforms.fasta"
-  SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/14-34-adult-dIPFC_S2_R1_001.fastq.gz"
-  SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/14-34-adult-dIPFC_S2_R2_001.fastq.gz"
-  outputDir=paste0(folder,"adult_dlPFC1_10")
-  SoutputDir = paste0(outputDir,"/SR")
-  LoutputDir = paste0(outputDir,"/LR")
-  STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LRflnc=NULL, LRnfl=NULL,
-                   SR1=SR1, SR2=SR2, useSJout=useSJout,  adjustNCjunc=adjustNCjunc, 
-                   thresSR=thresSR, thresDis=thresDis, outputDir=outputDir, 
-                   fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
-                   chrom=chrom , s=s , e=e , cores=cores ,
-                   SoutputDir=SoutputDir , LoutputDir=LoutputDir )
-  
-  LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26964/polished_high_qv_consensus_isoforms.fasta"
-  SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/106781-adult-dIPFC_S3_R1_001.fastq.gz"
-  SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/106781-adult-dIPFC_S3_R2_001.fastq.gz"
-  outputDir=paste0(folder,"NRXN_adult_dlPFC1_12")
-  SoutputDir = paste0(outputDir,"/SR")
-  LoutputDir = paste0(outputDir,"/LR")
-  STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LRflnc=NULL, LRnfl=NULL,
-                   SR1=SR1, SR2=SR2, useSJout=useSJout,  adjustNCjunc=adjustNCjunc, 
-                   thresSR=thresSR, thresDis=thresDis, outputDir=outputDir, 
-                   fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
-                   chrom=chrom , s=s , e=e , cores=cores ,
-                   SoutputDir=SoutputDir , LoutputDir=LoutputDir )
-  
-  LRphqv="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_primerR2/26965/polished_high_qv_consensus_isoforms.fasta"
-  SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/12-27-adult-dIPFC_S7_R1_001.fastq.gz"
-  SR2="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/12-27-adult-dIPFC_S7_R2_001.fastq.gz"
-  outputDir=paste0(folder,"adult_dlPFC1_13")
-  SoutputDir = paste0(outputDir,"/SR")
-  LoutputDir = paste0(outputDir,"/LR")
-  STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LRflnc=NULL, LRnfl=NULL,
-                   SR1=SR1, SR2=SR2, useSJout=useSJout,  adjustNCjunc=adjustNCjunc, 
-                   thresSR=thresSR, thresDis=thresDis, outputDir=outputDir, 
-                   fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
-                   chrom=chrom , s=s , e=e , cores=cores ,
-                   SoutputDir=SoutputDir , LoutputDir=LoutputDir )
-
 }
 
 
