@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-readGff <- function( file , chrom , s , e )
+readGff <- function( file , chrom=NULL , s=0 , e=Inf )
 {
   
   gff = read.table(file,sep='\t')

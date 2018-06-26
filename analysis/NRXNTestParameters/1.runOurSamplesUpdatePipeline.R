@@ -8,7 +8,7 @@ for ( adjustNCjunc in c(FALSE,TRUE) )
 {
   for ( useSJout in c(TRUE,FALSE) )
   {
-    for ( fuzzyMatch in c(100,0) )
+    for ( fuzzyMatch in c(0,100) )
     {
       testParameters(adjustNCjunc , fixedMatchedLS , useSJout , fuzzyMatch )
     }
@@ -26,7 +26,7 @@ testParameters = function(adjustNCjunc , fixedMatchedLS , useSJout , fuzzyMatch 
   e = 51259537
   cores = 30
   thresSR=c(1:100) 
-  thresDis=c(1:30)
+  thresDis=c(0:30)
   #adjustNCjunc=FALSE
   fixedMatchedLS=FALSE
   #useSJout=FALSE
