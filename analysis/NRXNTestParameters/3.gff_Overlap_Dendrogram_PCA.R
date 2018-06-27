@@ -2,6 +2,8 @@ library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/S
 
 folder="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/"
 samples= c("2607","553","581","641","642","NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13","fetal")
+sampleNames = c("Control 1","Control 2","3' Del 1","3' Del 2","Control 3","Adult 1","Adult 2","Adult 3","Fetal")
+
 
 parameters = dir( paste0(folder,"/fetal") )
 
@@ -16,7 +18,7 @@ for(parai in parameters)
   	gff = paste0(folder,"/",sample,"/",parai,"/",files[grepl("gff$",files)])
   	readGff( gff , chrom='chr2' , s=50149082 , e=51255411 )
   } )
-  names(gffs) = samples
+  names(gffs) = sampleNames
   
   exp = lapply( gffs , function(x) {
     sapply( strsplit(names(x),'_'), function(p) as.integer(gsub("exp|;","",p[4])) )
@@ -28,7 +30,7 @@ for(parai in parameters)
   
   
   translatedGffs = lapply( 1:length(gffs) , function(i) gffs[[i]][ translated[[i]] ]  )
-  names(translatedGffs) = samples
+  names(translatedGffs) = sampleNames
   
   hiPSC = unionGff(translatedGffs[[1]],translatedGffs[[2]])
   humanBrain = unionGff(unionGff(translatedGffs[[6]],translatedGffs[[7]]),translatedGffs[[8]])
@@ -105,5 +107,6 @@ for(parai in parameters)
   
   dendrogram_pca( gffs[c(1:9)] , "dendrogram_allGffs.pdf" )
   dendrogram_pca( gffs[c(1:2,5:9)] , "dendrogram_partGffs.pdf" )
-
+  dendrogram_pca( mergeTranslatedGffs , "dendrogram_translatedMergedAllGffs.pdf" )
+  
 }
