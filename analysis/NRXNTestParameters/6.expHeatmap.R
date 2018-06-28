@@ -25,85 +25,97 @@ parameters = dir( paste0(folder,"/fetal") )
 for(parai in parameters)  
 {
   
-  cat(parai,"\n")
-  
-  gffs = lapply( samples , function(sample)
-  {
-  	files = dir( paste0(folder,"/",sample,"/",parai) )
-  	gff = paste0(folder,"/",sample,"/",parai,"/",files[grepl("gff$",files)])
-  	readGff( gff , chrom='chr2' , s=50149082 , e=51255411 )
-  } )
-  names(gffs) = sampleNames
-  
-  translated = lapply( gffs , function(x) {
-    sapply( strsplit(names(x),'_'), function(p) gsub("exp|;","",p[5])=="translated" )
-  }   )
-  
-  
-  translatedGffs = lapply( 1:length(gffs) , function(i) gffs[[i]][ translated[[i]] ]  )
-  names(translatedGffs) = sampleNames
-  
-  hiPSC = unionGff(translatedGffs[[1]],translatedGffs[[2]])
-  patient = unionGff(translatedGffs[[3]],translatedGffs[[4]])
-  mergeTranslatedGffs = list(  case=patient ,control=hiPSC )
-  mergeTranslatedExps = lapply( mergeTranslatedGffs , function(x) {
-    sapply( strsplit(names(x),'_'), function(p) as.integer(gsub("exp|;","",p[4])) )
-  }   )
+	cat(parai,"\n")
 
-  
-  getFrac = function(gff,annotation)
-  {
-    
-    frac = function(gs,annot_sites)
-    {
-      sapply(annot_sites,function(x) {
-        max( sapply(gs,function(y) mean(x%in%y)) )
-      } )
-    }
-    
-    gff_sites = lapply(gff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
-    annot_sites = apply(annotation,1,function(z) z[2]:z[3] )
-    fracs = do.call(rbind,lapply( gff_sites , function(gs) frac(gs,annot_sites) ) )
-    colnames(fracs) = as.character(annotation$Exon)
-    fracs
-  }
-  
-  caseExp = mergeTranslatedExps[[1]]
-  contExp = mergeTranslatedExps[[2]]
-  caseGff = mergeTranslatedGffs[[1]]
-  contGff = mergeTranslatedGffs[[2]]
-  case_fracs2 = getFrac(caseGff,annotation)
-  cont_fracs2 = getFrac(contGff,annotation)
-  range = matchGff(contGff,caseGff)
-  range = range[!is.na(range)]
-  case_fracs2[range, ] = -case_fracs2[range, ]
-  range = matchGff(caseGff,contGff)
-  range = range[!is.na(range)]
-  cont_fracs2[range, ] = -cont_fracs2[range, ]
-  
-  plotHeatmap = function(cc_fracs,ccExp)
-  {
-    require('gplots')
-    ccExp = log(ccExp+1)
-    x = cc_fracs
-    x = cbind( (cc_fracs) , 0 , exp=1-ccExp/max(ccExp) )
-    x = x[order(x[,29]),]
-    #heatmap( x ,Rowv=NA,Colv=NA , scale="none" , col=redgreen(256) )
-    heatmap.2(x, col=cm.colors(256), scale="none", key=TRUE, symkey=FALSE, density.info="none", trace="none",keysize = 1.2,cexRow=0.5,dendrogram="none",Rowv=NA,Colv=NA)
-  }
-  
-  outputDir = paste0(folder,"/comparisonResult","/",parai)
-  system( paste( "mkdir -p" , outputDir ) )
-  setwd(outputDir)
-  
-  pdf("case.heatmap_translated_ConsiderOverlap.pdf")
-  plotHeatmap( case_fracs2 , caseExp )
-  dev.off()
-  
-  pdf("cont.heatmap_translated_ConsiderOverlap.pdf")
-  plotHeatmap( cont_fracs2 , contExp )
-  dev.off()
-  
+	gffs = lapply( samples , function(sample)
+	{
+	files = dir( paste0(folder,"/",sample,"/",parai) )
+	gff = paste0(folder,"/",sample,"/",parai,"/",files[grepl("gff$",files)])
+	readGff( gff , chrom='chr2' , s=50149082 , e=51255411 )
+	} )
+	names(gffs) = sampleNames
+
+	translated = lapply( gffs , function(x) {
+	sapply( strsplit(names(x),'_'), function(p) gsub("exp|;","",p[5])=="translated" )
+	}   )
+
+
+	translatedGffs = lapply( 1:length(gffs) , function(i) gffs[[i]][ translated[[i]] ]  )
+	names(translatedGffs) = sampleNames
+
+	hiPSC = unionGff(translatedGffs[[1]],translatedGffs[[2]])
+	patient = unionGff(translatedGffs[[3]],translatedGffs[[4]])
+	mergeTranslatedGffs = list(  case=patient ,control=hiPSC )
+	mergeTranslatedExps = lapply( mergeTranslatedGffs , function(x) {
+	sapply( strsplit(names(x),'_'), function(p) as.integer(gsub("exp|;","",p[4])) )
+	}   )
+
+
+	getFrac = function(gff,annotation)
+	{
+
+	frac = function(gs,annot_sites)
+	{
+	  sapply(annot_sites,function(x) {
+		max( sapply(gs,function(y) mean(x%in%y)) )
+	  } )
+	}
+
+	gff_sites = lapply(gff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
+	annot_sites = apply(annotation,1,function(z) z[2]:z[3] )
+	fracs = do.call(rbind,lapply( gff_sites , function(gs) frac(gs,annot_sites) ) )
+	colnames(fracs) = as.character(annotation$Exon)
+	fracs
+	}
+
+	caseExp = mergeTranslatedExps[[1]]
+	contExp = mergeTranslatedExps[[2]]
+	caseGff = mergeTranslatedGffs[[1]]
+	contGff = mergeTranslatedGffs[[2]]
+	case_fracs = getFrac(caseGff,annotation)
+	cont_fracs = getFrac(contGff,annotation)
+
+	case_fracs2 = as.data.frame(round(case_fracs))
+	cont_fracs2 = as.data.frame(round(cont_fracs))
+
+	range = matchGff(contGff,caseGff)
+	range = range[!is.na(range)]
+
+	caseUnique = -case_fracs2[-range, ] # -1 means case unique 
+	common = case_fracs2[range, ]
+
+	range = matchGff(caseGff,contGff)
+	range = range[!is.na(range)]
+
+	contUnique = 2*cont_fracs2[-range, ]
+
+	unique(do.call(c,caseUnique))
+	unique(do.call(c,contUnique))
+	unique(do.call(c,common))
+
+
+	outputDir = paste0(folder,"/comparisonResult","/",parai)
+	system( paste( "mkdir -p" , outputDir ) )
+	setwd(outputDir)
+
+	library(ggplot2)
+	library(reshape)
+	library(plyr)
+
+	pdf("case.cont.heatmap_translated_ConsiderOverlap.pdf")
+	fracs = rbind(caseUnique,contUnique,common)
+	fracs = data.frame( Name=paste0('isoform',1:nrow(fracs)) ,fracs )
+	fracs.m <- melt(fracs)
+	fracs.s <- ddply(fracs.m, .(variable), transform,rescale = scale(value))
+	gg <- ggplot(fracs.s, aes(variable, Name))
+	gg <- gg + geom_tile(aes(fill = factor(value)), colour = "white")
+	#gg <- gg + scale_fill_gradient2(low = "darkgreen", mid = "white", high = "darkred")
+	gg <- gg + scale_fill_manual(values=c("red","white","orange","green"))
+	gg <- gg + labs(x="", y="")
+	gg <- gg + theme_bw()
+	gg <- gg + theme(panel.grid=element_blank(), panel.border=element_blank())
+	gg
+	dev.off()
 
   
 }
