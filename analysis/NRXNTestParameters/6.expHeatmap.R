@@ -107,14 +107,17 @@ for(parai in parameters)
 	fracs = data.frame( Name=paste0('isoform',1:nrow(fracs)) ,fracs )
 	fracs.m <- melt(fracs)
 	fracs.s <- ddply(fracs.m, .(variable), transform,rescale = scale(value))
-	gg <- ggplot(fracs.s, aes(variable, Name))
+	gg <- ggplot(fracs.s, aes(x=variable, y=Name))
 	gg <- gg + geom_tile(aes(fill = factor(value)), colour = "white")
 	#gg <- gg + scale_fill_gradient2(low = "darkgreen", mid = "white", high = "darkred")
 	gg <- gg + scale_fill_manual(values=c("red","white","orange","green"))
 	gg <- gg + labs(x="", y="")
 	gg <- gg + theme_bw()
 	gg <- gg + theme(panel.grid=element_blank(), panel.border=element_blank())
-	gg
+	base_size <- 9
+	gg + theme(legend.position="none", axis.ticks=element_blank(), 
+	           axis.text.x=element_text(size=base_size*0.8, angle=300, 
+	                                    hjust = 0, colour="grey50"))
 	dev.off()
 
   

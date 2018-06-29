@@ -13,5 +13,6 @@ unionGff <- function( gff1 , gff2 )
 {
   index = matchGff(gff1 , gff2)
   index = index[!is.na(index)]
-  c( gff1 , gff2[-index] ) 
+  index2 = setdiff( seq_along(gff2) , index  )
+  c( gff1 , gff2[index2] ) 
 }
