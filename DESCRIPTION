@@ -1,7 +1,7 @@
 Package: STAR2bSMRT
 Type: Package
 Title: STARlong and STARshort based Single Molecule Real Time Iso-Seq analysis
-Version: 0.4.5
+Version: 0.5.1
 Author: Shijia Zhu
 Maintainer: Shijia Zhu <shijia.zhu@mssm.edu>
 Description: We presented the STARlong and STARshort based Single Molecule Real Time Iso-Seq analysis.
