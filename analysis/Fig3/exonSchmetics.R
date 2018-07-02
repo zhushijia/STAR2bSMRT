@@ -49,8 +49,6 @@ heatmapGradientColor = function(X)
 }
 
 
-library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone2/setup")
-
 #annotation = read.table('/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/NRXN1.txt',sep='\t')
 annotation = read.table('/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/NRXN1ExonAnnotations.txt',sep='\t',header=T)
 annotation[2,2] = annotation[3,3]+1
@@ -64,7 +62,19 @@ annotation[,1] = as.character(annotation[,1])
 annotation[27,1] = "exon7c"
 annotation[27,4] = 23
 
-library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone4/setup")
+
+######################################
+annotation[27,1] = "exon7a"
+annotation[7,1] = "exon15_16"
+annotation = annotation[c(1:6,27,8:16,17:26),]
+
+
+
+
+
+
+
+library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone5/setup")
 
 folder="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/"
 samples= c("581","641","2607","553")#,"642","NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13","fetal")
@@ -114,6 +124,11 @@ for(parai in parameters)
   	annot_sites = apply(annotation,1,function(z) z[2]:z[3] )
   	fracs = do.call(rbind,lapply( gff_sites , function(gs) frac(gs,annot_sites) ) )
   	colnames(fracs) = as.character(annotation$Exon)
+  	rownames(fracs) = NULL
+  	fracs = data.frame(fracs)
+  	fracs$exon7a[ fracs$exon7a==1 & fracs$exon7b==1 ] = 0
+  	fracs$exon23a[ fracs$exon23a==1 & fracs$exon23b==1 ] = 0
+  	
   	fracs
   	
 	}
@@ -181,19 +196,15 @@ for(parai in parameters)
 	logExps = data.frame( Name, log10(exps+1) )
 	fracs = data.frame( Name , fracs ) 
 	
-	
-	
 	outputDir = paste0(folder,"/comparisonResult","/",parai)
 	system( paste( "mkdir -p" , outputDir ) )
 	setwd(outputDir)
-
-
 
 	heatmapMannualColor(fracs)
 	heatmapGradientColor(logExps)
 	
 	pdf("barplot.pdf",h=10,w=4)
-	barplot(de[order(Name)],col=cols[order(Name)],horiz=T,border='grey')
+	barplot(de[order(Name)],col=cols[order(Name)],horiz=T,border='white')
 	dev.off()
 	
 	
