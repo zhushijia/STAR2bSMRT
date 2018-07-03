@@ -1,3 +1,29 @@
+getFrac = function(gff,annotation)
+{
+  
+  frac = function(gs,annot_sites)
+  {
+    sapply(annot_sites,function(x) {
+      max( sapply(gs,function(y) mean(x%in%y)) )
+    } )
+  }
+  
+  gff_sites = lapply(gff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
+  annot_sites = apply(annotation,1,function(z) z[2]:z[3] )
+  fracs = do.call(rbind,lapply( gff_sites , function(gs) frac(gs,annot_sites) ) )
+  colnames(fracs) = as.character(annotation$Exon)
+  rownames(fracs) = NULL
+  fracs = data.frame(fracs)
+  
+  fracs$exon3b[ fracs$exon3a==1 & fracs$exon3b==1 ] = 0
+  fracs$exon7a[ fracs$exon7a==1 & fracs$exon7b==1 ] = 0
+  fracs$exon23a[ fracs$exon23a==1 & fracs$exon23b==1 ] = 0
+  
+  fracs
+  
+}
+
+
 heatmapMannualColor = function(X)
 {
   library(ggplot2)
@@ -49,37 +75,63 @@ heatmapGradientColor = function(X)
 }
 
 
-#annotation = read.table('/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/NRXN1.txt',sep='\t')
-annotation = read.table('/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/NRXN1ExonAnnotations.txt',sep='\t',header=T)
-annotation[2,2] = annotation[3,3]+1
-annotation[25,3] = annotation[24,2]-1
-
-######################################
-annotation[27,] = annotation[8,]
-annotation[8,3] = 50848363
-annotation[27,2] = 50848364
-annotation[,1] = as.character(annotation[,1])
-annotation[27,1] = "exon7c"
-annotation[27,4] = 23
-
-
-######################################
-annotation[27,1] = "exon7a"
-annotation[7,1] = "exon15_16"
-annotation = annotation[c(1:6,27,8:16,17:26),]
 
 
 
+plotExonCoexpress = function(case_fracs, cont_fracs )
+{
+  
+  f = function(X)
+  {
+    X.m <- melt(X)
+    X.s <- ddply(X.m, .(variable), transform,rescale = scale(value))
+    gg <- ggplot(X.s, aes(x=variable, y=Name))
+    gg <- gg + geom_tile(aes(fill = value), colour = "white")
+    gg <- gg + scale_fill_gradient2(low = "white", high = "steelblue")
+    #gg <- gg + scale_fill_manual(values=c("red","white","orange","green"))
+    gg <- gg + labs(x="", y="")
+    gg <- gg + theme_bw()
+    gg <- gg + theme(panel.grid=element_blank(), panel.border=element_blank())
+    base_size <- 9
+    gg <- gg + theme(axis.ticks=element_blank(), 
+                     axis.text.x=element_text(size=base_size*0.8, angle=300, 
+                                              hjust = 0, colour="grey50"))
+    print(gg)
+    
+  }
+ 
+  library(ggplot2)
+  library(reshape)
+  library(plyr)
+  
+  case_dist = as.matrix( dist(t(case_fracs)) )
+  cont_dist = as.matrix( dist(t(cont_fracs)) )
+  #diff_dist = log(case_dist+1) - log( cont_dist +1 )
+  diff_dist = case_dist- cont_dist
+  Name = reorder(colnames(case_dist),1:nrow(case_dist))
+  case_dist = data.frame(Name,case_dist)
+  cont_dist = data.frame(Name,cont_dist)
+  diff_dist = data.frame(Name,diff_dist)
+  
+  pdf("Exon_CoExpression.pdf")
+  f(case_dist)
+  f(cont_dist)
+  f(diff_dist)
+  dev.off()
+  
+}
 
 
 
+
+
+annotation = read.table('/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/NRXN1_hg19_ExonAnnotations_shijia.txt',sep='\t',header=T)
 
 library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone5/setup")
 
 folder="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/"
 samples= c("581","641","2607","553")#,"642","NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13","fetal")
 sampleNames = c("3' Del 1","3' Del 2","Control 1","Control 2")#,"Control 3","Adult 1","Adult 2","Adult 3","Fetal")
-
 
 parameters = dir( paste0(folder,"/fetal") )
 
@@ -110,29 +162,7 @@ for(parai in parameters)
 	}   )
 	names(translatedExps) = names(gffs)
 	
-	getFrac = function(gff,annotation)
-	{
-
-  	frac = function(gs,annot_sites)
-  	{
-  	  sapply(annot_sites,function(x) {
-  		max( sapply(gs,function(y) mean(x%in%y)) )
-  	  } )
-  	}
-  
-  	gff_sites = lapply(gff,function(y) apply(y,1,function(z) z[2]:z[3] ) )
-  	annot_sites = apply(annotation,1,function(z) z[2]:z[3] )
-  	fracs = do.call(rbind,lapply( gff_sites , function(gs) frac(gs,annot_sites) ) )
-  	colnames(fracs) = as.character(annotation$Exon)
-  	rownames(fracs) = NULL
-  	fracs = data.frame(fracs)
-  	fracs$exon7a[ fracs$exon7a==1 & fracs$exon7b==1 ] = 0
-  	fracs$exon23a[ fracs$exon23a==1 & fracs$exon23b==1 ] = 0
-  	
-  	fracs
-  	
-	}
-
+	
 	caseGff = unionGff(translatedGffs[[1]],translatedGffs[[2]])
 	contGff = unionGff(translatedGffs[[3]],translatedGffs[[4]])
 	case_fracs = getFrac(caseGff,annotation)
@@ -171,8 +201,13 @@ for(parai in parameters)
 	  ee[is.na(ee)] = 0
 	  ee
 	} )
-  colnames(exps) = names(translatedGffs)
+  
+	# normalized to sum
+	normalizedFactor = colSums(exps)/min(colSums(exps))
+	exps = sapply( 1:ncol(exps) , function(i) exps[,i]/normalizedFactor[i] )
+	colnames(exps) = names(translatedGffs)
 	exps = data.frame(exps)
+	
 	
 	cased = matchGff(caseUniGff,allGff)
 	contd = matchGff(contUniGff,allGff)
@@ -202,6 +237,7 @@ for(parai in parameters)
 
 	heatmapMannualColor(fracs)
 	heatmapGradientColor(logExps)
+	plotExonCoexpress(case_fracs,cont_fracs)
 	
 	pdf("barplot.pdf",h=10,w=4)
 	barplot(de[order(Name)],col=cols[order(Name)],horiz=T,border='white')

@@ -1,9 +1,59 @@
-library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone4/setup")
+dendrogram_pca = function( gffs, fileName )
+{
+
+allGffs = gffs[[1]]
+for(i in 2:length(gffs))
+allGffs = unionGff(allGffs,gffs[[i]])
+
+exp = lapply( gffs , function(x) {
+  sapply( strsplit(names(x),'_'), function(p) as.integer(gsub("exp|;","",p[4])) )
+}   )
+
+
+labels = names(gffs)
+x1 = sapply( 1:length(gffs) , function(i) {
+  flag = rep(0,length(allGffs))
+  ind = matchGff( allGffs, gffs[[i]] )
+  flag[ !is.na(ind) ] = 1
+  flag
+})
+colnames(x1) = labels
+
+x2 = sapply( 1:length(gffs) , function(i) {
+  flag = rep(0,length(allGffs))
+  ind = matchGff( allGffs, gffs[[i]] )
+  flag[ !is.na(ind) ] = exp[[i]][ ind[!is.na(ind)] ]
+  flag
+})
+colnames(x2) = labels
+
+
+pdf(fileName)
+dd <- dist( t(x1) , method = "euclidean")
+hc <- hclust(dd, method = "ward.D2")
+plot(hc,main="Isoform Yes or No")
+
+pc = prcomp( t(x1) )$x
+plot( pc[,1] , pc[,2] , col="white",main="Isoform Yes or No")
+text( pc[,1] , pc[,2] , colnames(x1) )
+
+dd <- dist( t(x2) , method = "euclidean")
+hc <- hclust(dd, method = "ward.D2")
+plot(hc,main="Isoform Long Read Count")
+
+pc = prcomp( t(x2) )$x
+plot( pc[,1] , pc[,2] , col="white" ,main="Isoform Long Read Count")
+text( pc[,1] , pc[,2] , colnames(x2) )
+
+dev.off()
+}
+
+
+library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone5/setup")
 
 folder="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/"
 samples= c("2607","553","581","641","642","NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13","fetal")
 sampleNames = c("Control 1","Control 2","3' Del 1","3' Del 2","Control 3","Adult 1","Adult 2","Adult 3","Fetal")
-
 
 parameters = dir( paste0(folder,"/fetal") )
 
@@ -51,56 +101,6 @@ for(parai in parameters)
   ###########################################################################################
   ########################  dendrogram and pca ###################################
   ###########################################################################################
-  
-  dendrogram_pca = function( gffs, fileName )
-  {
-  
-    allGffs = gffs[[1]]
-    for(i in 2:length(gffs))
-  	allGffs = unionGff(allGffs,gffs[[i]])
-  
-  	exp = lapply( gffs , function(x) {
-  	  sapply( strsplit(names(x),'_'), function(p) as.integer(gsub("exp|;","",p[4])) )
-  	}   )
-  
-  
-    labels = names(gffs)
-    x1 = sapply( 1:length(gffs) , function(i) {
-      flag = rep(0,length(allGffs))
-      ind = matchGff( allGffs, gffs[[i]] )
-      flag[ !is.na(ind) ] = 1
-      flag
-    })
-    colnames(x1) = labels
-    
-    x2 = sapply( 1:length(gffs) , function(i) {
-      flag = rep(0,length(allGffs))
-      ind = matchGff( allGffs, gffs[[i]] )
-      flag[ !is.na(ind) ] = exp[[i]][ ind[!is.na(ind)] ]
-      flag
-    })
-    colnames(x2) = labels
-    
-    
-    pdf(fileName)
-    dd <- dist( t(x1) , method = "euclidean")
-    hc <- hclust(dd, method = "ward.D2")
-    plot(hc,main="Isoform Yes or No")
-    
-    pc = prcomp( t(x1) )$x
-    plot( pc[,1] , pc[,2] , xlim=range(pc[,1])*1.2 , ylim=range(pc[,2])*1.2 , col="white",main="Isoform Yes or No")
-    text( pc[,1] , pc[,2] , colnames(x1) )
-    
-    dd <- dist( t(x2) , method = "euclidean")
-    hc <- hclust(dd, method = "ward.D2")
-    plot(hc,main="Isoform Long Read Count")
-    
-    pc = prcomp( t(x2) )$x
-    plot( pc[,1] , pc[,2] , xlim=range(pc[,1])*1.2 , ylim=range(pc[,2])*1.2 , col="white" ,main="Isoform Long Read Count")
-    text( pc[,1] , pc[,2] , colnames(x2) )
-    
-    dev.off()
-  }
   
   dendrogram_pca( translatedGffs[c(1:9)] , "dendrogram_translatedAllGffs.pdf" )
   dendrogram_pca( translatedGffs[c(1:2,5:9)] , "dendrogram_translatedPartGffs.pdf" )
