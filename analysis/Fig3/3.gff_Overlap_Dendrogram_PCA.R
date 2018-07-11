@@ -96,6 +96,7 @@ for(parai in parameters)
   vennDiagramGff(translatedGffs[c(1:5)] , filename=paste0("vennDiagram_",5,".png") )
   vennDiagramGff(translatedGffs[c(1:4)] , filename=paste0("vennDiagram_",4,".png") )
   vennDiagramGff( mergeTranslatedGffs[1:3] , filename ="vennDiagram_hiPSC_humanbrain_translated.png" )
+  vennDiagramGff( mergeTranslatedGffs , filename ="vennDiagram_4kinds_merged_translated.png" )
   
   
   ###########################################################################################

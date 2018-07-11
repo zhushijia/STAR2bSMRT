@@ -203,6 +203,9 @@ for(parai in parameters)
 	} )
   
 	# normalized to sum
+	rawExps = exps
+	colnames(rawExps) = names(translatedGffs)
+	
 	normalizedFactor = colSums(exps)/min(colSums(exps))
 	exps = sapply( 1:ncol(exps) , function(i) exps[,i]/normalizedFactor[i] )
 	colnames(exps) = names(translatedGffs)
@@ -242,6 +245,12 @@ for(parai in parameters)
 	pdf("barplot.pdf",h=10,w=4)
 	barplot(de[order(Name)],col=cols[order(Name)],horiz=T,border='white')
 	dev.off()
+	
+	pdf("pairs.pdf")
+	pairs(log10(rawExps+1),pch=16,col='red')
+	dev.off()
+	
+	cor(log10(rawExps+1))
 	
 	
 }
