@@ -121,6 +121,23 @@ plotExonCoexpress = function(case_fracs, cont_fracs )
   
 }
 
+library(DEGseq)	
+	
+DEGSeq.callDE <- function(  countData , condition , countThres=2 ) 
+{
+	countData       <- countData[ rowSums(countData) >= countThres , ]  # filtering 
+	geneID = sapply(strsplit(rownames(countData),"[.]"),function(x)x[1])
+	data = data.frame( geneID=geneID , countData )
+	
+	uni_condition = unique(condition)
+	c1_index = which( condition %in% uni_condition[1] ) + 1
+	c2_index = which( condition %in% uni_condition[2] ) + 1
+	
+	DEGexp(geneExpMatrix1=data, geneCol1=1, expCol1=c1_index, groupLabel1=uni_condition[1], 
+		   geneExpMatrix2=data, geneCol2=1, expCol2=c2_index, groupLabel2=uni_condition[1], 
+		   method="MARS",outputDir='DEGseq_result')
+
+}		   
 
 
 
@@ -252,5 +269,15 @@ for(parai in parameters)
 	
 	cor(log10(rawExps+1))
 	
+	
+	
+	DEGSeq.callDE(  exps+1 , condition=rep(c('DEL','control'),each=2) , countThres=0 ) 
+	deRes = read.table("DEGseq_result/output_score.txt",sep="\t",header=T)
+	deRes = deRes[ order(as.integer(as.character(deRes$GeneNames))) , ]
+	info = data.frame(rawExps,exps,deRes[,c(4,7:8)])
+	colnames(info) = c('flncDEL1','flncDEL2','flncCont1','flncCont2',
+	'normalizedflncDEL1','normalizedflncDEL2','normalizedflncCont1','normalizedflncCont2',
+	'log2FoldChange','pvalue','fdr')
+	write.table(info,"DEGseq_result/output_info_shijia.txt",sep="\t",col.names=T,row.names=F,quote=F)
 	
 }
