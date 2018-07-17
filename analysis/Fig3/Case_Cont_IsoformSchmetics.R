@@ -49,6 +49,32 @@ heatmapMannualColor = function(X)
   
 }
 
+heatmapMannualValidateColor = function(X)
+{
+  library(ggplot2)
+  library(reshape)
+  library(plyr)
+  pdf("case.cont.heatmap_validated_byAdult.pdf")
+  X.m <- melt(X)
+  X.s <- ddply(X.m, .(variable), transform,rescale = scale(value))
+  gg <- ggplot(X.s, aes(x=variable, y=Name))
+  gg <- gg + geom_tile(aes(fill = factor(value)), colour = "lightgrey")
+  #gg <- gg + scale_fill_gradient2(low = "darkgreen", mid = "white", high = "darkred")
+  gg <- gg + scale_fill_manual(values=c("white","black"))
+  gg <- gg + labs(x="", y="")
+  gg <- gg + theme_bw()
+  gg <- gg + theme(panel.grid=element_blank(), panel.border=element_blank())
+  base_size <- 9
+  gg <- gg + theme(axis.ticks=element_blank(), 
+                   axis.text.x=element_text(size=base_size*0.8, angle=300, 
+                                            hjust = 0, colour="grey50"))
+  print(gg)
+  dev.off()
+  
+  
+}
+
+
 heatmapGradientColor = function(X)
 {
   library(ggplot2)
@@ -113,7 +139,7 @@ plotExonCoexpress = function(case_fracs, cont_fracs )
   cont_dist = data.frame(Name,cont_dist)
   diff_dist = data.frame(Name,diff_dist)
   
-  pdf("Exon_CoExpression.pdf")
+  pdf("case.cont.Exon_CoExpression.pdf")
   f(case_dist)
   f(cont_dist)
   f(diff_dist)
@@ -255,20 +281,27 @@ for(parai in parameters)
 	system( paste( "mkdir -p" , outputDir ) )
 	setwd(outputDir)
 
+	################################################################################
+	#############  isoform schematics
+	################################################################################
+	
 	heatmapMannualColor(fracs)
 	heatmapGradientColor(logExps)
 	plotExonCoexpress(case_fracs,cont_fracs)
 	
-	pdf("barplot.pdf",h=10,w=4)
+	pdf("case.cont.barplot.pdf",h=10,w=4)
 	barplot(de[order(Name)],col=cols[order(Name)],horiz=T,border='white')
 	dev.off()
 	
-	pdf("pairs.pdf")
+	pdf("case.cont.pairs.pdf")
 	pairs(log10(rawExps+1),pch=16,col='red')
 	dev.off()
 	
 	cor(log10(rawExps+1))
 	
+	################################################################################
+	#############  DE
+	################################################################################
 	
 	
 	DEGSeq.callDE(  exps+1 , condition=rep(c('DEL','control'),each=2) , countThres=0 ) 
@@ -279,5 +312,28 @@ for(parai in parameters)
 	'normalizedflncDEL1','normalizedflncDEL2','normalizedflncCont1','normalizedflncCont2',
 	'log2FoldChange','pvalue','fdr')
 	write.table(info,"DEGseq_result/output_info_shijia.txt",sep="\t",col.names=T,row.names=F,quote=F)
+	
+	
+	
+	################################################################################
+	########## validate by adult
+	################################################################################
+	adultSamples= c("NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13")
+	agffs = lapply( adultSamples , function(sample)
+	{
+	  files = dir( paste0(folder,"/",sample,"/",parai) )
+	  gff = paste0(folder,"/",sample,"/",parai,"/",files[grepl("gff$",files)])
+	  readGff( gff , chrom='chr2' , s=50149082 , e=51255411 )
+	} )
+	adultGff = unionGff( unionGff(agffs[[1]],agffs[[2]]) , agffs[[3]])
+	
+	validate = rep(0,length(allGff))
+	validate[ matchGff(adultGff,allGff) ] = 1
+	Name = reorder( paste0('isoform',1:length(allGff)) , de )
+	validate = data.frame( Name , validate ) 
+	heatmapMannualValidateColor(validate)
+	
+	
+	
 	
 }
