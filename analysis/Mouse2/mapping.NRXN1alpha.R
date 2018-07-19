@@ -1,3 +1,6 @@
+startCondon = 90037077; endCondon = 91088726
+startExon = 90036900; endExon = 91089605
+startJunc =90037384; endJunc = 91087954
 genomeDir="/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/gencode/GRCm38.p5/genome/StarIndexUsingPrimaryGtf"
 LR="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/SRR1184043.fa"
 SR1="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Cleaned_targetShortRead/CG1709012_R1/mouse-dIPFC-redo_S13_R1_001.fastq.gz"
@@ -88,10 +91,24 @@ barplot( log10fc , cex.names=0.6 , col=cols , ylab="log10(lrCount/srCount)", nam
 
 dev.off()
 
+
 #######################################################################################################
 
+
+tag = paste0( "exp", correction[[chrom]]$normalizedIsoformCount )
+exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=90037077 , e=91088726 , tag=tag )
+genomeFasta = "/hpc/users/zhus02/schzrnas/sjzhu/RNAseq/Reference/gencode/GRCm38.p5/genome/GRCm38.primary_assembly.genome.fa"
+genome = readDNAStringSet(genomeFasta)
+names(genome) = sapply( strsplit( names(genome) , ' ' ) , function(x) x[1] )
+seq = generateSeq( genome=genome , isoform=exonList )
+fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
+translated = sapply( seq$translated , function(x) ifelse( x , "translated" , "untranslated" )  )
+names(seq$dna) = paste(names(seq$dna),translated,sep="_")
+writeXStringSet( seq$dna , fastaName )
+
 gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
-exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=90036900 , e=91089605 , tag=correction[[chrom]]$normalizedIsoformCount )
+names(exonList) = paste( names(exonList) , translated , sep="_" )
 writeGff( isoform=exonList , file = gffName )
+
 
 
