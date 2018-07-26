@@ -2,13 +2,7 @@ setwd("/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/SIRV/result/E2_Nanopor
 
 
 
-## here we need to deal with both sam file and bam file
-## cut to select only columns useful
-## get rid of the nonjunction reads
-bedtools bamtobed -i SRR5286959.sort.bam -bed12 > SRR5286959.sort.bed12
-
-
-bed = read.table("SRR5286959.sort.bed12.bed",sep="\t")
+bed = read.table("SRR5286959.sort.bed12.bed",sep="\t",header=T)
 colnames(bed) = c("chrom","start","end","name","score","strand",
 "thickStart","thickEnd","itemRgb","blockCount","blockSizes","blockStarts")
 
