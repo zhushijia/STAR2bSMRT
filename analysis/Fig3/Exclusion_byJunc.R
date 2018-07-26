@@ -23,6 +23,8 @@ getPSI = function(ef)
     if(length(LeftIn)==0) LeftIn=0
     if(length(RightIn)==0) RightIn=0
     if(length(Ex)==0) Ex=0
+    if (exonLeft=='exon22')
+      Ex = Ex + with( junc, count[ end == jstop('exon20') & start == jstart(exonRight) ] )
     
     psi = (Ex)/(LeftIn+RightIn+Ex)  ### I change it here to be EXCLUSION value
     psi
@@ -69,7 +71,7 @@ PSI_ratio = c( matrix( rbind(ratio_cont,ratio_case,0) , nrow=1 ))
 names(PSI_ratio) = c( matrix(rbind(names(ratio_case),"",""), nrow=1 ))
 
 pdf("Exlucsion_FC_KCLvsPSB_byJunc.pdf")
-barplot(PSI_ratio,col=rep(c('grey','darkred','black'),11),las=3)
+barplot(PSI_ratio,col=rep(c('grey','darkred','black'),11),las=3,ylab='Exclusion fold change')
 dev.off()
 
 
@@ -89,10 +91,10 @@ names(PSI_ratio) = c( matrix(rbind(names(ratio_w2),"","",""), nrow=1 ))
 
 # 23a and 23b in NPC no read supporting exlusion, so fold change is Inf
 pdf("Exlucsion_FC_NeuronWeek2_4_6vsNPC_byJunc.pdf")
-barplot(PSI_ratio,col=rep(c('grey','darkblue','darkred','black'),11),las=3)
+barplot(PSI_ratio,col=rep(c('grey','darkblue','darkred','black'),11),las=3,ylab='Exclusion fold change')
 dev.off()
 
 # remove 23a and 23b 
-pdf("Exlucsion_FC_NeuronWeek2_4_6vsNPC_byJunc.pdf")
+pdf("Exlucsion_FC_NeuronWeek2_4_6vsNPC_byJunc_no23.pdf")
 barplot(PSI_ratio[1:36],col=rep(c('grey','darkblue','darkred','black'),9),las=3)
 dev.off()

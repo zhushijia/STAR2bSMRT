@@ -23,6 +23,8 @@ getPSI = function(ef)
     if(length(LeftIn)==0) LeftIn=0
     if(length(RightIn)==0) RightIn=0
     if(length(Ex)==0) Ex=0
+    if (exonLeft=='exon22')
+      Ex = Ex + with( junc, count[ end == jstop('exon20') & start == jstart(exonRight) ] )
     
     psi = (LeftIn+RightIn)/(LeftIn+RightIn+Ex)
     psi
@@ -41,7 +43,7 @@ getPSI = function(ef)
   psi['17'] = PSI('exon16','exon17','exon18')
   psi['21'] = PSI('exon20','exon21','exon22')
   psi['23a'] = PSI('exon22','exon23a','exon24')
-  psi['23a'] = PSI('exon22','exon23b','exon24')
+  psi['23b'] = PSI('exon22','exon23b','exon24')
   
   psi
   
@@ -69,7 +71,7 @@ PSI_ratio = c( matrix( rbind(ratio_cont,ratio_case,0) , nrow=1 ))
 names(PSI_ratio) = c( matrix(rbind(names(ratio_case),"",""), nrow=1 ))
 
 pdf("PSI_FC_KCLvsPSB_byJunc.pdf")
-barplot(PSI_ratio,col=rep(c('grey','darkred','black'),11),las=3)
+barplot(PSI_ratio,col=rep(c('grey','darkred','black'),11),las=3,ylab='PSI fold change')
 dev.off()
 
 
@@ -87,7 +89,7 @@ PSI_ratio = c( matrix( rbind(ratio_w2,ratio_w4,ratio_w6,0) , nrow=1 ))
 names(PSI_ratio) = c( matrix(rbind(names(ratio_w2),"","",""), nrow=1 ))
 
 pdf("PSI_FC_NeuronWeek2_4_6vsNPC_byJunc.pdf")
-barplot(PSI_ratio,col=rep(c('grey','darkblue','darkred','black'),11),las=3)
+barplot(PSI_ratio,col=rep(c('grey','darkblue','darkred','black'),11),las=3,ylab='PSI fold change')
 dev.off()
 
 

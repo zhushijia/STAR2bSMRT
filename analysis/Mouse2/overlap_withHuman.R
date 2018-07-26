@@ -128,4 +128,45 @@ pdf('mouse_exp_overlapWithHuman.pdf')
 boxplot( list(mo , mn) , col=c('darkred','darkgreen') , outline=F  )
 dev.off()
 
+tagList4 = tagList
+tagAll4 = tagAll
+
+#####################################################################################
+
+translatedHumanExps = lapply( 3:8, function(i) {
+  gff = translatedGffs[[i]]
+  fracs = getFrac(gff,humanAnnotation)
+  tag = fracToTag(fracs)
+  ee = translatedExps[[i]][ match( tagAll4 , tag ) ]
+  ee[is.na(ee)] = 0
+  ee
+} )
+
+translatedHumanExps = do.call(cbind,translatedHumanExps)
+translatedHumanExps = apply(translatedHumanExps,2,function(x) 6000*x/sum(x) )
+colnames(translatedHumanExps) = c("Control","Control","Adult","Adult","Adult","Fetal")
+HumanExp = apply(translatedHumanExps,1,function(x) sum( tapply(x,colnames(translatedHumanExps),mean)) )
+
+MouseExp = mouse_exps[ match( tagAll4 , tagList$mouse ) ]
+MouseExp[is.na(MouseExp)] = 0
+
+
+hmExp = data.frame(log10(HumanExp+1),log10(MouseExp+1))
+hmExp = hmExp[ hmExp[,1]>0 & hmExp[,2]>0,]
+pdf('Scatterplot_exp_mouse_human.pdf')
+plot(hmExp,col='red',xlab='human -log10 read count',ylab='mouse -log10 read count',pch=20,lwd=5)
+abline( lm(hmExp[,2]~hmExp[,1]),lwd=2)
+dev.off()
+
+
+cor.test(hmExp[,2],hmExp[,1])
+
+
+
+
+
+
+
+
+
 
