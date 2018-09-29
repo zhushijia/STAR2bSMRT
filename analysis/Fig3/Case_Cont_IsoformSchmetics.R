@@ -330,10 +330,16 @@ for(parai in parameters)
 	validate = rep(0,length(allGff))
 	validate[ matchGff(adultGff,allGff) ] = 1
 	Name = reorder( paste0('isoform',1:length(allGff)) , de )
-	validate = data.frame( Name , validate ) 
-	heatmapMannualValidateColor(validate)
+	validate2 = data.frame( Name , validate ) 
+	heatmapMannualValidateColor(validate2)
+
 	
-	
-	
-	
+	ids = sapply( translatedGffs , function(x) {
+	  id = rep('NA',length(allGff))
+  	id[ matchGff(x,allGff) ] = names(x)
+    id
+	})
+	colnames(ids) = c("idDEL1","idDEL2","idCont1","idCont2")
+	yy = data.frame(ids,info,adultValidate=validate)
+	write.table(yy,"translatedGffs_id_exp_DE_adultvalidate.txt",col.names=T,row.names=F,sep="\t",quote=F)
 }
