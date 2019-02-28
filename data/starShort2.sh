@@ -11,7 +11,7 @@ cd $4
 
 if echo $2 | grep "gz$"  
 then
-/hpc/users/zhus02/schzrnas/sjzhu/bitbucket/STARshort/STAR/source/STAR --genomeDir $1 \
+/sc/orga/projects/schzrnas/sjzhu/bitbucket/STARshort/STAR/source/STAR --genomeDir $1 \
 --sjdbFileChrStartEnd $5 \
 --readFilesIn $2 $3 \
 --readFilesCommand zcat \
@@ -21,7 +21,7 @@ then
 --outSAMstrandField intronMotif --outStd BAM_SortedByCoordinate --outSAMtype BAM SortedByCoordinate \
 --runThreadN 10 > alignments.bam
 else
-/hpc/users/zhus02/schzrnas/sjzhu/bitbucket/STARshort/STAR/source/STAR --genomeDir $1 \
+/sc/orga/projects/schzrnas/sjzhu/bitbucket/STARshort/STAR/source/STAR --genomeDir $1 \
 --sjdbFileChrStartEnd $5 \
 --readFilesIn $2 $3 \
 --outSAMattributes NH HI AS nM NM MD jM jI \

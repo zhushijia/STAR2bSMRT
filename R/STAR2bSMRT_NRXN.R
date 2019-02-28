@@ -146,8 +146,7 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	print(correction[[1]][c(2,3)])
 	
 	
-	EoutputDir = paste0("/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters2/",
-	                    basename(outputDir),"/adjustNCjunc_",adjustNCjunc,
+	EoutputDir = paste0(folder,basename(outputDir),"/adjustNCjunc_",adjustNCjunc,
 	                    "_fixedMatchedLS_",fixedMatchedLS,"_useSJout_",useSJout,
 	                    "_fuzzyMatch_",fuzzyMatch)
 	

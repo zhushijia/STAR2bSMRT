@@ -10,7 +10,7 @@ mkdir -p $3
 fi
 cd $3
 
-/hpc/users/zhus02/schzrnas/sjzhu/bitbucket/STAR/STAR/source/STARlong \
+/sc/orga/projects/schzrnas/sjzhu/bitbucket/STAR/STAR/source/STARlong \
 --runMode alignReads \
 --readNameSeparator space \
 --outFilterMultimapScoreRange 1 \

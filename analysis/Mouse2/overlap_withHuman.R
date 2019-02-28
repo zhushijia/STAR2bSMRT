@@ -35,11 +35,11 @@ fracToTag = function(fracs)
 
 
 humanAnnotation = read.table('/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/NRXN1_hg19_ExonAnnotations_shijia.txt',sep='\t',header=T)
-mouseAnnotation = read.table('/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/STAR2bSMRT/NRXN1_mm10_ExonAnnotations_shijia.txt',sep='\t',header=T)
+mouseAnnotation = read.table('/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/STAR2bSMRT/NRXN1_mm10_ExonAnnotations_shijia.txt',sep='\t',header=T)
 mouseAnnotation$Start[1] = 91088726
 mouseAnnotation$Stop[26] = 90037077
 
-library(STAR2bSMRT,lib.loc="/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone5/setup")
+library(STAR2bSMRT,lib.loc="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/githubClone5/setup")
 
 samples= c("581","641","2607","553","NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13","fetal")
 sampleNames = c("3' Del 1","3' Del 2","Control 1","Control 2","Adult 1","Adult 2","Adult 3","Fetal")
@@ -82,7 +82,7 @@ fetal_fracs = getFrac(fetalGff,humanAnnotation)
 
 
 
-gff = "/hpc/users/zhus02/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/STAR2bSMRT/Exp_SRR1184043_STARlongNew/isoform_ts70_td13.gff"
+gff = "/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/STAR2bSMRT/Exp_SRR1184043_STARlongNew/isoform_ts70_td13.gff"
 mouseGff = readGff( gff , chrom="chr17" , s= 90036900 , e = 91089605 )
 translated = sapply( strsplit(names(mouseGff),'_'), function(p) gsub("exp|;","",p[5])=="translated" )
 mouseGff = mouseGff[translated]
