@@ -78,7 +78,7 @@ mouseAnnotation = read.table('/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data
 #####################################################################################
 threshold = 0
 
-for(threshold in c(0:10))
+for(threshold in c(1:10))
 {
   cat("threshold =",threshold,"\n")
   samples= c("581","641","2607","553","NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13","fetal","fetal_23wks","fetal_3wks") #
@@ -120,7 +120,7 @@ for(threshold in c(0:10))
   
   
   #####################################################################################
-  ##########      Venn diagram for all with no fetal
+  ##########      Venn diagram for all with fetal
   #####################################################################################
   
   
@@ -150,7 +150,7 @@ for(threshold in c(0:10))
   
   
   #####################################################################################
-  ##########      Venn diagram for all with no fetal
+  ##########      Venn diagram for all with fetal
   #####################################################################################
   
   

@@ -211,8 +211,8 @@ parai="adjustNCjunc_TRUE_fixedMatchedLS_FALSE_useSJout_FALSE_fuzzyMatch_100"
 outputDir = paste0(folder,"/comparisonResult","/",parai)
 samples= c("581","641","2607","553","642","NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13","fetal","fetal_23wks","fetal_3wks","553_GABA","553_NGN2") #
 sampleNames = c("p3Del1","p3Del2","Cont1","Cont2","Cont3","Adult1","Adult2","Adult3","Fetal1","Fetal2","Fetal3","553_GABA","553_NGN2") #
-groups = list( Case=c(1,2), Cont=c(3:5), Fetal=c(6:8), Adult=c(9:11), 12, 13 ) 
-names(groups) = c("Case","Control","Fetal","Adult","553_GABA","553_NGN2")
+groups = list( Case=c(1,2), Cont=c(3:5), Adult=c(6:8), Fetal=c(9:11), 12, 13 ) 
+names(groups) = c("Case","Control","Adult","Fetal","553_GABA","553_NGN2")
 threshold=7
 fileName = "groups_case_cont_junc_exp"
 

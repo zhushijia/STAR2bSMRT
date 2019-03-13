@@ -286,7 +286,7 @@ STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LR
                  SoutputDir=SoutputDir , LoutputDir=LoutputDir )
 
 
-# 641 NGN2
+# 641 NGN2 
 LRphqv="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/Run6/027959/polished_high_qv_consensus_isoforms.fasta"
 SR1="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/GENEWIZ/12_R1_001.fastq.gz"
 SR2="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/GENEWIZ/12_R2_001.fastq.gz"
@@ -299,6 +299,12 @@ STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LR
                  fixedMatchedLS=fixedMatchedLS, fuzzyMatch=fuzzyMatch, 
                  chrom=chrom , s=s , e=e , cores=cores ,
                  SoutputDir=SoutputDir , LoutputDir=LoutputDir )
+
+# 641 NGN2 tofu
+fasta="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/Run6/027959/polished_high_qv_consensus_isoforms.fasta"
+sam="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/641_NGN2/LR/Aligned.out.sam"
+outputDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/641_NGN2/LR"
+starTofu $fasta $sam $outputDir
 
 
 # 581 NGN2
@@ -315,7 +321,15 @@ STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LR
                  chrom=chrom , s=s , e=e , cores=cores ,
                  SoutputDir=SoutputDir , LoutputDir=LoutputDir )
 
-# 581 GABA
+# 581 NGN2 tofu
+fasta="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/Run6/027963/polished_high_qv_consensus_isoforms.fasta"
+sam="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/581_NGN2_fbnSR/LR/Aligned.out.sam"
+outputDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/581_NGN2_fbnSR/LR"
+starTofu $fasta $sam $outputDir
+
+
+
+# 581 GABA low number of phqv
 LRphqv="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/Run6/027964/polished_high_qv_consensus_isoforms.fasta"
 SR1="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/581/581.R1.fastq"
 SR2="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/581/581.R2.fastq"
@@ -329,6 +343,15 @@ STAR2bSMRT_NRXN( genomeDir=genomeDir, genomeFasta=genomeFasta, LRphqv=LRphqv, LR
                  chrom=chrom , s=s , e=e , cores=cores ,
                  SoutputDir=SoutputDir , LoutputDir=LoutputDir )
 
+# 581 GABA tofu low number of phqv
+fasta="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/Run6/027964/polished_high_qv_consensus_isoforms.fasta"
+sam="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/581_GABA_fbnSR/LR/Aligned.out.sam"
+outputDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/581_GABA_fbnSR/LR"
+starTofu $fasta $sam $outputDir
+
+
+
+
 # 641 GABA
 LRphqv="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/Run6/028024/polished_high_qv_consensus_isoforms.fasta"
 outputDir = paste0(folder,"641_GABA")
@@ -336,4 +359,9 @@ SoutputDir = paste0(outputDir,"/SR")
 LoutputDir = paste0(outputDir,"/LR")
 starLong( genomeDir=genomeDir , LR=LRphqv , outputDir=LoutputDir , cores=20 , SJ=NULL )
 
+# 641 GABA tofu
+fasta="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/Run6/028024/polished_high_qv_consensus_isoforms.fasta"
+sam="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/641_GABA/LR/Aligned.out.sam"
+outputDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/641_GABA/LR"
+starTofu $fasta $sam $outputDir
 
