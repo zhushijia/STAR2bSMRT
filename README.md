@@ -5,13 +5,10 @@ STARlong and STARshort based Single Molecule Real Time Iso-Seq analysis
 We proposed a novel method for genome reference, annotation and short read based long read correction. A novel criterion was used to optimize the selection of thresholds for number of short reads supporting junction sites and difference between long read and short read detected junction sites. Since the correction only focus on the junction sites, avoiding from the large time concumption on the sequence correction, enabling ultrafast correction. 
 
 ## Dependencies on packages
--  STARlong - [STARlong]()
--  STARshort - [STARshort](https://github.com/alexdobin/STAR)
+-  STARlong & STARshort - [STAR](https://github.com/alexdobin/STAR)
 -  samtools - [samtools](http://samtools.sourceforge.net/)
 -  bedtools - [bedtools](http://bedtools.readthedocs.io/en/latest/)
--  Biostrings - [Biostrings](https://bioconductor.org/packages/release/bioc/html/Biostrings.html)
--  foreach - [foreach](https://cran.r-project.org/web/packages/foreach/)
--  doMC - [doMC](https://cran.r-project.org/web/packages/doMC/)
+-  R package: Biostrings - [Biostrings](https://bioconductor.org/packages/release/bioc/html/Biostrings.html); foreach - [foreach](https://cran.r-project.org/web/packages/foreach/); doMC - [doMC](https://cran.r-project.org/web/packages/doMC/)
 
 
 ## Installation
