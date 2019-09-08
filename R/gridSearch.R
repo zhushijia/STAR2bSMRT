@@ -17,6 +17,7 @@ gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , ad
   library(nnls)
   
   CHR = intersect( names(SRjunc) , names(LRjunc) )
+  #CHR = CHR[grep('chr',CHR)]
   
   P = foreach( i = 1:length(thresSR) ) %dopar%
   {
@@ -30,6 +31,7 @@ gridSearch = function( LRjunc , SRjunc , thresSR=c(1:30) , thresDis=c(1:20) , ad
       
       LSjuncCount = foreach( k=1:length(CHR) ) %dopar%
       {
+        cat(k, "\n")
         chr = CHR[k]
         lrc = LRjunc[[chr]]
         src = SRjunc[[chr]]

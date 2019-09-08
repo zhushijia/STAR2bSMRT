@@ -152,6 +152,9 @@ mouseFrac[-range,] = -mouseFrac[-range,]
 Name = reorder( paste0('isoform',1:length(mouseExp)) , mouseExp )
 fracs = data.frame( Name , mouseFrac ) 
 
+##########################################################################################
+#################   mouse isoform which overlap with human
+##########################################################################################
 
 setwd("/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/STAR2bSMRT/Exp_SRR1184043_STARlongNew")
 pdf("IsoformSchematics_mouseExp.barplot_overlapWithHuman.pdf")
@@ -161,6 +164,54 @@ cols[range] = 'darkgreen'
 barplot(mouseExp[order(Name)],horiz=T,col=cols[order(Name)],border='white')
 dev.off()
 
+##########################################################################################
+#################   human isoform which overlap with mouse
+##########################################################################################
 
+folder="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/result/STAR2bSMRT/pipelineNew_testParameters/"
+parai="adjustNCjunc_TRUE_fixedMatchedLS_FALSE_useSJout_FALSE_fuzzyMatch_100"
+samples= c("581","641","2607","553","NRXN_adult_dlPFC1_12","adult_dlPFC1_10","adult_dlPFC1_13","fetal","fetal_23wks","fetal_3wks") #
+sampleNames = c("3Del1","3Del2","Cont1","Cont2","Adult1","Adult2","Adult3","Fetal1","Fetal2","Fetal3") #
 
+humanGffs = lapply( samples[-c(1:2)] , function(sample)
+{
+  files = dir( paste0(folder,"/",sample,"/",parai) )
+  gff = paste0(folder,"/",sample,"/",parai,"/",files[grepl("gff$",files)])
+  readGff( gff , chrom='chr2' , s=50149082 , e=51255411 )
+} )
+names(humanGffs) = sampleNames[-c(1:2)]
+
+humanGffInfo = lapply( humanGffs, function(x) gffInfo( x, human_annotation, 7 )  )
+humanTag = unique( do.call(c,lapply(humanGffInfo,function(x)x$tag)) )
+
+humanFrac = do.call( rbind, lapply( humanTag , function(tag) {
+  tmp = rep(0,nrow(human_annotation))
+  tmp[ as.character(human_annotation$Exon) %in% strsplit(tag,"_")[[1]]  ] = 1
+  tmp
+} ) )
+colnames(humanFrac) = as.character(human_annotation$Exon)
+
+humanExps = do.call( cbind, lapply( humanGffInfo , function(info) {
+  tmp = rep(0,length(humanTag))
+  tmp[ match( info$tag, humanTag)  ] = info$exp
+  tmp
+} ) )
+normalizedFactor = colSums(humanExps)/min(colSums(humanExps))
+humanExps = sapply( 1:ncol(humanExps) , function(i) humanExps[,i]/normalizedFactor[i] )
+colnames(humanExps) = names(humanGffs)
+
+range = which(humanTag%in%mouseTag)
+humanFrac[-range,] = -humanFrac[-range,]
+Name = reorder( paste0('isoform',1:nrow(humanExps)) , rowSums(log10(humanExps+1)) )
+fracs = data.frame( Name , humanFrac ) 
+logExps = data.frame( Name, log10(humanExps+1) )
+
+setwd("/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/Mouse_NRXN/STAR2bSMRT/Exp_SRR1184043_STARlongNew")
+pdf("IsoformSchematics_humanExp.barplot_overlapWithMouse.pdf")
+heatmapMannualColor(fracs, case_col="purple", shared_col="darkgreen" )
+heatmapGradientColor(logExps)
+cols = rep('purple',nrow(humanExps) )
+cols[range] = 'darkgreen'
+barplot( rowSums(log10(humanExps+1))[order(Name)],horiz=T,col=cols[order(Name)],border='white')
+dev.off()
 

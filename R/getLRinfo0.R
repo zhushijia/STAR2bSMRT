@@ -42,23 +42,12 @@ getLRinfo <- function( LRread, chrom=NULL, s=0, e=Inf )
 	
 	LRread = split( LRread , as.character(LRread$chr) )
 	
-	#LRtag = lapply( LRread , function(read) 
-	#		lapply( strsplit( as.character(read$junc),",") , function(x) { 
-	#			i = 1:(length(x)/2); 
-	#			paste( x[2*i-1] , x[2*i] ,sep="," ) 
-	#	} ) )
-    
-	LRtag = foreach( i = 1:length(LRread) ) %dopar%
-	{
-	    cat(i,"\n")
-	    read = LRread[[i]]
-	    lapply( strsplit( as.character(read$junc),",") , function(x) { 
-	        i = 1:(length(x)/2); 
-	        paste( x[2*i-1] , x[2*i] ,sep="," ) 
-	    } )
-	}
-	names(LRtag) = names(LRread)
-	
+	LRtag = lapply( LRread , function(read) 
+			lapply( strsplit( as.character(read$junc),",") , function(x) { 
+				i = 1:(length(x)/2); 
+				paste( x[2*i-1] , x[2*i] ,sep="," ) 
+		} ) )
+
 	gc()
 	
 	LRjunc = foreach( i = 1:length(LRread) ) %dopar%
@@ -68,7 +57,6 @@ getLRinfo <- function( LRread, chrom=NULL, s=0, e=Inf )
 		tag = LRtag[[i]]
 		len = sapply( tag, length )
 		juncCounts = rep( read$coverage , len )
-		readLengths = rep( read$len , len )
 		groups = rep( read$group , len )
 		juncs = do.call(c,tag)
 		
@@ -81,11 +69,7 @@ getLRinfo <- function( LRread, chrom=NULL, s=0, e=Inf )
 		uniJunc = strsplit( as.character(count$juncs) , "," )
 		start = sapply( uniJunc , function(x) as.integer(x[1]) )
 		end = sapply( uniJunc , function(x) as.integer(x[2]) )
-		
-		readLength = tapply(readLengths, juncs, mean)
-		readLength = readLength[ match( as.character(count$juncs), names(readLength) ) ]
-		
-		data.frame( chr=names(LRread)[i], start=start, end=end, count[,-1], readLength,
+		data.frame( chr=names(LRread)[i], start=start, end=end, count[,-1],
 		            stringsAsFactors=F)
 	}
 
