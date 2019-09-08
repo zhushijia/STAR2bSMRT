@@ -30,8 +30,8 @@ http://cran.fhcrc.org/
 
 ### 3) Install the SMRTER R package
 ```
-wget 
-R CMD 
+git clone https://zhushijia:password@github.com/zhushijia/STAR2bSMRT.git 
+R CMD INSTALL -l userFolder STAR2bSMRT
 ```
 Alternatively, use [devtools](https://github.com/hadley/devtools) package
 ```
@@ -42,7 +42,5 @@ Alternatively, use [devtools](https://github.com/hadley/devtools) package
 
 ## Tutorial
    See our [wiki](https://github.com/zhushijia/STAR2bSMRT/wiki)
-   
-  
-git clone https://zhushijia:password@github.com/zhushijia/STAR2bSMRT.git
+
 
