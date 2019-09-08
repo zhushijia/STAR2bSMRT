@@ -229,7 +229,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	dev.off()
 
 	###############################################################################################################
-	isoformNum = sum(sapply(correction,function(x)x$num))
+	isoformNum = sum(sapply(correction,function(x)x$uniNum))
 	isoformFrac = mean(sapply(correction,function(x)x$frac))
 	info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , translated=sum(seq$translated) , juncCorr , LSQuantCorr , LSQuantPval )
 	write.table(info,"summary.txt",quote=F,sep="\t",col.names=T,row.names=F)
