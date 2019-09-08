@@ -8,7 +8,7 @@ We proposed a novel method for genome reference, annotation and short read based
 -  STARlong & STARshort - [STAR](https://github.com/alexdobin/STAR)
 -  samtools - [samtools](http://samtools.sourceforge.net/)
 -  bedtools - [bedtools](http://bedtools.readthedocs.io/en/latest/)
--  R package: Biostrings - [Biostrings](https://bioconductor.org/packages/release/bioc/html/Biostrings.html); foreach - [foreach](https://cran.r-project.org/web/packages/foreach/); doMC - [doMC](https://cran.r-project.org/web/packages/doMC/)
+-  R package: [Biostrings](https://bioconductor.org/packages/release/bioc/html/Biostrings.html); [foreach](https://cran.r-project.org/web/packages/foreach/); [doMC](https://cran.r-project.org/web/packages/doMC/)
 
 
 ## Installation
