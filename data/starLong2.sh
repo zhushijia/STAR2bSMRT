@@ -10,7 +10,7 @@ mkdir -p $3
 fi
 cd $3
 
-/sc/orga/projects/schzrnas/sjzhu/bitbucket/STAR/STAR/source/STARlong \
+STARlong \
 --runMode alignReads \
 --sjdbFileChrStartEnd $5 \
 --readNameSeparator space \

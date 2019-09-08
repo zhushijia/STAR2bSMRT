@@ -5,9 +5,10 @@
 \title{STAR2bSMRT_NRXN}
 \usage{
 STAR2bSMRT_NRXN(genomeDir, genomeFasta, LRphqv = NULL, LRflnc = NULL,
-  LRnfl = NULL, SR1, SR2 = NULL, useSJout = TRUE, adjustNCjunc = FALSE,
-  thresSR, thresDis, outputDir, fixedMatchedLS = FALSE, fuzzyMatch = 100,
-  chrom = NULL, s = 0, e = Inf, cores = 10, SoutputDir, LoutputDir)
+  LRnfl = NULL, SR1, SR2 = NULL, useSJout = TRUE,
+  adjustNCjunc = FALSE, thresSR, thresDis, outputDir,
+  fixedMatchedLS = FALSE, fuzzyMatch = 100, chrom = NULL, s = 0,
+  e = Inf, cores = 10, SoutputDir, LoutputDir)
 }
 \arguments{
 \item{genomeDir}{}

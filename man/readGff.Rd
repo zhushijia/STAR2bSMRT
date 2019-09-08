@@ -4,7 +4,7 @@
 \alias{readGff}
 \title{readGff}
 \usage{
-readGff(file, chrom, s, e)
+readGff(file, chrom = NULL, s = 0, e = Inf)
 }
 \arguments{
 \item{file}{}

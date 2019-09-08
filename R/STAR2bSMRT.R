@@ -1,25 +1,50 @@
 #' STAR2bSMRT
 #'
-#' @param genomeDir 
-#' @param genomeFasta 
-#' @param phqv 
-#' @param flnc 
-#' @param nfl 
-#' @param SR1 
-#' @param SR2 
-#' @param useSJout 
-#' @param adjustNCjunc 
-#' @param thresSR 
-#' @param thresDis 
-#' @param outputDir 
-#' @param fixedMatchedLS 
-#' @param fuzzyMatch
-#' @param chrom 
-#' @param s 
-#' @param e 
-#' @param cores 
+#' @param genomeDir character value indicating the directory of STAR genome 
+#' index for both STARlong and STARshort read mapping
+#' @param genomeFasta character value indicating the fasta file of genome 
+#' reference
+#' @param phqv character value indicating the Isoseq polished high QV trascripts
+#'  in fasta/fastq, where 
+#' read counts for each transcript consensus should be saved in transcript names 
+#' @param flnc character value indicating the Isoseq full-length non-chimeric
+#'  reads in fasta/fastq format
+#' @param nfl character value indicating the Isoseq non-full-length reads in 
+#' fasta/fastq format
+#' @param SR1 character value indicating the short read file in fastq format: 
+#' single-end or paired-end R1
+#' @param SR2 character value indicating the short read file in fastq format: 
+#' paired-end R2
+#' @param useSJout boolean value indicating whether to use the STARshort 
+#' generated SJ.out.tab for splicing junction. If FALSE, STAR2bSMRT infer 
+#' the splicing junction from bam files. By default, FALSE.
+#' @param adjustNCjunc boolean value indicating whether to minimize the 
+#' non-canonical junction sites. By default, FALSE.
+#' @param thresSR a vector of integers indicating the searching range for the 
+#' number of short reads which support the splicing junction sites.
+#' @param thresDis a vector of integers indicating the searching range for the 
+#' tolerance distance between short read-derived splicing junction and long 
+#' read-derived junction. STAR2bSMRT will correct the long read-derived 
+#' junction to the short read-derived junction, if more short reads than 
+#' defined thresSR support that short read-derived junction, and the distance 
+#' between long and short read junctions is shorter than the defined thresDis.
+#' @param outputDir character value indicating the direcotry where results are 
+#' saved.
+#' @param fixedMatchedLS boolean value indicating how often the distance is 
+#' calculate betwen long read and short read-derived junction sites. If TRUE, 
+#' only calculated once at the very beginning, which may save running time; 
+#' otherwise, calculate repeatly after every long read correction. 
+#' By default, FALSE.
+#' @param fuzzyMatch integer value indicating the distance for fuzzyMatch
+#' @param chrom character value indicating the chromosome of interest. By default, 
+#' STAR2bSMRT works on the whole genome. 
+#' @param s integeter value indicating the start position of the transcript of 
+#' interest. This is useful for target Isoseq sequencing. 
+#' @param e integeter value indicating the end position of the transcript of 
+#' interest. This is useful for target Isoseq sequencing. 
+#' @param cores integer value indicating the number of cores for parallel computing
 #'
-#' @return
+#' @return NULL
 #' @export
 #'
 #' @examples
@@ -35,7 +60,6 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	library(doMC)
 	registerDoMC(cores)
 	
-	
 	############################################################################
 	############   STARshort mapping and junction sites for short reads
 	############################################################################
@@ -43,7 +67,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	SoutputDir = paste0(outputDir,"/SR")
 	SRalignment = paste0(SoutputDir,"/alignments.bam")
 	system( paste0( "mkdir -p " , SoutputDir ) )
-	#starShort( genomeDir , SR1 , SR2 , SoutputDir )
+	starShort( genomeDir , SR1 , SR2 , SoutputDir )
 	
 	if( useSJout )
 	{
@@ -64,7 +88,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	  LoutputDir = paste0(outputDir,"/LR")
 	  LRalignment = paste0(LoutputDir,"/Aligned.out.sam")
 	  system( paste0( "mkdir -p " , LoutputDir ) )
-	  #starLong( genomeDir=genomeDir , LR=LRphqv , outputDir=LoutputDir , cores=cores , SJ=NULL )
+	  starLong( genomeDir=genomeDir , LR=LRphqv , outputDir=LoutputDir , cores=cores , SJ=NULL )
 	  
 	  LRread = getReadByJI( LRalignment , LoutputDir )
 	  LRread = subset(LRread , start < 50150000 )
