@@ -8,6 +8,6 @@ mkdir -p $4
 fi
 cd $4
 
-module load kallisto
+#module load kallisto
 kallisto index -i transcripts.idx $1
 kallisto quant -i transcripts.idx -o output -b 10 $2 $3

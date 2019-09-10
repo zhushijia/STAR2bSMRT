@@ -4,11 +4,10 @@
 \alias{STAR2bSMRT_NRXN}
 \title{STAR2bSMRT_NRXN}
 \usage{
-STAR2bSMRT_NRXN(genomeDir, genomeFasta, LRphqv = NULL, LRflnc = NULL,
-  LRnfl = NULL, SR1, SR2 = NULL, useSJout = TRUE,
-  adjustNCjunc = FALSE, thresSR, thresDis, outputDir,
+STAR2bSMRT_NRXN(genomeDir, genomeFasta, LRphqv = NULL, SR1, SR2 = NULL,
+  useSJout = TRUE, adjustNCjunc = FALSE, thresSR, thresDis, outputDir,
   fixedMatchedLS = FALSE, fuzzyMatch = 100, chrom = NULL, s = 0,
-  e = Inf, cores = 10, SoutputDir, LoutputDir)
+  e = Inf, cores = 10)
 }
 \arguments{
 \item{genomeDir}{}

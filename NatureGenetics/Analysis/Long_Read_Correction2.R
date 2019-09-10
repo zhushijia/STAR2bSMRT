@@ -6,6 +6,7 @@ export PATH=$PATH:/hpc/packages/minerva-common/BEDTools/2.27.1/bin/
 
 library(STAR2bSMRT,lib.loc="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/forRelease/r1")
 
+genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
 genomeFasta = "/hpc/users/xzhus01/schzrnas/sjzhu/RNAseq/Reference/hg19/reference/hg19.fa"
 chrom = "chr2"
 s = 50147488
@@ -13,8 +14,10 @@ e = 51259537
 cores = 30
 thresSR=c(1:100) 
 thresDis=c(1:30)
-adjustNCjunc=FALSE
+adjustNCjunc=TRUE
 fixedMatchedLS=FALSE
+useSJout=FALSE
+fuzzyMatch=100
 folder="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/test/PackageReleaseResult/"
 system( paste("mkdir -p",folder) )
 
@@ -29,8 +32,7 @@ SR2="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-4441
 outputDir=paste0(folder,"581")
 STAR2bSMRT( genomeDir , genomeFasta , LR , SR1 , SR2 , thresSR , thresDis , outputDir , adjustNCjunc , fixedMatchedLS , chrom , s , e , cores)
 
-genomeDir="/sc/orga/projects/schzrnas/sjzhu/Project/NRXN/data/IDPtest_ErinData/starShort/genomeDir_1pass"
-LR="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smrtportal_24461_641/polished_high_qv_consensus_isoforms.fasta"
+LRphqv="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/ToolCompare/LongReads/Smrtportal_24461_641/polished_high_qv_consensus_isoforms.fasta"
 SR1="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/641/641.R1.fastq"
 SR2="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/data/MiSeq/KM1707142-R1-44416635-unzip/641/641.R2.fastq"
 outputDir=paste0(folder,"641")

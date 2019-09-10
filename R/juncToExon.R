@@ -20,7 +20,7 @@ juncToExon = function( juncList , s , e , tag=c() )
     exon = data.frame( chr=junc$chr[-1] , start=junc$end[-nrow(junc)] , end=junc$start[-1] )
   } )
   
-  names(exons) = paste0("SS",1:length(exons))
+  names(exons) = paste0("S2bS",1:length(exons))
   
   if(length(tag)>0)
   {

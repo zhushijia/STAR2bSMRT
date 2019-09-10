@@ -5,8 +5,8 @@
 \title{STAR2bSMRT}
 \usage{
 STAR2bSMRT(genomeDir, genomeFasta, LRphqv = NULL, LRflnc = NULL,
-  LRnfl = NULL, SR1, SR2 = NULL, useSJout = TRUE,
-  adjustNCjunc = FALSE, thresSR, thresDis, outputDir,
+  LRnfl = NULL, SR1, SR2 = NULL, useSJout = FALSE,
+  adjustNCjunc = TRUE, thresSR, thresDis, outputDir,
   fixedMatchedLS = FALSE, fuzzyMatch = 100, chrom = NULL, s = 0,
   e = Inf, cores = 10)
 }
@@ -28,7 +28,7 @@ generated SJ.out.tab for splicing junction. If FALSE, STAR2bSMRT infer
 the splicing junction from bam files. By default, FALSE.}
 
 \item{adjustNCjunc}{boolean value indicating whether to minimize the 
-non-canonical junction sites. By default, FALSE.}
+non-canonical junction sites.}
 
 \item{thresSR}{a vector of integers indicating the searching range for the 
 number of short reads which support the splicing junction sites.}
