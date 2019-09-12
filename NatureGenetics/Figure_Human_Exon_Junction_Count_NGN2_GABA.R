@@ -43,9 +43,8 @@ calculateJuncFrac = function(cc_fracs)
 #################   load codes for heatmap and gff
 ##########################################################################################
 
-setwd("/Users/shijiazhu/Documents/MyPackages/Git/STAR2bSMRT2/NatureGenetics")
-source("Analysis/SourceCode_Gff_Op.R")
-source("Analysis/SourceCode_Heatmap.R")
+source("SourceCode_Gff_Op.R")
+source("SourceCode_Heatmap.R")
 
 ##########################################################################################
 #################   human samples and basic information
@@ -107,7 +106,7 @@ juncExp = translatedExonExp[[i]]
 Name = reorder( rownames(juncFrac) , 1:nrow(juncFrac) )
 X = data.frame(Name,juncFrac)
 Y = data.frame(Name,y=juncExp)
-heatmapGradientColor(X,Y,names(translatedJuncFrac)[i])
+heatmapGradientColor2(X,Y,names(translatedJuncFrac)[i])
 
 
 ##########################################################################################
@@ -119,7 +118,7 @@ juncExp = translatedExonExp[[i]]
 Name = reorder( rownames(juncFrac) , 1:nrow(juncFrac) )
 X = data.frame(Name,juncFrac)
 Y = data.frame(Name,y=juncExp)
-heatmapGradientColor(X,Y,names(translatedJuncFrac)[i])
+heatmapGradientColor2(X,Y,names(translatedJuncFrac)[i])
 
 
 

@@ -4,49 +4,74 @@
 \alias{STAR2bSMRT_NRXN}
 \title{STAR2bSMRT_NRXN}
 \usage{
-STAR2bSMRT_NRXN(genomeDir, genomeFasta, LRphqv = NULL, SR1, SR2 = NULL,
-  useSJout = TRUE, adjustNCjunc = FALSE, thresSR, thresDis, outputDir,
+STAR2bSMRT_NRXN(genomeDir, genomeFasta, LRphqv = NULL, LRflnc = NULL,
+  LRnfl = NULL, SR1, SR2 = NULL, useSJout = TRUE,
+  adjustNCjunc = FALSE, thresSR, thresDis, outputDir,
   fixedMatchedLS = FALSE, fuzzyMatch = 100, chrom = NULL, s = 0,
   e = Inf, cores = 10)
 }
 \arguments{
-\item{genomeDir}{}
+\item{genomeDir}{character value indicating the directory of STAR genome 
+index for both STARlong and STARshort read mapping}
 
-\item{genomeFasta}{}
+\item{genomeFasta}{character value indicating the fasta file of genome 
+reference}
 
-\item{SR1}{}
+\item{SR1}{character value indicating the short read file in fastq format: 
+single-end or paired-end R1}
 
-\item{SR2}{}
+\item{SR2}{character value indicating the short read file in fastq format: 
+paired-end R2}
 
-\item{useSJout}{}
+\item{useSJout}{boolean value indicating whether to use the STARshort 
+generated SJ.out.tab for splicing junction. If FALSE, STAR2bSMRT infer 
+the splicing junction from bam files. By default, FALSE.}
 
-\item{adjustNCjunc}{}
+\item{adjustNCjunc}{boolean value indicating whether to minimize the 
+non-canonical junction sites.}
 
-\item{thresSR}{}
+\item{thresSR}{a vector of integers indicating the searching range for the 
+number of short reads which support the splicing junction sites.}
 
-\item{thresDis}{}
+\item{thresDis}{a vector of integers indicating the searching range for the 
+tolerance distance between short read-derived splicing junction and long 
+read-derived junction. STAR2bSMRT will correct the long read-derived 
+junction to the short read-derived junction, if more short reads than 
+defined thresSR support that short read-derived junction, and the distance 
+between long and short read junctions is shorter than the defined thresDis.}
 
-\item{outputDir}{}
+\item{outputDir}{character value indicating the direcotry where results are 
+saved.}
 
-\item{fixedMatchedLS}{}
+\item{fixedMatchedLS}{boolean value indicating how often the distance is 
+calculate betwen long read and short read-derived junction sites. If TRUE, 
+only calculated once at the very beginning, which may save running time; 
+otherwise, calculate repeatly after every long read correction. 
+By default, FALSE.}
 
-\item{chrom}{}
+\item{fuzzyMatch}{integer value indicating the distance for fuzzyMatch}
 
-\item{s}{}
+\item{chrom}{character value indicating the chromosome of interest. By default, 
+STAR2bSMRT works on the whole genome.}
 
-\item{e}{}
+\item{s}{integeter value indicating the start position of the transcript of 
+interest. This is useful for target Isoseq sequencing.}
 
-\item{cores}{}
+\item{e}{integeter value indicating the end position of the transcript of 
+interest. This is useful for target Isoseq sequencing.}
 
-\item{phqv}{}
+\item{cores}{integer value indicating the number of cores for parallel computing}
 
-\item{flnc}{}
+\item{phqv}{character value indicating the Isoseq polished high QV trascripts
+ in fasta/fastq, where 
+read counts for each transcript consensus should be saved in transcript names}
 
-\item{nfl}{}
+\item{flnc}{character value indicating the Isoseq full-length non-chimeric
+reads in fasta/fastq format}
+
+\item{nfl}{character value indicating the Isoseq non-full-length reads in 
+fasta/fastq format}
 }
 \description{
 STAR2bSMRT_NRXN
-}
-\examples{
-
 }

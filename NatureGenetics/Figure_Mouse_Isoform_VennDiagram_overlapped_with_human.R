@@ -2,9 +2,8 @@
 #################   load codes for heatmap and gff
 ##########################################################################################
 
-setwd("/Users/shijiazhu/Documents/MyPackages/Git/STAR2bSMRT2/NatureGenetics")
-source("Analysis/SourceCode_Gff_Op.R")
-source("Analysis/SourceCode_Heatmap.R")
+source("SourceCode_Gff_Op.R")
+source("SourceCode_Heatmap.R")
 
 ##########################################################################################
 #################   load basic information

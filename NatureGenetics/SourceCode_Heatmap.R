@@ -85,7 +85,7 @@ heatmapMannualValidateColor = function(X)
 }
 
 
-heatmapGradientColor = function(X)
+heatmapGradientColor1 = function(X)
 {
     X.m <- melt(X)
     X.s <- ddply(X.m, .(variable), transform,rescale = scale(value))
@@ -103,7 +103,7 @@ heatmapGradientColor = function(X)
 }
 
 
-heatmapGradientColor = function(X,Y,title)
+heatmapGradientColor2 = function(X,Y,title)
 {
     X.m <- melt(X)
     X.s <- ddply(X.m, .(variable), transform,rescale = scale(value))

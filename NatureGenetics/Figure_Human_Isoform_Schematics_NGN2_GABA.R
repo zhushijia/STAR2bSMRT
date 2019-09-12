@@ -2,9 +2,8 @@
 #################   load codes for heatmap and gff
 ##########################################################################################
 
-setwd("/Users/shijiazhu/Documents/MyPackages/Git/STAR2bSMRT2/NatureGenetics")
-source("Analysis/My_Gff_Op.R")
-source("Analysis/My_Heatmap.R")
+source("SourceCode_Gff_Op.R")
+source("SourceCode_Heatmap.R")
 
 ##########################################################################################
 #################   load codes for heatmap and gff
@@ -114,6 +113,6 @@ validateName = paste( c("validateBy", names(gffs)[valid_ind]), collapse="_")
 # draw isoform schematics
 heatmapMannualColor3(fracs, case_col="purple", cont_col="darkgreen", shared_col="darkorange")
 # draw expression
-heatmapGradientColor(logExps)
+heatmapGradientColor1(logExps)
 # draw validated isoforms
 heatmapMannualValidateColor(validate2)

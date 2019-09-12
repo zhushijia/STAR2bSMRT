@@ -91,7 +91,7 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	  starLong( genomeDir=genomeDir , LR=LRphqv , outputDir=LoutputDir , cores=cores , SJ=NULL )
 	  
 	  LRread = getReadByJI( LRalignment , LoutputDir )
-	  LRread = subset(LRread , start < 50150000 )
+	  #LRread = subset(LRread , start < 50150000 )
 	  exp = phqvExp(LRphqv,LoutputDir)  # get coverage for all phqv 
 	  LRread = merge( LRread , exp , by="id" ) 
 	  LRread$coverage = LRread$full_length_coverage
@@ -188,16 +188,11 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	plot( lrCount , srCount , col=cols , pch=17 , main=paste0("JuncExp by Long and Short Reads: r=",signif(juncCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
 	abline(lm( srCount~lrCount ))
 	
-	par(mfrow=c(2,1))
-	log10fc = lrCount - srCount
-	JuncNames = paste(juncExp$start , juncExp$end)
-	barplot( log10fc , cex.names=0.6 , col=cols , ylab="log10(lrCount/srCount)", names=JuncNames , las=3 )
-	
 	dev.off()
 	
 	###############################################################################################################
 	gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
-	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , tag=correction[[chrom]]$normalizedIsoformCount )
+	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=s , e=e , tag=correction[[chrom]]$normalizedIsoformCount )
 	#writeGff( isoform=correction[[chrom]]$isoform , file = gffName , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411 )
 	writeGff( isoform=exonList , file = gffName )
 	
@@ -209,21 +204,6 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	#writeXStringSet( seq$dna[seq$translated] , fastaName )
 	
 	###############################################################################################################
-	kallisto = kallistoQuant( fastaName , SR1 , SR2 , EoutputDir )
-	
-	Sexp = log10(kallisto$tpm+1)
-	Lexp = log10(correction[['chr2']]$normalizedIsoformCount+1)
-	LSQuantCorr = cor.test(Lexp,Sexp)$estimate
-	LSQuantPval = cor.test(Lexp,Sexp)$p.val
-	
-	###############################################################################################################
-	pdf( paste0( "Quant_LR_ts",ts,"_td",td,".pdf") )
-	cols = sapply( seq$translated , function(x) ifelse(x,2,1) )
-	plot( Lexp , Sexp , pch=16 , col=cols , main=paste0("Quantification by Long and Short Reads: r=",signif(LSQuantCorr,3)) ,  xlab="Log10 Long Read" , ylab="Log10 Short Read"  )
-	abline(lm( Sexp~Lexp ))
-	dev.off()
-	
-	###############################################################################################################
 	pdf( "gridSeach.pdf" )
 	heatmap( score , Rowv = NA, Colv = NA, scale='none' )
 	dev.off()
@@ -231,7 +211,8 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	###############################################################################################################
 	isoformNum = sum(sapply(correction,function(x)x$uniNum))
 	isoformFrac = mean(sapply(correction,function(x)x$frac))
-	info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , translated=sum(seq$translated) , juncCorr , LSQuantCorr , LSQuantPval )
+	#info = data.frame( shortRead=ts , distance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , translated=sum(seq$translated) , juncCorr , LSQuantCorr , LSQuantPval )
+	info = data.frame( shortReadSupport=ts , LSJuncDistance=td , isoformNum=isoformNum , isoformFrac=isoformFrac , translated=sum(seq$translated) , juncCorr )
 	write.table(info,"summary.txt",quote=F,sep="\t",col.names=T,row.names=F)
 	
 
