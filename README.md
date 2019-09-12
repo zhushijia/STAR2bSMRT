@@ -2,6 +2,9 @@
 STARlong and STARshort based Single Molecule Real Time Iso-Seq analysis
 
 ## Description
+STAR2bSMRT is a novel hybrid sequencing-based alternative splicing identification method. It is specially tailored for long read RNAseq correction by utilizing its unique characteristics. The long read RNAseq differs from the long read DNAseq from two-fold: 1) the very small profortion of splicing junction sites act much more crucial role than the non-junction sites; 2) 
+
+
 We proposed a novel method for genome reference, annotation and short read based long read correction. A novel criterion was used to optimize the selection of thresholds for number of short reads supporting junction sites and difference between long read and short read detected junction sites. Since the correction only focus on the junction sites, avoiding from the large time concumption on the sequence correction, enabling ultrafast correction. 
 
 ## Dependencies on packages
