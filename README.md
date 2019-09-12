@@ -2,7 +2,12 @@
 STARlong and STARshort based Single Molecule Real Time Iso-Seq analysis
 
 ## Description
-STAR2bSMRT is a novel hybrid sequencing-based alternative splicing identification method. It is specially tailored for long read RNAseq correction by utilizing its unique characteristics. The long read RNAseq differs from the long read DNAseq from two-fold: 1) the very small profortion of splicing junction sites act much more crucial role than the non-junction sites; 2) 
+STAR2bSMRT is a novel hybrid sequencing-based alternative splicing identification method, which is specially tailored for long read RNAseq correction. 
+The long read RNAseq differs from the long read DNAseq from three folds: 
+1) as opposed to such primary application of DNAseq as the do novo genome assebmly, the RANseq-based splicing isoform identification often has the pre-built genome reference, which serves as the great prior knowledge; 
+2) among all sequences of the RNAseq reads, the very small profortion of splicing junction sites act the dominant role in splicing isoform identification; 
+3) the RNAseq reads demonstrate variational coverages across the genome in response to different gene expression. 
+These difference motivates the long read RNAseq-specific correction method, STAR2bSMRT. Given the matched hybrid-sequencing, STAR2bSMRT first aligns both long and short reads to the genome, obtaining the approximate splicing junctions; next, differing from corretion of the whole long read suquence, STAR2bSMRT only corrects those junction sites, via maximizing the correlation between the long and short read junctions. It converts the question of sequence correction into that of statistical optimization, therefore enabling us to automatically select parameters. 
 
 
 We proposed a novel method for genome reference, annotation and short read based long read correction. A novel criterion was used to optimize the selection of thresholds for number of short reads supporting junction sites and difference between long read and short read detected junction sites. Since the correction only focus on the junction sites, avoiding from the large time concumption on the sequence correction, enabling ultrafast correction. 
