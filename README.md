@@ -28,7 +28,7 @@ http://cran.fhcrc.org/
 
 ```
 
-### 3) Install the SMRTER R package
+### 3) Install the STAR2bSMRT R package
 ```
 git clone https://zhushijia:password@github.com/zhushijia/STAR2bSMRT.git 
 R CMD INSTALL -l userFolder STAR2bSMRT
