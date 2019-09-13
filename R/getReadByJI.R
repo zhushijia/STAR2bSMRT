@@ -1,9 +1,12 @@
 #' getReadByJI
 #'
-#' @param alignments 
-#' @param outputDir 
+#' @param alignments character value indicating the location of alignment files,
+#' such as .bam or .sam files
+#' @param outputDir character value indicating the output directory for saving 
+#' results
 #'
-#' @return
+#' @return a list of data frame, indicating the information of long read,
+#' comprising id, chr, strand, start, end, junc
 #' @export
 #'
 #' @examples

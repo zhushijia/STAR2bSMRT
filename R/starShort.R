@@ -1,10 +1,12 @@
 #' starShort
-#'
-#' @param genomeDir 
-#' @param SR1 
-#' @param SR2 
-#' @param outputDir 
-#' @param SJ 
+#' for STARshort mapping
+#' @param genomeDir character value indicating the location of STAR genome indexes 
+#' @param SR1 character value indicating the short read file in fastq format: 
+#' single-end or paired-end R1
+#' @param SR2 character value indicating the short read file in fastq format: 
+#' paired-end R2
+#' @param outputDir character value indicating the directory of output
+#' @param SJ character value for 2pass STAR mapping
 #'
 #' @return
 #' @export

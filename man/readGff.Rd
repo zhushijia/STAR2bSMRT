@@ -2,19 +2,27 @@
 % Please edit documentation in R/readGff.R
 \name{readGff}
 \alias{readGff}
-\title{readGff}
+\title{readGff
+for reading isoform gff file}
 \usage{
 readGff(file, chrom = NULL, s = 0, e = Inf)
 }
 \arguments{
-\item{file}{}
+\item{file}{character value indicating the name of the gff file}
 
-\item{chrom}{}
+\item{chrom}{character value indicating the chromosome of interest. By default, 
+STAR2bSMRT works on the whole genome.}
 
-\item{s}{}
+\item{s}{integeter value indicating the start position of the transcript of 
+interest. This is useful for target Isoseq sequencing.}
 
-\item{e}{}
+\item{e}{integeter value indicating the end position of the transcript of 
+interest. This is useful for target Isoseq sequencing.}
+}
+\value{
+a list of isoforms
 }
 \description{
 readGff
+for reading isoform gff file
 }

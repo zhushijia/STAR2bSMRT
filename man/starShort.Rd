@@ -2,21 +2,25 @@
 % Please edit documentation in R/starShort.R
 \name{starShort}
 \alias{starShort}
-\title{starShort}
+\title{starShort
+for STARshort mapping}
 \usage{
 starShort(genomeDir, SR1, SR2, outputDir, SJ = NULL)
 }
 \arguments{
-\item{genomeDir}{}
+\item{genomeDir}{character value indicating the location of STAR genome indexes}
 
-\item{SR1}{}
+\item{SR1}{character value indicating the short read file in fastq format: 
+single-end or paired-end R1}
 
-\item{SR2}{}
+\item{SR2}{character value indicating the short read file in fastq format: 
+paired-end R2}
 
-\item{outputDir}{}
+\item{outputDir}{character value indicating the directory of output}
 
-\item{SJ}{}
+\item{SJ}{character value for 2pass STAR mapping}
 }
 \description{
 starShort
+for STARshort mapping
 }

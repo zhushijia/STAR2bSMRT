@@ -2,7 +2,8 @@
 % Please edit documentation in R/unionGff.R
 \name{unionGff}
 \alias{unionGff}
-\title{unionGff}
+\title{unionGff
+unions two isoform gff files}
 \usage{
 unionGff(gff1, gff2)
 }
@@ -13,6 +14,7 @@ unionGff(gff1, gff2)
 }
 \description{
 unionGff
+unions two isoform gff files
 }
 \examples{
 

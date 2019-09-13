@@ -1,14 +1,27 @@
 #' gridSearch
-#'
-#' @param LRjunc 
-#' @param SRjunc 
-#' @param thresSR 
-#' @param thresDis 
-#' @param adjustNCjunc 
+#' perform grid searching for the best parameter settings for thresSR and thresDis,
+#' by maximizing the correlation between long and short read junction sites
+#' @param LRjunc a list of data frame, indicating the splicing junction sites 
+#' obtained from long reads
+#' @param SRjunc a list of data frame, indicating the splicing junction sites 
+#' obtained from short reads
+#' @param thresSR a vector of integers indicating the searching range for the 
+#' number of short reads which support the splicing junction sites.
+#' @param thresDis a vector of integers indicating the searching range for the 
+#' tolerance distance between short read-derived splicing junction and long 
+#' read-derived junction. STAR2bSMRT will correct the long read-derived 
+#' junction to the short read-derived junction, if more short reads than 
+#' defined thresSR support that short read-derived junction, and the distance 
+#' between long and short read junctions is shorter than the defined thresDis.
+#' @param adjustNCjunc boolean value indicating whether to minimize the 
+#' non-canonical junction sites. 
 #' @param matchedLS 
-#' @param fuzzyMatch
+#' @param fuzzyMatch integer value indicating the distance for fuzzyMatch
 #'
-#' @return
+#' @return a matrix of correlation coefficients between long and short read 
+#' junctions, with the row representing the number of short reads, the column 
+#' representing the distance between long and short junctions
+#' 
 #' @export
 #'
 #' @examples

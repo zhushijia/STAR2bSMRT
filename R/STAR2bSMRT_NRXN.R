@@ -157,8 +157,8 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	###############################################################################################################
 	seq = generateSeq( genome=genome , isoform=exonList )
 	fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
-	writeXStringSet( seq$dna , fastaName )
-	#writeXStringSet( seq$dna[seq$translated] , fastaName )
+	writeXStringSet( seq$rna , fastaName )
+	#writeXStringSet( seq$rna[seq$translated] , fastaName )
 	
 	###############################################################################################################
 	kallisto = kallistoQuant( fastaName , SR1 , SR2 , EoutputDir )

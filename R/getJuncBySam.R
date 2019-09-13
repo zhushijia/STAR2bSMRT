@@ -8,7 +8,8 @@
 #' @param s an integer value indicating the start site
 #' @param e an integer value indicating the end site
 #'
-#' @return
+#' @return a list of data frame representing the splicing junction sites for 
+#' each chromosome 
 #' @export
 #'
 #' @examples

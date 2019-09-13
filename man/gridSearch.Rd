@@ -2,26 +2,44 @@
 % Please edit documentation in R/gridSearch.R
 \name{gridSearch}
 \alias{gridSearch}
-\title{gridSearch}
+\title{gridSearch
+perform grid searching for the best parameter settings for thresSR and thresDis,
+by maximizing the correlation between long and short read junction sites}
 \usage{
 gridSearch(LRjunc, SRjunc, thresSR = c(1:30), thresDis = c(1:20),
   adjustNCjunc = TRUE, matchedLS = NULL, fuzzyMatch = 100)
 }
 \arguments{
-\item{LRjunc}{}
+\item{LRjunc}{a list of data frame, indicating the splicing junction sites 
+obtained from long reads}
 
-\item{SRjunc}{}
+\item{SRjunc}{a list of data frame, indicating the splicing junction sites 
+obtained from short reads}
 
-\item{thresSR}{}
+\item{thresSR}{a vector of integers indicating the searching range for the 
+number of short reads which support the splicing junction sites.}
 
-\item{thresDis}{}
+\item{thresDis}{a vector of integers indicating the searching range for the 
+tolerance distance between short read-derived splicing junction and long 
+read-derived junction. STAR2bSMRT will correct the long read-derived 
+junction to the short read-derived junction, if more short reads than 
+defined thresSR support that short read-derived junction, and the distance 
+between long and short read junctions is shorter than the defined thresDis.}
 
-\item{adjustNCjunc}{}
+\item{adjustNCjunc}{boolean value indicating whether to minimize the 
+non-canonical junction sites.}
 
 \item{matchedLS}{}
 
-\item{fuzzyMatch}{}
+\item{fuzzyMatch}{integer value indicating the distance for fuzzyMatch}
+}
+\value{
+a matrix of correlation coefficients between long and short read 
+junctions, with the row representing the number of short reads, the column 
+representing the distance between long and short junctions
 }
 \description{
 gridSearch
+perform grid searching for the best parameter settings for thresSR and thresDis,
+by maximizing the correlation between long and short read junction sites
 }

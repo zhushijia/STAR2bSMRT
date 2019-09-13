@@ -2,13 +2,16 @@
 #'
 #' getJuncBySjout gets the unique junction sites and their numbers from the alignment files
 #'  
-#' @param SJout a character value, indicating the SJ.out.tab file 
-#' @param outputDir a character value, indicating the directory whether to save the results
-#' @param chrom a vector of character values, incidating the chromosomes of insterest
-#' @param s an integer value indicating the start site
-#' @param e an integer value indicating the end site
+#' @param SJout a data frame, indicating the SJ.out.tab file ouput by STAR mapping
+#' @param outputDir a character value, indicating the directory for saving results
+#' @param chrom a character value, incidating the chromosome of interest
+#' @param s an integer value indicating the start site of gene of interest. This
+#' is useful for targeted sequencing
+#' @param e an integer value indicating the end site of gene of interest. This
+#' is useful for targeted sequencing
 #'
-#' @return
+#' @return a list of data frame representing the splicing junction sites for 
+#' each chromosome 
 #' @export
 #'
 #' @examples

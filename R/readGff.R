@@ -1,11 +1,15 @@
 #' readGff
+#' for reading isoform gff file
+#' 
+#' @param file character value indicating the name of the gff file
+#' @param chrom character value indicating the chromosome of interest. By default, 
+#' STAR2bSMRT works on the whole genome. 
+#' @param s integeter value indicating the start position of the transcript of 
+#' interest. This is useful for target Isoseq sequencing. 
+#' @param e integeter value indicating the end position of the transcript of 
+#' interest. This is useful for target Isoseq sequencing. 
 #'
-#' @param file 
-#' @param chrom 
-#' @param s 
-#' @param e 
-#'
-#' @return
+#' @return a list of isoforms 
 #' @export
 #'
 #' @examples

@@ -8,22 +8,46 @@ generateCorrectedIsoform(LRjunc, SRjunc, LRtag, LRread, ts, td,
   matchedLS = NULL, fuzzyMatch = 100)
 }
 \arguments{
-\item{LRjunc}{}
+\item{LRjunc}{a list of data frame, indicating the splicing junction sites 
+obtained from long reads}
 
-\item{SRjunc}{}
+\item{SRjunc}{a list of data frame, indicating the splicing junction sites 
+obtained from short reads}
 
-\item{LRtag}{}
+\item{LRtag}{a list of character values, indicating the splicing junctions 
+for each long read in the format of "junction_start,junction_end"}
 
-\item{LRread}{}
+\item{LRread}{a list of data frame, indicating the information of long read,
+comprising id, chr, strand, start, end, junc}
 
-\item{ts}{}
+\item{ts}{integer value indicating the number of short read support}
 
-\item{td}{}
+\item{td}{integer value indicating the distance between long and short read
+junction sites}
 
-\item{matchedLS}{}
+\item{matchedLS}{the correspondence bewteen long read and short read-derived
+junction sites}
 
-\item{fuzzyMatch}{}
+\item{fuzzyMatch}{integer value indicating the tolerance distance}
+}
+\value{
+a list of corrected isoforms, comprising the following items:
+\itemize{
+ \item {isoform} a list of isoforms: data frame of junction sites
+ \item {uniNum} integer value indicating the number of unique isoforms
+ \item {frac} numeric value indicating the fraction of corrected reads 
+ relative to total read counts
+ \item {isoformCount} integer value indicating the read count for each isoform
+ \item {LSjuncCount} data frame representing the information of each isoform,
+ comprising columns: srCount, chr, start, end, motif, and lrCount
+ \item {normalizedIsoformCount} numeric values indicating the normalized 
+ read count for each isoform when integrating multiple smrtcells
+}
 }
 \description{
 generateCorrectedIsoform
+}
+\examples{
+
+
 }

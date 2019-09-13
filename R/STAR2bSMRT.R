@@ -200,8 +200,8 @@ STAR2bSMRT <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, LRnfl=
 	#seq = generateSeq( genome=genome , isoform=correction[[chrom]]$isoform , exp=correction[[chrom]]$exp , chrom='chr2' , s=50149082 , e=51255411  )
 	seq = generateSeq( genome=genome , isoform=exonList )
 	fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
-	writeXStringSet( seq$dna , fastaName )
-	#writeXStringSet( seq$dna[seq$translated] , fastaName )
+	writeXStringSet( seq$rna , fastaName )
+	#writeXStringSet( seq$rna[seq$translated] , fastaName )
 	
 	###############################################################################################################
 	pdf( "gridSeach.pdf" )

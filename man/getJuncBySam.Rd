@@ -17,6 +17,10 @@ getJuncBySam(alignments, outputDir, chrom = NULL, s = 0, e = Inf)
 
 \item{e}{an integer value indicating the end site}
 }
+\value{
+a list of data frame representing the splicing junction sites for 
+each chromosome
+}
 \description{
 getJuncBySam gets the unique junction sites and their numbers from the alignment files
 }

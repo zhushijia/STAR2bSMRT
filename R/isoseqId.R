@@ -1,5 +1,5 @@
 #' isoseqId
-#'
+#' 
 #' @param roi 
 #' @param outputDir 
 #'

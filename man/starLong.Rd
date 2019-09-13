@@ -2,21 +2,23 @@
 % Please edit documentation in R/starLong.R
 \name{starLong}
 \alias{starLong}
-\title{starLong}
+\title{starLong
+for starlong mapping}
 \usage{
 starLong(genomeDir, LR, outputDir, cores = 10, SJ = NULL)
 }
 \arguments{
-\item{genomeDir}{}
+\item{genomeDir}{character value indicating the location of STAR genome indexes}
 
-\item{LR}{}
+\item{LR}{character value indicating the long read file}
 
-\item{outputDir}{}
+\item{outputDir}{character value indicating the directory of output}
 
-\item{cores}{}
+\item{cores}{integer value indicating the number of cores for parallel computing}
 
-\item{SJ}{}
+\item{SJ}{character value for 2pass STAR mapping}
 }
 \description{
 starLong
+for starlong mapping
 }

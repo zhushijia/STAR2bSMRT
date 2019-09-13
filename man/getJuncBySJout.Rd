@@ -8,15 +8,21 @@ getJuncBySJout(SJout = "SJ.out.tab", outputDir, chrom = NULL, s = 0,
   e = Inf)
 }
 \arguments{
-\item{SJout}{a character value, indicating the SJ.out.tab file}
+\item{SJout}{a data frame, indicating the SJ.out.tab file ouput by STAR mapping}
 
-\item{outputDir}{a character value, indicating the directory whether to save the results}
+\item{outputDir}{a character value, indicating the directory for saving results}
 
-\item{chrom}{a vector of character values, incidating the chromosomes of insterest}
+\item{chrom}{a character value, incidating the chromosome of interest}
 
-\item{s}{an integer value indicating the start site}
+\item{s}{an integer value indicating the start site of gene of interest. This
+is useful for targeted sequencing}
 
-\item{e}{an integer value indicating the end site}
+\item{e}{an integer value indicating the end site of gene of interest. This
+is useful for targeted sequencing}
+}
+\value{
+a list of data frame representing the splicing junction sites for 
+each chromosome
 }
 \description{
 getJuncBySjout gets the unique junction sites and their numbers from the alignment files

@@ -1,5 +1,6 @@
 #' unionGff
-#'
+#' unions two isoform gff files
+#' 
 #' @param gff1 
 #' @param gff2 
 #'

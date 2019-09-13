@@ -7,22 +7,21 @@
 getLRinfo(LRread, chrom = NULL, s = 0, e = Inf)
 }
 \arguments{
-\item{LRread}{a data frame for the result of long read alignments, comprising
-read id, start, end, junction sites}
+\item{LRread}{a list of data frame, indicating the information of long read,
+comprising read id, chr, strand, start, end and junction sites}
 
-\item{chrom}{}
+\item{chrom}{a character value, incidating the chromosome of interest}
 
-\item{s}{}
+\item{s}{an integer value indicating the start site of gene of interest. This
+is useful for targeted sequencing}
 
-\item{e}{}
+\item{e}{an integer value indicating the end site of gene of interest. This
+is useful for targeted sequencing}
 }
 \description{
 getLRinfo
 }
 \examples{
 
-exp = phqvExp( phqv , outputDir )
-exp = exp$full_length_coverage
-group = sapply( strsplit(as.character(LRread$id),"/"), function(x) x[1] )
 
 }
