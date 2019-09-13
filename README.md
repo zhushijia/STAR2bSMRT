@@ -9,7 +9,7 @@ The long read RNAseq differs from the long read DNAseq from three folds:
 2) among all sequences of the RNAseq reads, the very small profortion of splicing junction sites act the dominant role in splicing isoform identification; 
 3) the RNAseq reads demonstrate variational coverages across the genome in response to different gene expression and alternative splicing. 
 
-These difference motivates the novel long read RNAseq-specific correction method, STAR2bSMRT. Given the matched hybrid-sequencing, STAR2bSMRT first aligns both long and short reads to the genome, obtaining the approximate splicing junctions; next, differing from corretion of the whole long read suquence, STAR2bSMRT only corrects those junction sites, via maximizing the correlation between the long and short read junctions. 
+These difference motivates the proposal of the novel long read RNAseq-specific correction method, STAR2bSMRT. Given the matched hybrid-sequencing, STAR2bSMRT first aligns both long and short reads to the genome, obtaining the approximate splicing junctions; next, differing from corretion of the whole long read suquence, STAR2bSMRT only corrects those long read junction sites, via maximizing the correlation between the long and short read junctions. 
 
 STAR2bSMRT has the following contributions:
 1) in addition to short reads, it also incorporates prior knowledge to perform long read correction: genome reference, and annotated junction sites (gtf file);
