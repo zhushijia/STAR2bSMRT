@@ -15,6 +15,9 @@ valid_ind = c(5:7)
 human_annotation = read.table('Data/human_NRXN1_Exon_Annotation_hg19.txt',sep='\t',header=T)
 case_annotation = human_annotation
 cont_annotation = human_annotation
+human_nrxn1_chr = "chr2"
+human_nrxn1_start = 50149082 
+human_nrxn1_end = 51255411
 threshold=7
 
 ##########################################################################################

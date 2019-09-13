@@ -8,7 +8,6 @@ source("SourceCode_Heatmap.R")
 ##########################################################################################
 #################   human samples and basic information
 ##########################################################################################
-
 samples= c("p3Del1","p3Del2","Cont1","Cont2","Cont3",
            "Adult1","Adult2","Adult3","Fetal1","Fetal2","Fetal3") 
 case_ind = c(3,4)
