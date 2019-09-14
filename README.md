@@ -9,7 +9,7 @@ STAR2bSMRT is a novel hybrid sequencing-based alternative splicing identificatio
 -  STARlong & STARshort - [STAR](https://github.com/alexdobin/STAR)
 -  samtools - [samtools](http://samtools.sourceforge.net/)
 -  bedtools - [bedtools](http://bedtools.readthedocs.io/en/latest/)
--  R package: [Biostrings](https://bioconductor.org/packages/release/bioc/html/Biostrings.html); [foreach](https://cran.r-project.org/web/packages/foreach/); [doMC](https://cran.r-project.org/web/packages/doMC/)
+-  R package: [Biostrings](https://bioconductor.org/packages/release/bioc/html/Biostrings.html); [foreach](https://cran.r-project.org/web/packages/foreach/); [doMC](https://cran.r-project.org/web/packages/doMC/); [reshape](https://cran.r-project.org/web/packages/reshape/index.html)
 
 
 ## Installation
@@ -25,7 +25,7 @@ http://cran.fhcrc.org/
 > biocLite("Biostrings")
 
 # install packages for parallel computating
-> install.packages(c("foreach","doMC"))
+> install.packages(c("foreach","doMC","reshape"))
 
 ```
 
