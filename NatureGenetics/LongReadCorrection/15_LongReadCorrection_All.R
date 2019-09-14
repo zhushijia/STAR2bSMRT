@@ -20,7 +20,7 @@ adjustNCjunc=TRUE
 fixedMatchedLS=FALSE
 useSJout=FALSE
 fuzzyMatch=100
-folder="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/test/PackageReleaseResult3/"
+folder="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/test/PackageReleaseResult5/"
 system( paste("mkdir -p",folder) )
 
 

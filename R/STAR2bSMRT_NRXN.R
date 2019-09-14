@@ -150,15 +150,19 @@ STAR2bSMRT_NRXN <- function( genomeDir, genomeFasta, LRphqv=NULL, LRflnc=NULL, L
 	dev.off()
 	
 	###############################################################################################################
-	gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
-	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , tag=correction[[chrom]]$normalizedIsoformCount )
-	writeGff( isoform=exonList , file = gffName )
-	
+	tag = paste0( "exp", correction[[chrom]]$normalizedIsoformCount )
+	exonList = juncToExon( juncList=correction[[chrom]]$isoform , s=50149082 , e=51255411 , tag=tag )
+
 	###############################################################################################################
 	seq = generateSeq( genome=genome , isoform=exonList )
 	fastaName = paste0( "isoform_ts",ts,"_td",td,".fa")
+	translated = sapply( seq$translated , function(x) ifelse( x , "translated" , "untranslated" )  )
+	names(seq$rna) = paste(names(seq$rna),translated,sep="_")
 	writeXStringSet( seq$rna , fastaName )
-	#writeXStringSet( seq$rna[seq$translated] , fastaName )
+	
+	gffName = paste0( "isoform_ts",ts,"_td",td,".gff")
+	names(exonList) = paste( names(exonList) , translated , sep="_" )
+	writeGff( isoform=exonList , file = gffName )
 	
 	###############################################################################################################
 	kallisto = kallistoQuant( fastaName , SR1 , SR2 , EoutputDir )
