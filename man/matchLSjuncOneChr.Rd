@@ -11,7 +11,7 @@ matchLSjuncOneChr(lrc, src, fuzzyMatch = 100)
 
 \item{src}{}
 
-\item{fuzzyMatch}{}
+\item{fuzzyMatch}{integer value indicating the distance for fuzzymatching}
 }
 \description{
 matchLSjuncOneChr

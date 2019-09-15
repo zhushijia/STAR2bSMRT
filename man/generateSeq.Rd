@@ -2,7 +2,8 @@
 % Please edit documentation in R/generateSeq.R
 \name{generateSeq}
 \alias{generateSeq}
-\title{generateSeq}
+\title{generateSeq
+generate the isoform sequence from the isoform list}
 \usage{
 generateSeq(genome, isoform)
 }
@@ -23,4 +24,5 @@ a list comprsing the following items
 }
 \description{
 generateSeq
+generate the isoform sequence from the isoform list
 }

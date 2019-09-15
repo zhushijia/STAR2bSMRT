@@ -1,6 +1,7 @@
 #' STAR2bSMRT_NRXN
-#'
-#'
+#' the main function of STAR2bSMRT specially designed for NRXN1 alpha splicing 
+#' identification
+#' 
 #' @param genomeDir character value indicating the directory of STAR genome 
 #' index for both STARlong and STARshort read mapping
 #' @param genomeFasta character value indicating the fasta file of genome 

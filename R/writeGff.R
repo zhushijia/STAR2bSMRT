@@ -1,9 +1,10 @@
 #' writeGff
+#' write out the gff file of isoforms
+#' 
+#' @param isoform a list of junction sites
+#' @param file character value representing the file name of output gff
 #'
-#' @param isoform 
-#' @param file 
-#'
-#' @return
+#' @return NULL
 #' @export
 #'
 #' @examples

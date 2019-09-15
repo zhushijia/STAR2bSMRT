@@ -2,15 +2,17 @@
 % Please edit documentation in R/writeGff.R
 \name{writeGff}
 \alias{writeGff}
-\title{writeGff}
+\title{writeGff
+write out the gff file of isoforms}
 \usage{
 writeGff(isoform, file = "")
 }
 \arguments{
-\item{isoform}{}
+\item{isoform}{a list of junction sites}
 
-\item{file}{}
+\item{file}{character value representing the file name of output gff}
 }
 \description{
 writeGff
+write out the gff file of isoforms
 }

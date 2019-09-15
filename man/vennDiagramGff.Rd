@@ -2,17 +2,19 @@
 % Please edit documentation in R/vennDiagramGff.R
 \name{vennDiagramGff}
 \alias{vennDiagramGff}
-\title{vennDiagramGff}
+\title{vennDiagramGff
+draw the venn diagram of a list of gffs}
 \usage{
 vennDiagramGff(gffList, filename)
 }
 \arguments{
-\item{gffList}{}
+\item{gffList}{a list of gffs representing gffs for different samples}
 
-\item{filename}{}
+\item{filename}{character value representing the file name of VennDiagram}
 }
 \description{
 vennDiagramGff
+draw the venn diagram of a list of gffs
 }
 \examples{
 

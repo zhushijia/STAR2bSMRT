@@ -2,7 +2,8 @@
 % Please edit documentation in R/generateCorrectedIsoform.R
 \name{generateCorrectedIsoform}
 \alias{generateCorrectedIsoform}
-\title{generateCorrectedIsoform}
+\title{generateCorrectedIsoform
+generates the corrected isoforms given the defined thresholds of ts and td}
 \usage{
 generateCorrectedIsoform(LRjunc, SRjunc, LRtag, LRread, ts, td,
   matchedLS = NULL, fuzzyMatch = 100)
@@ -46,6 +47,7 @@ a list of corrected isoforms, comprising the following items:
 }
 \description{
 generateCorrectedIsoform
+generates the corrected isoforms given the defined thresholds of ts and td
 }
 \examples{
 

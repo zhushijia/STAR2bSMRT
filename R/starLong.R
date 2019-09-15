@@ -1,5 +1,6 @@
 #' starLong
-#' for starlong mapping
+#' run the STARlong mapping
+#' 
 #' @param genomeDir character value indicating the location of STAR genome indexes
 #' @param LR character value indicating the long read file
 #' @param outputDir character value indicating the directory of output

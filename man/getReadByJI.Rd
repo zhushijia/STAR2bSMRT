@@ -2,7 +2,8 @@
 % Please edit documentation in R/getReadByJI.R
 \name{getReadByJI}
 \alias{getReadByJI}
-\title{getReadByJI}
+\title{getReadByJI
+get the long read information from JI tag in sam file}
 \usage{
 getReadByJI(alignments, outputDir)
 }
@@ -19,4 +20,5 @@ comprising id, chr, strand, start, end, junc
 }
 \description{
 getReadByJI
+get the long read information from JI tag in sam file
 }

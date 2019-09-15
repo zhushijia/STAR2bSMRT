@@ -51,6 +51,9 @@ mouseGff = readGff( "Data/mouse_ts70_td13.gff" , chrom=mouse_nrxn1_chr , s=mouse
 mouseGffInfo = gffInfo( gff=mouseGff, annotation=mouse_annotation, threshold=7 )
 mouseTag = mouseGffInfo$tag
 
+
+library(VennDiagram)
+
 ##########################################################################################
 #################   draw venn diagram
 ##########################################################################################
@@ -66,11 +69,11 @@ groupGffInfo = lapply( groupGffs, function(x) gffInfo( gff=x, annotation=human_a
 groupTag = lapply(groupGffInfo,function(x)x$tag)
 groupTag$mouse = mouseTag
 
-library(VennDiagram)
 tagAll = unique(do.call(c, groupTag))
 indexList <- lapply(groupTag, function(x) which(tagAll %in% x))
-names(indexList) = names(groupTag)
-filename = "vennDiagram_Mouse_and_Human.png"
+size = sapply(indexList,length)
+names(indexList) = paste0( names(groupTag), "(", size , ")")
+filename = "Figs/Fig2A_vennDiagram_Mouse_and_Human.png"
 venn.diagram(indexList, filename = filename, height = 2000, 
              width = 2000, fill = 1:length(groupTag), alpha = 0.4, 
              imagetype = "png")
@@ -90,11 +93,11 @@ names(groupGffs) = names(groups)
 groupGffInfo = lapply( groupGffs, function(x) gffInfo( gff=x, annotation=human_annotation, threshold=7 )  )
 groupTag = lapply(groupGffInfo,function(x)x$tag)
 
-library(VennDiagram)
 tagAll = unique(do.call(c, groupTag))
 indexList <- lapply(groupTag, function(x) which(tagAll %in% x))
-names(indexList) = names(groupTag)
-filename = "vennDiagram_Human_hiPSC_Adult_Fetal.png"
+size = sapply(indexList,length)
+names(indexList) = paste0( names(groupTag), "(", size , ")")
+filename = "Figs/Fig2E_vennDiagram_Human_hiPSC_Adult_Fetal.png"
 venn.diagram(indexList, filename = filename, height = 2000, 
              width = 2000, fill = 1:length(groupTag), alpha = 0.4, 
              imagetype = "png")
@@ -112,11 +115,11 @@ names(groupGffs) = names(groups)
 groupGffInfo = lapply( groupGffs, function(x) gffInfo( gff=x, annotation=human_annotation, threshold=7 )  )
 groupTag = lapply(groupGffInfo,function(x)x$tag)
 
-library(VennDiagram)
 tagAll = unique(do.call(c, groupTag))
 indexList <- lapply(groupTag, function(x) which(tagAll %in% x))
-names(indexList) = names(groupTag)
-filename = "vennDiagram_Human_GABA_NGN2_FBN.png"
+size = sapply(indexList,length)
+names(indexList) = paste0( names(groupTag), "(", size , ")")
+filename = "Figs/Fig3A_vennDiagram_Human_GABA_NGN2_FBN.png"
 venn.diagram(indexList, filename = filename, height = 2000, 
              width = 2000, fill = 1:length(groupTag), alpha = 0.4, 
              imagetype = "png")

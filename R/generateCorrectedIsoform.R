@@ -1,5 +1,6 @@
 #' generateCorrectedIsoform
-#'
+#' generates the corrected isoforms given the defined thresholds of ts and td
+#' 
 #' @param LRjunc a list of data frame, indicating the splicing junction sites 
 #' obtained from long reads
 #' @param SRjunc a list of data frame, indicating the splicing junction sites 

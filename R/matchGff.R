@@ -1,9 +1,10 @@
 #' matchGff
+#' finds the correspondence between two gffs
+#' 
+#' @param gff1 a list of data frame representing the junctions for each isoform
+#' @param gff2 a list of data frame representing the junctions for each isoform
 #'
-#' @param gff1 
-#' @param gff2 
-#'
-#' @return
+#' @return a vector of integer values indicating the index of gff2 matching gff1
 #' @export
 #'
 #' @examples

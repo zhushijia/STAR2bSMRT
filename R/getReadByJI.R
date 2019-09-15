@@ -1,5 +1,5 @@
 #' getReadByJI
-#'
+#' get the long read information from JI tag in sam file
 #' @param alignments character value indicating the location of alignment files,
 #' such as .bam or .sam files
 #' @param outputDir character value indicating the output directory for saving 

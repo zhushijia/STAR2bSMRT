@@ -2,19 +2,27 @@
 % Please edit documentation in R/salmonQuant.R
 \name{salmonQuant}
 \alias{salmonQuant}
-\title{salmonQuant}
+\title{salmonQuant
+perform the salmon transcript quantification}
 \usage{
 salmonQuant(transcript, SR1, SR2, outputDir)
 }
 \arguments{
-\item{transcript}{}
+\item{transcript}{character value indicating the transcriptome file}
 
-\item{SR1}{}
+\item{SR1}{character value indicating the short read file in fastq format: 
+single-end or paired-end R1}
 
-\item{SR2}{}
+\item{SR2}{character value indicating the short read file in fastq format: 
+paired-end R2}
 
-\item{outputDir}{}
+\item{outputDir}{character value indicating the direcotry where results are 
+saved.}
+}
+\value{
+data frame representing the expression for each transcript
 }
 \description{
 salmonQuant
+perform the salmon transcript quantification
 }

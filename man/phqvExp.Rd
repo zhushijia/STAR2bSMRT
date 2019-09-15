@@ -7,9 +7,14 @@
 phqvExp(phqv, outputDir)
 }
 \arguments{
-\item{phqv}{}
+\item{phqv}{character value indicating the Isoseq polished high QV trascripts
+in fasta/fastq, where}
 
-\item{outputDir}{}
+\item{outputDir}{character value indicating the direcotry where results are 
+saved.}
+}
+\value{
+data frame representing the read count for each phqv consensus
 }
 \description{
 phqvExp

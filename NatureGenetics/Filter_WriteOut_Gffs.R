@@ -64,9 +64,9 @@ writeTranslatedGff = function(samples, sampleNames, threshold, outputDir, fileNa
 
 ##################################
 
-library(STAR2bSMRT,lib.loc="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/forRelease/r2")
+library(STAR2bSMRT,lib.loc="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/code/STAR2bSMRT/forRelease/r3")
 library(Biostrings)
-folder="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/test/PackageReleaseResult4"
+folder="/hpc/users/xzhus01/schzrnas/sjzhu/Project/NRXN/test/PackageReleaseResult5"
 
 samples= c("Case1_581","Case2_641","Cont1_2607","Cont2_553","Cont3_642",
            "Adult1_NRXN_adult_dlPFC1_12","Adult2_adult_dlPFC1_10","Adult3_adult_dlPFC1_13",

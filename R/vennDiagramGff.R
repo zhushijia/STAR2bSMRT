@@ -1,7 +1,7 @@
 #' vennDiagramGff
-#'
-#' @param gffList 
-#' @param filename 
+#' draw the venn diagram of a list of gffs
+#' @param gffList a list of gffs representing gffs for different samples
+#' @param filename character value representing the file name of VennDiagram
 #'
 #' @return
 #' @export

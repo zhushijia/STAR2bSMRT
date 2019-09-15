@@ -2,7 +2,7 @@
 #'
 #' @param lrc 
 #' @param src 
-#' @param fuzzyMatch 
+#' @param fuzzyMatch integer value indicating the distance for fuzzymatching 
 #'
 #' @return
 #' @export

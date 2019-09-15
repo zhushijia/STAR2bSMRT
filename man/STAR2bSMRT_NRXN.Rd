@@ -2,7 +2,9 @@
 % Please edit documentation in R/STAR2bSMRT_NRXN.R
 \name{STAR2bSMRT_NRXN}
 \alias{STAR2bSMRT_NRXN}
-\title{STAR2bSMRT_NRXN}
+\title{STAR2bSMRT_NRXN
+the main function of STAR2bSMRT specially designed for NRXN1 alpha splicing 
+identification}
 \usage{
 STAR2bSMRT_NRXN(genomeDir, genomeFasta, LRphqv = NULL, LRflnc = NULL,
   LRnfl = NULL, SR1, SR2 = NULL, useSJout = TRUE,
@@ -74,4 +76,6 @@ fasta/fastq format}
 }
 \description{
 STAR2bSMRT_NRXN
+the main function of STAR2bSMRT specially designed for NRXN1 alpha splicing 
+identification
 }

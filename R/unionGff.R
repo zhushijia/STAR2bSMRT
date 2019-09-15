@@ -1,10 +1,10 @@
 #' unionGff
 #' unions two isoform gff files
 #' 
-#' @param gff1 
-#' @param gff2 
+#' @param gff1 a list of data frame representing the junctions for each isoform
+#' @param gff2 a list of data frame representing the junctions for each isoform
 #'
-#' @return
+#' @return a combined list of unique isoforms
 #' @export
 #'
 #' @examples

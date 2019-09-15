@@ -1,9 +1,11 @@
 #' phqvExp
 #'
-#' @param phqv 
-#' @param outputDir 
+#' @param phqv character value indicating the Isoseq polished high QV trascripts
+#'  in fasta/fastq, where 
+#' @param outputDir character value indicating the direcotry where results are 
+#' saved.
 #'
-#' @return
+#' @return data frame representing the read count for each phqv consensus
 #' @export
 #'
 #' @examples

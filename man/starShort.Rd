@@ -3,7 +3,7 @@
 \name{starShort}
 \alias{starShort}
 \title{starShort
-for STARshort mapping}
+run the STARshort mapping}
 \usage{
 starShort(genomeDir, SR1, SR2, outputDir, SJ = NULL)
 }
@@ -22,5 +22,5 @@ paired-end R2}
 }
 \description{
 starShort
-for STARshort mapping
+run the STARshort mapping
 }

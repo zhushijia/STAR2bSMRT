@@ -2,7 +2,8 @@
 % Please edit documentation in R/getLRinfo.R
 \name{getLRinfo}
 \alias{getLRinfo}
-\title{getLRinfo}
+\title{getLRinfo
+get the information for each long read}
 \usage{
 getLRinfo(LRread, chrom = NULL, s = 0, e = Inf)
 }
@@ -20,6 +21,7 @@ is useful for targeted sequencing}
 }
 \description{
 getLRinfo
+get the information for each long read
 }
 \examples{
 

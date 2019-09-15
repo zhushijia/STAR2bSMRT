@@ -8,9 +8,12 @@ unions two isoform gff files}
 unionGff(gff1, gff2)
 }
 \arguments{
-\item{gff1}{}
+\item{gff1}{a list of data frame representing the junctions for each isoform}
 
-\item{gff2}{}
+\item{gff2}{a list of data frame representing the junctions for each isoform}
+}
+\value{
+a combined list of unique isoforms
 }
 \description{
 unionGff

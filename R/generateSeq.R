@@ -1,5 +1,6 @@
 #' generateSeq
-#'
+#' generate the isoform sequence from the isoform list
+#' 
 #' @param genome DNAStringSet indicating the genome reference
 #' @param isoform a list of data frame indicating the exon locations in isoforms
 #'

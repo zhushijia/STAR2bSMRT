@@ -55,7 +55,7 @@ fracs = data.frame( Name , mouseFrac )
 ##########################################################################################
 #################   draw schematics
 ##########################################################################################
-
+pdf("Figs/Fig2C_Mouse_Isoform_Schematics_overlapped_with_human.pdf")
 # draw isoform schematics
 heatmapMannualColor2(fracs, case_col="purple", shared_col="darkgreen" )
 
@@ -64,7 +64,7 @@ cols = rep('purple',length(mouseExp) )
 cols[range] = 'darkgreen'
 barplot(mouseExp[order(Name)],horiz=T,col=cols[order(Name)],border='white')
 
-
+dev.off()
 
 
 

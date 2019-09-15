@@ -15,6 +15,9 @@ valid_ind = c(3)
 human_annotation = read.table('Data/human_NRXN1_Exon_Annotation_hg19.txt',sep='\t',header=T)
 case_annotation = human_annotation
 cont_annotation = human_annotation
+human_nrxn1_chr = "chr2"
+human_nrxn1_start = 50149082 
+human_nrxn1_end = 51255411
 threshold=7
 
 ##########################################################################################
@@ -110,9 +113,12 @@ validateName = paste( c("validateBy", names(gffs)[valid_ind]), collapse="_")
 ################################################################################
 #############  isoform schematics
 ################################################################################
+pdf("Figs/Fig3C_Human_Isoform_Schematics_NGN2_GABA.pdf")
 # draw isoform schematics
 heatmapMannualColor3(fracs, case_col="purple", cont_col="darkgreen", shared_col="darkorange")
 # draw expression
 heatmapGradientColor1(logExps)
 # draw validated isoforms
 heatmapMannualValidateColor(validate2)
+dev.off()
+

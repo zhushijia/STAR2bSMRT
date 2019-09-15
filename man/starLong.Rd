@@ -3,7 +3,7 @@
 \name{starLong}
 \alias{starLong}
 \title{starLong
-for starlong mapping}
+run the STARlong mapping}
 \usage{
 starLong(genomeDir, LR, outputDir, cores = 10, SJ = NULL)
 }
@@ -20,5 +20,5 @@ starLong(genomeDir, LR, outputDir, cores = 10, SJ = NULL)
 }
 \description{
 starLong
-for starlong mapping
+run the STARlong mapping
 }

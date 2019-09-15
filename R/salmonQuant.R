@@ -1,11 +1,14 @@
 #' salmonQuant
+#' perform the salmon transcript quantification
+#' @param transcript character value indicating the transcriptome file
+#' @param SR1 character value indicating the short read file in fastq format: 
+#' single-end or paired-end R1
+#' @param SR2 character value indicating the short read file in fastq format: 
+#' paired-end R2
+#' @param outputDir character value indicating the direcotry where results are 
+#' saved.
 #'
-#' @param transcript 
-#' @param SR1 
-#' @param SR2 
-#' @param outputDir 
-#'
-#' @return
+#' @return data frame representing the expression for each transcript
 #' @export
 #'
 #' @examples

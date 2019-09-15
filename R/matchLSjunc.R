@@ -1,9 +1,15 @@
 #' matchLSjunc
+#' match the junction site between long reads and short reads
+#' 
+#' @param LRjunc a list of data frame, indicating the splicing junction sites 
+#' obtained from long reads
+#' @param SRjunc a list of data frame, indicating the splicing junction sites 
+#' obtained from short reads
 #'
-#' @param LRjunc 
-#' @param SRjunc 
-#'
-#' @return
+#' @return a list of data frame for the junction sites of each chromosome. The 
+#' data frame indicates the locations of junction sites and the 
+#' correspoding read count from both long and short reads
+#' 
 #' @export
 #'
 #' @examples

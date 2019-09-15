@@ -1,8 +1,8 @@
 #' runSH
+#' run the bash command line
+#' @param sh character value representing the bash command line
 #'
-#' @param sh 
-#'
-#' @return
+#' @return NULL
 #' @export
 #'
 #' @examples

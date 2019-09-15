@@ -1,5 +1,6 @@
 #' getLRinfo
-#'
+#' get the information for each long read
+#' 
 #' @param LRread a list of data frame, indicating the information of long read,
 #' comprising read id, chr, strand, start, end and junction sites
 #' @param chrom a character value, incidating the chromosome of interest

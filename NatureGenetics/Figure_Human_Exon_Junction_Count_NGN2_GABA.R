@@ -100,6 +100,8 @@ names(translatedJuncFrac) = names(gffs)
 ##########################################################################################
 ############# draw figure for 553_NGN2
 ##########################################################################################
+pdf("Figs/Fig3B_Human_Exon_Junction_Count_NGN2_GABA.pdf")
+
 i = 1
 juncFrac = translatedJuncFrac[[i]]
 juncExp = translatedExonExp[[i]]
@@ -120,6 +122,6 @@ X = data.frame(Name,juncFrac)
 Y = data.frame(Name,y=juncExp)
 heatmapGradientColor2(X,Y,names(translatedJuncFrac)[i])
 
-
+dev.off()
 
 

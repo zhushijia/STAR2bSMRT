@@ -119,9 +119,13 @@ validateName = paste( c("validateBy", names(gffs)[valid_ind]), collapse="_")
 ################################################################################
 #############  isoform schematics
 ################################################################################
+pdf("Figs/Fig4A_Human_Isoform_Schematics_hiPSC_case_cont.pdf")
 # draw isoform schematics
 heatmapMannualColor3(fracs, case_col="darkred", cont_col="darkgrey", shared_col="darkorange")
 # draw expression
 heatmapGradientColor1(logExps)
 # draw validated isoforms
 heatmapMannualValidateColor(validate2)
+dev.off()
+
+

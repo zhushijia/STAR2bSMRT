@@ -1,5 +1,6 @@
 #' starShort
-#' for STARshort mapping
+#' run the STARshort mapping
+#' 
 #' @param genomeDir character value indicating the location of STAR genome indexes 
 #' @param SR1 character value indicating the short read file in fastq format: 
 #' single-end or paired-end R1
