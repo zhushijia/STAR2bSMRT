@@ -100,6 +100,8 @@ names(translatedJuncFrac) = names(gffs)
 ##########################################################################################
 ############# draw figure for 553_NGN2
 ##########################################################################################
+dir.create("Figs")
+
 pdf("Figs/Fig3B_Human_Exon_Junction_Count_NGN2_GABA.pdf")
 
 i = 1

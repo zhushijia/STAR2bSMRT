@@ -65,6 +65,8 @@ hmExp = cbind( log10( rowSums(exps[range,1:3]) + 1 ) , log10(exps[range,4]+1) )
 r = signif( cor.test(hmExp[,2],hmExp[,1])$estimate , 3) 
 p = signif( cor.test(hmExp[,2],hmExp[,1])$p.val , 3) 
 
+dir.create("Figs")
+
 pdf("Figs/Fig2B_Human_Mouse_Expression_Correlation.pdf",h=5.7,w=5.6)
 plot(hmExp,col='darkgreen',main=paste0("r=",r,"; p=",p),xlab='Human log10Read Count',ylab='Mouse log10Read Count',pch=20,lwd=5)
 abline( lm(hmExp[,2]~hmExp[,1]),lwd=2)

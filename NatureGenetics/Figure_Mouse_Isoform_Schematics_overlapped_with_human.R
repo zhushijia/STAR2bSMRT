@@ -55,6 +55,8 @@ fracs = data.frame( Name , mouseFrac )
 ##########################################################################################
 #################   draw schematics
 ##########################################################################################
+dir.create("Figs")
+
 pdf("Figs/Fig2C_Mouse_Isoform_Schematics_overlapped_with_human.pdf")
 # draw isoform schematics
 heatmapMannualColor2(fracs, case_col="purple", shared_col="darkgreen" )

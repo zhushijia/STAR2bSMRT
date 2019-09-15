@@ -53,6 +53,7 @@ mouseTag = mouseGffInfo$tag
 
 
 library(VennDiagram)
+dir.create("Figs")
 
 ##########################################################################################
 #################   draw venn diagram

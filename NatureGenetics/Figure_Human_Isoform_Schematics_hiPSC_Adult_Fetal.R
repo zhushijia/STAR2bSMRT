@@ -102,6 +102,7 @@ fracs = data.frame( Name , fracs )
 ################################################################################
 ########## draw schematics heatmap and expression
 ################################################################################
+dir.create("Figs")
 
 pdf("Figs/Fig2G_Human_Isoform_Schematics_hiPSC_Adult_Fetal.pdf")
 heatmapMannualColor3(fracs, case_col="darkgrey", cont_col="darkgreen", shared_col="darkorange")
