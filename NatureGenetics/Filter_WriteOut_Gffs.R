@@ -1,3 +1,9 @@
+#############################################################################################
+### In our paper, we only focused on the transcripts, which could be translated and confident
+### with certain number of read supported (>=7 used in the paper). 
+###
+### This code is to filter and write out those transcripts into gff files.
+#############################################################################################
 
 writeTranslatedGff = function(samples, sampleNames, threshold, outputDir, fileName)
 {
