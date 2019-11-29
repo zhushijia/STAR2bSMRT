@@ -95,8 +95,8 @@ exps = sapply( 1:ncol(exps) , function(i) exps[,i]/normalizedFactor[i] )
 colnames(exps) = names(translatedGffs)
 exps = data.frame(exps)
 
-Name = reorder( paste0('isoform',1:nrow(exps)) , rowSums(log2(exps[,c(case_ind,cont_ind)]+1)) )
-logExps = data.frame( Name, log2(exps[,c(case_ind,cont_ind)]+1) )
+Name = reorder( paste0('isoform',1:nrow(exps)) , rowSums(log10(exps[,c(case_ind,cont_ind)]+1)) )
+logExps = data.frame( Name, log10(exps[,c(case_ind,cont_ind)]+1) )
 fracs = data.frame( Name , fracs ) 
 
 ################################################################################

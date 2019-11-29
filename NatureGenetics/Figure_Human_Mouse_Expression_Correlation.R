@@ -57,7 +57,8 @@ Exps_mat = lapply( 1:length(Tags), function(i) {
 } )
 
 Exps_mat = do.call(cbind,Exps_mat)
-Exps_mat = apply(Exps_mat,2,function(x) 6000*x/sum(x) )
+avg_Exp = mean(colSums(Exps_mat))
+Exps_mat = apply(Exps_mat,2,function(x) avg_Exp*x/sum(x) )
 Group = rep( c("Control","Adult","Fetal","Mouse") , c(2,3,3,1) )
 exps = t(apply(Exps_mat,1,function(x) tapply(x,Group,mean) ) )
 range = which(rowSums(exps[,1:3])>0 & exps[,4]>0)
