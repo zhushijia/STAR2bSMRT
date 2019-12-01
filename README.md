@@ -2,7 +2,7 @@
 STARlong and STARshort based Single Molecule Real Time Iso-Seq analysis
 
 ## Description
-STAR2bSMRT is a novel hybrid sequencing-based alternative splicing identification method, which is specially tailored for long read RNAseq correction. It was used in the paper [(E Flaherty*, S Zhu*, et. al., Neuronal impact of patient-specific aberrant NRXN1α splicing, Nature Genetics, 2019)](https://). 
+STAR2bSMRT is a novel hybrid sequencing-based alternative splicing identification method, which is specially tailored for long read RNAseq correction. It was used in the paper [(E Flaherty*, S Zhu*, et. al., Neuronal impact of patient-specific aberrant NRXN1α splicing, Nature Genetics, 2019)](https://www.nature.com/articles/s41588-019-0539-z). 
 
 
 ## Dependencies on packages
