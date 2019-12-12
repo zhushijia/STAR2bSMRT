@@ -44,4 +44,5 @@ Alternatively, use [devtools](https://github.com/hadley/devtools) package
 ## Tutorial
    See our [wiki](https://github.com/zhushijia/STAR2bSMRT/wiki)
 
-
+## Citation
+[E Flaherty*, S Zhu*, et. al., Neuronal impact of patient-specific aberrant NRXN1α splicing, Nature Genetics, 2019](https://www.nature.com/articles/s41588-019-0539-z)
