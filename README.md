@@ -45,4 +45,4 @@ Alternatively, use [devtools](https://github.com/hadley/devtools) package
    See our [wiki](https://github.com/zhushijia/STAR2bSMRT/wiki)
 
 ## Citation
-[E Flaherty*, S Zhu*, et. al., Neuronal impact of patient-specific aberrant NRXN1α splicing, Nature Genetics, 2019](https://www.nature.com/articles/s41588-019-0539-z)
+Erin Flaherty*, Shijia Zhu*, Natalie Barretto, Esther Cheng, P. J. Michael Deans, Michael B. Fernando, Nadine Schrode, Nancy Francoeur, Alesia Antoine, Khaled Alganem, Madeline Halpern, Gintaras Deikus, Hardik Shah, Megan Fitzgerald, Ian Ladran, Peter Gochman, Judith Rapoport, Nadejda M. Tsankova, Robert McCullumsmith, Gabriel E. Hoffman, Robert Sebra, Gang Fang & Kristen J. Brennand, Neuronal impact of patient-specific aberrant NRXN1α splicing, Nature Genetics, 51:1679–1690, 2019.[(link)](https://www.nature.com/articles/s41588-019-0539-z)
